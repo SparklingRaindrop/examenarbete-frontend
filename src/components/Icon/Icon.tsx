@@ -14,8 +14,8 @@ export default function Icon(props: Props) {
                 path[name].map((stroke, index) => (
                     <path
                         key={index}
-                        stroke-linecap='round'
-                        stroke-linejoin='round'
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
                         d={stroke} />
                 ))
             }
