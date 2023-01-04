@@ -1,7 +1,6 @@
 import Head from 'next/head';
-import { ChangeEvent, useReducer, useState } from 'react';
-import { ErrorMsg } from '../../../types/error';
-import { Button, Checkbox, Icon, List, ListItem, Main } from '../../elements';
+import { ChangeEvent, useReducer } from 'react';
+import { Button, Icon, List, Main } from '../../elements';
 import GroceryItem from './blocks/GroceryItem';
 
 const mockGroceries: Grocery[] = [
@@ -34,7 +33,7 @@ function reducer(state: Grocery[], action: Action): Array<Grocery> {
 
     if (type === 'check') {
         const { checked } = action;
-        if (!checked) {
+        if (typeof checked === 'undefined') {
             throw new Error('Missing required property.');
         }
 
