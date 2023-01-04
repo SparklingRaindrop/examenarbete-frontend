@@ -35,6 +35,11 @@ export const Wrapper = styled.input.attrs(() => ({
     }
 `;
 
-export const Label = styled.label`
+interface LabelProps {
+    crossOffOnChecked?: boolean;
+}
+
+export const Label = styled.label<LabelProps>`
     width: 100%;
+    text-decoration: ${({ crossOffOnChecked }) => crossOffOnChecked ? 'none' : 'line-through'};
 `;
