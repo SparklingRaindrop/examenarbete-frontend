@@ -1,2 +1,3 @@
 import List from './List';
-export { List };
+import ListItem from './ListItem';
+export { List, ListItem };
