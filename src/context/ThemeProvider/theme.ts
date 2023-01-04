@@ -1,5 +1,5 @@
 import { DefaultTheme } from 'styled-components';
-import { Border, Font, Palette } from '../../types/styled';
+import { Border, Font, MediaQuery, Padding, Palette } from '../../types/styled';
 
 const border: Border = {
     size: {
@@ -10,9 +10,32 @@ const border: Border = {
 
 const font: Font = {
     size: {
-        small: '0.8rem',
+        sm: '0.8rem',
         standard: '1rem',
-        large: '2rem',
+        lg: '2rem',
+    }
+};
+
+export const padding: Record<MediaQuery, Padding> = {
+    xs: {
+        sm: '',
+        md: '',
+        lg: '',
+    },
+    sm: {
+        sm: '0.5rem',
+        md: '0.8rem',
+        lg: '1rem',
+    },
+    md: {
+        sm: '',
+        md: '',
+        lg: '',
+    },
+    lg: {
+        sm: '',
+        md: '',
+        lg: '',
     }
 };
 
@@ -33,7 +56,7 @@ export const dark = {
     disabled: ''
 };
 
-export const theme: Omit<DefaultTheme, 'palette' | 'toggleTheme'> = {
+export const theme: Omit<DefaultTheme, 'palette' | 'toggleTheme' | 'padding'> = {
     border,
     font,
 };
