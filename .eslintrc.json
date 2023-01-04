@@ -1,3 +1,13 @@
 {
+  "rules": {
+    "quotes": [
+      "warn",
+      "single"
+    ],
+    "semi": [
+      "warn",
+      "always"
+    ]
+  },
   "extends": "next/core-web-vitals"
 }
