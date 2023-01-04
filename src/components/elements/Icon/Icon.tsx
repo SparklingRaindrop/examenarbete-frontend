@@ -1,4 +1,4 @@
-import { FontSize } from '../../types/styled';
+import { FontSize } from '../../../types/styled';
 import { Path, path } from './path';
 import { Wrapper } from './styled'
 

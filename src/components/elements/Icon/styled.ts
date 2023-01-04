@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { FontSize } from '../../types/styled';
+import { FontSize } from '../../../types/styled';
 
 interface IconProps {
     size?: FontSize;

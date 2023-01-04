@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Variant } from '../../types/styled';
+import { Variant } from '../../../types/styled';
 import { Wrapper } from './styled';
 
 type Props = {

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Variant } from '../../types/styled';
+import { Variant } from '../../../types/styled';
 
 interface ButtonProps {
     variant?: Variant;
