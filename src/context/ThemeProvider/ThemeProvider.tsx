@@ -10,6 +10,8 @@ export function ThemeProvider(props: Props) {
     const { children } = props;
 
     return (
-        <StyledThemeProvider theme={theme}>{children}</StyledThemeProvider>
+        <StyledThemeProvider theme={theme}>
+            {children}
+        </StyledThemeProvider>
     );
 }
