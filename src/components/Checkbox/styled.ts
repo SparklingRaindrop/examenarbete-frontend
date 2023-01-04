@@ -8,7 +8,6 @@ export const Wrapper = styled.input.attrs(() => ({
     width: ${({ theme }) => theme.font.size.standard};
     height: ${({ theme }) => theme.font.size.standard};
     border-radius: 0.15em;
-    margin-right: 0.5em;
     border: 0.15em solid ${({ theme }) => theme.palette.primary};
     outline: none;
     cursor: pointer;
@@ -34,4 +33,8 @@ export const Wrapper = styled.input.attrs(() => ({
     &:focus {
         box-shadow: 0 0 20px ${({ theme }) => theme.palette.primary};
     }
+`;
+
+export const Label = styled.label`
+    width: 100%;
 `;
