@@ -4,6 +4,7 @@ import Button from './Button';
 type Props = {
     icon: ReactElement;
 }
+
 export default function IconButton(props: Props) {
     const { icon } = props;
 

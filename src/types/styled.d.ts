@@ -1,6 +1,7 @@
 import 'styled-components';
 
 export type MediaQuery = 'xs' | 'sm' | 'md' | 'lg';
+export type Variant = 'ghost';
 
 interface Palette {
     black: string;
@@ -15,7 +16,7 @@ export interface Border {
     size: Record<BorderSize, string>;
 }
 
-type FontSize = 'sm' | 'standard' | 'lg';
+export type FontSize = 'sm' | 'standard' | 'lg';
 export interface Font {
     size: Record<FontSize, string>
 }
