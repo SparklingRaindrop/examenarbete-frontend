@@ -1,10 +1,9 @@
-import { useState } from 'react';
-import { Icon } from '../Icon';
+import { ChangeEvent } from 'react';
 import { Label, Wrapper } from './styled';
 
 type Props = {
     checked: boolean;
-    toggle: () => void;
+    toggle: (event: ChangeEvent<HTMLInputElement>) => void;
     disabled?: boolean;
     label?: string;
     crossOffOnChecked?: boolean;
@@ -17,7 +16,7 @@ export default function Checkbox(props: Props) {
         <>
             <Wrapper
                 checked={checked}
-                onChange={toggle}
+                onChange={(event) => toggle(event)}
                 disabled={disabled} />
             {label && <Label crossOffOnChecked={crossOffOnChecked && !checked}>{label}</Label>}
         </>

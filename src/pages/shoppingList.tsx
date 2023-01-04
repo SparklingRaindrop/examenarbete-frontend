@@ -1,9 +1,21 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css'
-import { List, ListItem, Main } from '../components';
+import { Checkbox, List, ListItem, Main } from '../components';
+import { ChangeEvent, useState } from 'react';
 
 type Props = {}
-export default function shoppingList({ }: Props) {
+export default function ShoppingList({ }: Props) {
+    const [inputValue, setIsChecked] = useState<{ isChecked: boolean }[]>([{ isChecked: false }, { isChecked: false }]);
+
+    function toggleCheckbox(event: ChangeEvent<HTMLInputElement>, index: number) {
+        const checked = event.target.checked;
+        setIsChecked(prev => {
+            const newData = [...prev];
+            newData[index].isChecked = checked;
+            return newData;
+        });
+    }
+
     return (
         <>
             <Head>
@@ -14,8 +26,20 @@ export default function shoppingList({ }: Props) {
             </Head>
             <Main>
                 <List>
-                    <ListItem>Test</ListItem>
-                    <ListItem>Test2</ListItem>
+                    <ListItem>
+                        <Checkbox
+                            label='Lorem ipsum, dolor sit amet consectetur adipisicing elit.'
+                            checked={inputValue[0].isChecked}
+                            toggle={(event) => toggleCheckbox(event, 0)}
+                            crossOffOnChecked />
+                    </ListItem>
+                    <ListItem>
+                        <Checkbox
+                            label='Lorem ipsum, dolor sit amet consectetur adipisicing elit.'
+                            checked={inputValue[1].isChecked}
+                            toggle={(event) => toggleCheckbox(event, 1)}
+                            crossOffOnChecked />
+                    </ListItem>
                 </List>
             </Main>
         </>
