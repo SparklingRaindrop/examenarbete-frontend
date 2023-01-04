@@ -18,7 +18,12 @@ export default function Checkbox(props: Props) {
                 checked={checked}
                 onChange={(event) => toggle(event)}
                 disabled={disabled} />
-            {label && <Label crossOffOnChecked={crossOffOnChecked && !checked}>{label}</Label>}
+            {
+                label &&
+                <Label crossOffOnChecked={crossOffOnChecked && !checked}>
+                    {label}
+                </Label>
+            }
         </>
     );
 }
