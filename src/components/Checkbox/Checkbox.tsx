@@ -1,10 +1,20 @@
-import { Wrapper } from './styled'
+import { useState } from 'react';
+import { Icon } from '../Icon';
+import { Wrapper } from './styled';
 
-type Props = {}
-export default function Checkbox({ }: Props) {
+type Props = {
+    checked: boolean;
+    toggle: () => void;
+    disabled?: boolean;
+}
+
+export default function Checkbox(props: Props) {
+    const { checked, disabled, toggle } = props;
+
     return (
-        <Wrapper>
-
-        </Wrapper>
-    )
+        <Wrapper
+            checked={checked}
+            onChange={toggle}
+            disabled={disabled} />
+    );
 }
