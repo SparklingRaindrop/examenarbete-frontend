@@ -1,15 +1,17 @@
+import { FontSize } from '../../types/styled';
 import { Path, path } from './path';
 import { Wrapper } from './styled'
 
 type Props = {
     name: Path;
+    size?: FontSize;
 }
 
 export default function Icon(props: Props) {
-    const { name } = props;
+    const { name, size } = props;
 
     return (
-        <Wrapper>
+        <Wrapper size={size}>
             {
                 path[name].map((stroke, index) => (
                     <path
