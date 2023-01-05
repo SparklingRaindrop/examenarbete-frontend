@@ -7,7 +7,7 @@ interface ContextGroceries {
     getItems: () => Promise<GetResponse<Grocery[]> | undefined>;
     addNewItem: (newData: Grocery) => Promise<GetResponse<Grocery> | undefined>;
     removeItem: (id: string) => Promise<APIResponse | undefined>,
-    editItem: (newData: Partial<Grocery>) => Promise<APIResponse | undefined>,
+    editItem: (newData: Partial<Grocery>, id: string) => Promise<APIResponse | undefined>,
 }
 
 export const GroceriesContext = createContext<ContextGroceries | null>(null);
@@ -36,7 +36,7 @@ export function GroceriesProvider(props: Props) {
         getItems: () => get<Grocery[]>('/groceries'),
         addNewItem: (newData: Grocery) => post<Grocery>('/groceries', newData),
         removeItem: (id: string) => remove(`/groceries/${id}`),
-        editItem: (newData: Partial<Grocery>) => patch<Grocery>('/groceries', newData),
+        editItem: (newData: Partial<Grocery>, id: string) => patch<Grocery>(`/groceries/${id}`, newData),
     };
 
     return (
