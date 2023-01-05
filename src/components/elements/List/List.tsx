@@ -1,8 +1,9 @@
 import { ReactNode } from 'react';
+import { CSSProperties } from 'styled-components';
 import { UnorderedList } from './styled';
 
-type Props = {
-    children: ReactNode
+interface Props extends CSSProperties {
+    children: ReactNode;
 }
 
 export default function List(props: Props) {

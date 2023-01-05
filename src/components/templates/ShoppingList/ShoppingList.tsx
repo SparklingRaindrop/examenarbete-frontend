@@ -1,7 +1,7 @@
 import Head from 'next/head';
-import { ChangeEvent, useEffect, useReducer } from 'react';
+import { ChangeEvent, useEffect, useReducer, useState } from 'react';
 import { useGroceries } from '../../../hooks';
-import { Button, Icon, List, Loading, Main } from '../../elements';
+import { Button, Checkbox, Icon, List, ListItem, Loading, Main } from '../../elements';
 import GroceryItem from './blocks/GroceryItem';
 import GroceryList from './blocks/GroceryList';
 
@@ -24,6 +24,8 @@ const mockGroceries: Grocery[] = [
 ];
 
 export default function ShoppingList() {
+    const [isEditing, setIsEditing] = useState<boolean>(false);
+    const [userInput, setUserInput] = useState<string>('');
     const value = useGroceries();
     if (!value) {
         return <Loading />;
@@ -31,7 +33,7 @@ export default function ShoppingList() {
 
     const { groceries, editItem, addNewItem } = value;
 
-    function toggleCheckbox(event: ChangeEvent<HTMLInputElement>, id: string) {
+    function toggleCheckbox(event: ChangeEvent<HTMLInputElement>, id: Pick<Grocery, 'id'>) {
         const checked = event.target.checked;
         editItem({ isChecked: checked }, id);
     }
@@ -46,10 +48,20 @@ export default function ShoppingList() {
             </Head>
             <Main>
                 <Button label='Generate' />
-                <GroceryList items={groceries} toggleCheckbox={toggleCheckbox} />
+                <GroceryList
+                    items={groceries}
+                    toggleCheckbox={toggleCheckbox} />
+                {
+                    isEditing && (
+                        <ListItem>
+                            <Checkbox checked={false} />
+                            <input type='text' autoFocus />
+                        </ListItem>
+                    )
+                }
                 <Button
                     variant='ghost'
-                    onClick={() => console.log('clicked')}>
+                    onClick={() => setIsEditing(true)}>
                     <Icon name='plus' />
                     Add an Item
                 </Button>
