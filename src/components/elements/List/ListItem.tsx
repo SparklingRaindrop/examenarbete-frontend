@@ -3,7 +3,7 @@ import { StyledListItem } from './styled';
 
 type Props = {
     children: ReactNode
-}
+} & GeneralProps;
 
 export default function ListItem(props: Props) {
     const { children } = props;

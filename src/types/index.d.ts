@@ -11,4 +11,6 @@ interface CustomCSSProperties {
     paddingX: string;
 }
 
-interface CSSProperties extends CustomCSSProperties { }
+interface GeneralProps extends CustomCSSProperties, CSSProperties {
+    children?: ReactNode;
+}
