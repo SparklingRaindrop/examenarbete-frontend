@@ -6,7 +6,7 @@ export interface GetResponse<T> {
     status: Status;
 }
 
-export interface Response {
+export interface APIResponse {
     status: Status;
 }
 
@@ -40,7 +40,7 @@ export async function get<T>(endpoint: string): Promise<GetResponse<T> | undefin
     }
 }
 
-export async function patch<T>(endpoint: string, data: Partial<T>): Promise<Response | undefined> {
+export async function patch<T>(endpoint: string, data: Partial<T>): Promise<APIResponse | undefined> {
     try {
         const { status } = await fetch.patch(endpoint, data);
 
@@ -57,7 +57,7 @@ export async function patch<T>(endpoint: string, data: Partial<T>): Promise<Resp
     }
 }
 
-export async function remove(endpoint: string): Promise<Response | undefined> {
+export async function remove(endpoint: string): Promise<APIResponse | undefined> {
     try {
         const { status } = await fetch.patch(endpoint);
         return {

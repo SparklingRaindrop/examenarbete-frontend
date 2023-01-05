@@ -1,10 +1,13 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { createContext, ReactNode, useEffect, useState } from 'react';
 import { Status } from '../../types/statusCode';
-import { get, GetResponse } from '../../util/api';
+import { APIResponse, get, GetResponse, patch, post, remove } from '../../util/api';
 
 interface ContextGroceries {
     groceries: Grocery[];
-    get: () => Promise<GetResponse<Grocery[]> | undefined>;
+    getItems: () => Promise<GetResponse<Grocery[]> | undefined>;
+    addNewItem: (newData: Grocery) => Promise<GetResponse<Grocery> | undefined>;
+    removeItem: (id: string) => Promise<APIResponse | undefined>,
+    editItem: (newData: Partial<Grocery>) => Promise<APIResponse | undefined>,
 }
 
 export const GroceriesContext = createContext<ContextGroceries | null>(null);
@@ -30,7 +33,10 @@ export function GroceriesProvider(props: Props) {
 
     const value = {
         groceries,
-        get: () => get<Grocery[]>('/groceries'),
+        getItems: () => get<Grocery[]>('/groceries'),
+        addNewItem: (newData: Grocery) => post<Grocery>('/groceries', newData),
+        removeItem: (id: string) => remove(`/groceries/${id}`),
+        editItem: (newData: Partial<Grocery>) => patch<Grocery>('/groceries', newData),
     };
 
     return (
