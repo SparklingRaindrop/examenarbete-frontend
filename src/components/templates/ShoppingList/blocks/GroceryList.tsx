@@ -3,18 +3,18 @@ import { List } from '../../../elements';
 import GroceryItem from './GroceryItem';
 
 type Props = {
-    state: Grocery[];
+    items: Grocery[];
     toggleCheckbox: (event: ChangeEvent<HTMLInputElement>, id: string) => void;
     crossed?: boolean;
 }
 
 export default function GroceryList(props: Props) {
-    const { state, toggleCheckbox, crossed } = props;
+    const { items, toggleCheckbox, crossed } = props;
 
     return (
         <List>
             {
-                state.map(({ id, isChecked, name }) => {
+                items.map(({ id, isChecked, name }) => {
                     if (crossed && !isChecked) return;
                     if (!crossed && isChecked) return;
                     return (
