@@ -3,7 +3,7 @@ import { Label, Wrapper } from './styled';
 
 type Props = {
     checked: boolean;
-    toggle: (event: ChangeEvent<HTMLInputElement>) => void;
+    toggle?: (event: ChangeEvent<HTMLInputElement>) => void;
     disabled?: boolean;
     label?: string;
     crossOffOnChecked?: boolean;
@@ -16,7 +16,12 @@ export default function Checkbox(props: Props) {
         <>
             <Wrapper
                 checked={checked}
-                onChange={(event) => toggle(event)}
+                onChange={(event) => {
+                    if (!toggle) {
+                        throw new Error('Function is undefined');
+                    }
+                    toggle(event);
+                }}
                 disabled={disabled} />
             {
                 label &&

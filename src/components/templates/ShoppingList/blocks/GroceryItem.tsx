@@ -5,7 +5,7 @@ type Props = {
     id: string;
     checked: boolean;
     name: string;
-    toggleCheckbox: (event: ChangeEvent<HTMLInputElement>, id: string) => void;
+    toggleCheckbox: (event: ChangeEvent<HTMLInputElement>, id: Pick<Grocery, 'id'>) => void;
 }
 
 export default function GroceryItem(props: Props) {
@@ -16,8 +16,8 @@ export default function GroceryItem(props: Props) {
             <Checkbox
                 label={name}
                 checked={checked}
-                toggle={(event) => toggleCheckbox(event, id)}
+                toggle={(event) => toggleCheckbox(event, id as unknown as Pick<Grocery, 'id'>)}
                 crossOffOnChecked />
         </ListItem>
-    )
+    );
 }

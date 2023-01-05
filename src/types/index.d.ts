@@ -6,3 +6,9 @@ interface Grocery {
     item_id: string;
     isChecked: boolean;
 }
+interface CustomCSSProperties {
+    paddingY: string;
+    paddingX: string;
+}
+
+interface CSSProperties extends CustomCSSProperties { }
