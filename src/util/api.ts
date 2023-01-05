@@ -1,8 +1,13 @@
 import axios from 'axios';
 
+type Status = number;
 export interface GetResponse<T> {
     data: T;
-    status: number;
+    status: Status;
+}
+
+export interface PatchResponse {
+    status: Status;
 }
 
 const fetch = axios.create({
@@ -22,6 +27,23 @@ export async function get<T>(endpoint: string): Promise<GetResponse<T> | undefin
 
         return {
             data,
+            status
+        };
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            console.error(error.message);
+        } else {
+            console.error(error);
+        }
+        return;
+    }
+}
+
+export async function patch<T>(endpoint: string, data: Partial<T>): Promise<PatchResponse | undefined> {
+    try {
+        const { status } = await fetch.patch(endpoint, data);
+
+        return {
             status
         };
     } catch (error) {
