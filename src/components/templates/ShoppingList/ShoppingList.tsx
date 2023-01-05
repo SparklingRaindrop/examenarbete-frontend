@@ -2,6 +2,7 @@ import Head from 'next/head';
 import { ChangeEvent, useReducer } from 'react';
 import { Button, Icon, List, Main } from '../../elements';
 import GroceryItem from './blocks/GroceryItem';
+import GroceryList from './blocks/GroceryList';
 
 const mockGroceries: Grocery[] = [
     {
@@ -22,9 +23,8 @@ const mockGroceries: Grocery[] = [
 ];
 
 type ActionType = 'check';
-interface Action {
+interface Action extends Pick<Grocery, 'id'> {
     type: ActionType;
-    id: string;
     checked?: boolean;
 }
 
@@ -70,27 +70,14 @@ export default function ShoppingList() {
             </Head>
             <Main>
                 <Button label='Generate' />
-                <List>
-                    {
-                        mockGroceries.map(({ id, isChecked, name }) => {
-                            return (
-                                <GroceryItem
-                                    key={id}
-                                    id={id}
-                                    name={name}
-                                    checked={isChecked}
-                                    toggleCheckbox={toggleCheckbox}
-                                />
-                            );
-                        })
-                    }
-                </List>
+                <GroceryList state={state} toggleCheckbox={toggleCheckbox} />
                 <Button
                     variant='ghost'
                     onClick={() => console.log('clicked')}>
                     <Icon name='plus' />
                     Add an Item
                 </Button>
+                <GroceryList state={state} toggleCheckbox={toggleCheckbox} crossed />
             </Main>
         </>
     );
