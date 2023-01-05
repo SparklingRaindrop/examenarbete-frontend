@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { ChangeEvent, useEffect, useReducer } from 'react';
 import { useGroceries } from '../../../hooks';
-import { Button, Icon, List, Main } from '../../elements';
+import { Button, Icon, List, Loading, Main } from '../../elements';
 import GroceryItem from './blocks/GroceryItem';
 import GroceryList from './blocks/GroceryList';
 
@@ -23,57 +23,17 @@ const mockGroceries: Grocery[] = [
     }
 ];
 
-type ActionType = 'check' | 'initial';
-interface Action {
-    type: ActionType;
-    id?: string;
-    checked?: boolean;
-    data?: Grocery[] | undefined;
-}
-
-function reducer(state: Grocery[], action: Action): Array<Grocery> {
-    const { type } = action;
-
-    if (type === 'check') {
-        const { checked, id } = action;
-        if (typeof checked === 'undefined') {
-            throw new Error('Missing required property.');
-        }
-
-        return state.map(item => {
-            if (item.id === id) {
-                item.isChecked = checked;
-            }
-            return item;
-        });
-    } else if (type === 'initial') {
-        const { data } = action;
-        if (typeof data === 'undefined') {
-            throw new Error('Missing required property.');
-        }
-        return data;
-    }
-    return state;
-}
-
 export default function ShoppingList() {
-    const [state, dispatch] = useReducer(reducer, []);
     const value = useGroceries();
+    if (!value) {
+        return <Loading />;
+    }
 
-    useEffect(() => {
-        dispatch({
-            type: 'initial',
-            data: value?.groceries,
-        });
-    }, [value]);
+    const { groceries, editItem, addNewItem } = value;
 
     function toggleCheckbox(event: ChangeEvent<HTMLInputElement>, id: string) {
         const checked = event.target.checked;
-        dispatch({
-            id,
-            type: 'check',
-            checked,
-        });
+        editItem({ isChecked: checked }, id);
     }
 
     return (
@@ -86,14 +46,14 @@ export default function ShoppingList() {
             </Head>
             <Main>
                 <Button label='Generate' />
-                <GroceryList state={state} toggleCheckbox={toggleCheckbox} />
+                <GroceryList items={groceries} toggleCheckbox={toggleCheckbox} />
                 <Button
                     variant='ghost'
                     onClick={() => console.log('clicked')}>
                     <Icon name='plus' />
                     Add an Item
                 </Button>
-                <GroceryList state={state} toggleCheckbox={toggleCheckbox} crossed />
+                <GroceryList items={groceries} toggleCheckbox={toggleCheckbox} crossed />
             </Main>
         </>
     );
