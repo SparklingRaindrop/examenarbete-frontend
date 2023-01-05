@@ -1,15 +1,17 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = process.env.SERVER_URL;
-
-interface GetResponse<T> {
-    data: T[];
+export interface GetResponse<T> {
+    data: T;
     status: number;
 }
 
+const fetch = axios.create({
+    baseURL: process.env.SERVER_URL || 'http://localhost:4500',
+});
+
 export async function get<T>(endpoint: string): Promise<GetResponse<T> | undefined> {
     try {
-        const { data, status } = await axios.get<T[]>(
+        const { data, status } = await fetch.get<T>(
             endpoint,
             {
                 headers: {
