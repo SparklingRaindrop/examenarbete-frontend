@@ -1,5 +1,5 @@
 import { DefaultTheme } from 'styled-components';
-import { Border, Font, MediaQuery, Padding, Palette } from '../../types/styled';
+import { Border, Font, MediaQuery, Padding } from '../../types/styled';
 
 const border: Border = {
     size: {
