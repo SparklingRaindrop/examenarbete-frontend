@@ -1,5 +1,6 @@
 import Head from 'next/head';
-import { ChangeEvent, useReducer } from 'react';
+import { ChangeEvent, useEffect, useReducer } from 'react';
+import { useGroceries } from '../../../hooks';
 import { Button, Icon, List, Main } from '../../elements';
 import GroceryItem from './blocks/GroceryItem';
 import GroceryList from './blocks/GroceryList';
@@ -22,17 +23,19 @@ const mockGroceries: Grocery[] = [
     }
 ];
 
-type ActionType = 'check';
-interface Action extends Pick<Grocery, 'id'> {
+type ActionType = 'check' | 'initial';
+interface Action {
     type: ActionType;
+    id?: string;
     checked?: boolean;
+    data?: Grocery[] | undefined;
 }
 
 function reducer(state: Grocery[], action: Action): Array<Grocery> {
-    const { type, id } = action;
+    const { type } = action;
 
     if (type === 'check') {
-        const { checked } = action;
+        const { checked, id } = action;
         if (typeof checked === 'undefined') {
             throw new Error('Missing required property.');
         }
@@ -43,13 +46,26 @@ function reducer(state: Grocery[], action: Action): Array<Grocery> {
             }
             return item;
         });
-
+    } else if (type === 'initial') {
+        const { data } = action;
+        if (typeof data === 'undefined') {
+            throw new Error('Missing required property.');
+        }
+        return data;
     }
     return state;
 }
 
 export default function ShoppingList() {
-    const [state, dispatch] = useReducer(reducer, mockGroceries);
+    const [state, dispatch] = useReducer(reducer, []);
+    const value = useGroceries();
+
+    useEffect(() => {
+        dispatch({
+            type: 'initial',
+            data: value?.groceries,
+        });
+    }, [value]);
 
     function toggleCheckbox(event: ChangeEvent<HTMLInputElement>, id: string) {
         const checked = event.target.checked;
