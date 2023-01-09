@@ -4,7 +4,7 @@ import { Input, Wrapper } from './styled';
 
 type Props = {
     value: number;
-    setCounterValue: Dispatch<SetStateAction<number>>;
+    setCounterValue: (value: number) => void;
 };
 
 export default function Counter(props: Props) {
@@ -15,16 +15,13 @@ export default function Counter(props: Props) {
             <IconButton
                 name='minus'
                 disabled={value === 0}
-                onClick={() => setCounterValue(pre => {
-                    if (pre === 0) return pre;
-                    return pre - 1;
-                })} />
+                onClick={() => setCounterValue(-1)} />
             <Input
                 onChange={(event) => setCounterValue(Number(event.target.value))}
                 value={value} />
             <IconButton
                 name='plus'
-                onClick={() => setCounterValue(pre => pre + 1)} />
+                onClick={() => setCounterValue(1)} />
         </Wrapper>
     );
 }

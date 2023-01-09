@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useGroceries } from '../../../../hooks';
 import { Checkbox, Counter, ListItem } from '../../../elements';
 
@@ -10,30 +10,27 @@ export default function GroceryItem(props: Props) {
     const {
         id,
         isChecked,
-        name,
+        item_name,
         amount,
         toggleCheckbox,
     } = props;
-    const [count, setCount] = useState(amount);
-    const value = useGroceries();
-    const editItem = useCallback((newData: Partial<Grocery>) =>
-        value.editItem(newData, id as unknown as Pick<Grocery, 'id'>)
-        , [value, id]);
+    const { editItem } = useGroceries();
 
-    useEffect(() => {
-        editItem({ amount: count });
-    }, [count, editItem]);
+    function updateCounterValue(value: number): void {
+        if (value < 0 && amount === 0) return;
+        editItem(id as unknown as Pick<Grocery, 'id'>, { amount: value });
+    }
 
     return (
         <ListItem>
             <Checkbox
-                label={name}
+                label={item_name}
                 checked={isChecked}
                 toggle={(event) => toggleCheckbox(event, id as unknown as Pick<Grocery, 'id'>)}
                 crossOffOnChecked />
             <Counter
-                value={count}
-                setCounterValue={setCount}
+                value={amount}
+                setCounterValue={updateCounterValue}
             />
         </ListItem>
     );
