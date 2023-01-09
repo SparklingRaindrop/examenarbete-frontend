@@ -1,4 +1,4 @@
-import styled, { CSSProperties } from 'styled-components';
+import styled from 'styled-components';
 
 export const UnorderedList = styled.ul<Pick<CustomCSSProperties, 'py' | 'px'>>`
     width: 100%;
@@ -8,11 +8,6 @@ export const UnorderedList = styled.ul<Pick<CustomCSSProperties, 'py' | 'px'>>`
 export const StyledListItem = styled.li<Pick<CustomCSSProperties, 'gap'>>`
     width: 100%;
     padding: ${({ theme }) => `${theme.padding.sm} ${theme.padding.md}`};
-
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: ${({ gap }) => `${gap || 0}`};
     
     list-style: none;
 `;
