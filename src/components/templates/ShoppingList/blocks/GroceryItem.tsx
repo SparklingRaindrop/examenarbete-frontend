@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useMemo } from 'react';
 import { useGroceries } from '../../../../hooks';
 import { Checkbox, Counter, ListItem } from '../../../elements';
 
@@ -7,18 +7,18 @@ interface Props extends Grocery {
 }
 
 export default function GroceryItem(props: Props) {
-    const {
-        id,
-        isChecked,
-        item_name,
-        amount,
-        toggleCheckbox,
-    } = props;
-    const { editItem } = useGroceries();
+    const { id, toggleCheckbox, } = props;
+    const { editItem, groceries } = useGroceries();
+    const grocery = useMemo<Grocery | undefined>(() => groceries.find(item => item.id === id), [groceries, id]);
 
-    function updateCounterValue(value: number): void {
+    if (!grocery) return;
+    const { amount, item_name, isChecked } = grocery;
+
+    function updateCounterValue(value: number, action?: string): void {
         if (value < 0 && amount === 0) return;
-        editItem(id as unknown as Pick<Grocery, 'id'>, { amount: value });
+        editItem(id as unknown as Pick<Grocery, 'id'>, {
+            amount: action === 'replace' ? value : amount + value
+        });
     }
 
     return (

@@ -1,9 +1,6 @@
 import styled from 'styled-components';
 
-export const Input = styled.input.attrs(() => ({
-    type: 'number',
-    min: '0'
-}))`
+export const Input = styled.input`
     width: ${({ theme }) => `calc(${theme.font.size.standard}*1.5)`};
     text-align: center; 
 `;
