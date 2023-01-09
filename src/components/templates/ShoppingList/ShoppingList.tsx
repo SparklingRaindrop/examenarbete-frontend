@@ -2,7 +2,7 @@ import Head from 'next/head';
 import { ChangeEvent, useEffect, useReducer, useState } from 'react';
 import { useGroceriesContext } from '../../../hooks';
 import { Status } from '../../../types/statusCode';
-import { Button, Checkbox, Icon, List, ListItem, Loading, Main } from '../../elements';
+import { Button, Checkbox, Icon, Input, ListItem, Main } from '../../elements';
 import GroceryList from './blocks/GroceryList';
 
 export default function ShoppingList() {
@@ -15,6 +15,10 @@ export default function ShoppingList() {
     function toggleCheckbox(event: ChangeEvent<HTMLInputElement>, id: Pick<Grocery, 'id'>) {
         const checked = event.target.checked;
         editItem(id, { isChecked: checked });
+    }
+
+    function updateUserInput(value: string) {
+        setUserInput(value);
     }
 
     return (
@@ -32,10 +36,9 @@ export default function ShoppingList() {
                     isEditing && (
                         <ListItem>
                             <Checkbox checked={false} />
-                            <input
-                                type='text'
+                            <Input
                                 value={userInput}
-                                onChange={(event) => setUserInput(event.target.value)}
+                                onChange={updateUserInput}
                                 onBlur={async () => {
                                     const { status } = await addItem({
                                         item_name: userInput,
@@ -49,6 +52,7 @@ export default function ShoppingList() {
                                         setIsEditing(false);
                                     }
                                 }}
+                                variant='ghost'
                                 autoFocus />
                         </ListItem>
                     )
