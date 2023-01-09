@@ -48,7 +48,6 @@ export async function get<T>(endpoint: string): Promise<GetResponse<T> | APIResp
 export async function patch<T>(endpoint: string, data: Partial<T>): Promise<APIResponse> {
     try {
         const { status } = await fetch.patch(endpoint, data);
-
         return {
             status
         };
@@ -66,7 +65,7 @@ export async function patch<T>(endpoint: string, data: Partial<T>): Promise<APIR
 
 export async function remove(endpoint: string): Promise<APIResponse> {
     try {
-        const { status } = await fetch.patch(endpoint);
+        const { status } = await fetch.delete(endpoint);
         return {
             status
         };
