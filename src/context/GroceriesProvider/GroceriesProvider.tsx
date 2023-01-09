@@ -1,12 +1,11 @@
 import { createContext, ReactNode } from 'react';
 import { useGroceries } from '../../hooks';
-
-interface ContextGroceries {
+export interface ContextGroceries {
     groceries: Grocery[];
     getItems: () => Promise<void>;
     addItem: (newData: Omit<Grocery, 'id'>) => Promise<void>;
     removeItem: (id: Pick<Grocery, 'id'>) => Promise<void>,
-    editItem: (newData: Partial<Grocery>, id: Pick<Grocery, 'id'>) => Promise<void>,
+    editItem: (newData: Partial<Pick<Grocery, 'amount' | 'isChecked'>>, id: Pick<Grocery, 'id'>) => Promise<void>,
 }
 
 export const GroceriesContext = createContext<ContextGroceries | null>(null);
