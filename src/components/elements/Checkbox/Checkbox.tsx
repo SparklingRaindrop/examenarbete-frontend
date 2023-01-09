@@ -3,10 +3,10 @@ import { Label, Wrapper } from './styled';
 
 type Props = {
     checked: boolean;
-    toggle?: (event: ChangeEvent<HTMLInputElement>) => void;
     disabled?: boolean;
     label?: string;
     crossOffOnChecked?: boolean;
+    toggle?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function Checkbox(props: Props) {
