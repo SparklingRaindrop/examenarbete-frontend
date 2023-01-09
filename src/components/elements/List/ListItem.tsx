@@ -9,8 +9,8 @@ export default function ListItem(props: Props) {
     const { children } = props;
 
     return (
-        <StyledListItem>
+        <StyledListItem {...props}>
             {children}
         </StyledListItem>
-    )
+    );
 }
