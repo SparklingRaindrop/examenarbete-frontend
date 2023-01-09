@@ -5,7 +5,7 @@ export interface ContextGroceries {
     getItems: () => Promise<void>;
     addItem: (newData: Omit<Grocery, 'id'>) => Promise<void>;
     removeItem: (id: Pick<Grocery, 'id'>) => Promise<void>,
-    editItem: (newData: Partial<Pick<Grocery, 'amount' | 'isChecked'>>, id: Pick<Grocery, 'id'>) => Promise<void>,
+    editItem: (id: Pick<Grocery, 'id'>, newData: Partial<Pick<Grocery, 'amount' | 'isChecked'>>) => Promise<void>,
 }
 
 export const GroceriesContext = createContext<ContextGroceries | null>(null);
