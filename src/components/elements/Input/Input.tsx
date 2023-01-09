@@ -1,8 +1,9 @@
+import { ChangeEvent } from 'react';
 import { Wrapper } from './styled';
 
 type Props = {
     value: string;
-    onChange: () => void;
+    onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function Input(props: Props) {
