@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { ChangeEvent, useEffect, useReducer, useState } from 'react';
 import { useGroceriesContext } from '../../../hooks';
+import { Status } from '../../../types/statusCode';
 import { Button, Checkbox, Icon, List, ListItem, Loading, Main } from '../../elements';
 import GroceryList from './blocks/GroceryList';
 
@@ -38,13 +39,19 @@ export default function ShoppingList() {
                                 type='text'
                                 value={userInput}
                                 onChange={(event) => setUserInput(event.target.value)}
-                                onBlur={() => addItem({
-                                    item_name: userInput,
-                                    updated_at: new Date(),
-                                    amount: 0,
-                                    item_id: '1',
-                                    isChecked: false,
-                                })}
+                                onBlur={async () => {
+                                    const { status } = await addItem({
+                                        item_name: userInput,
+                                        updated_at: new Date(),
+                                        amount: 0,
+                                        item_id: '1',
+                                        isChecked: false,
+                                    });
+                                    if (status === Status.Created) {
+                                        setUserInput('');
+                                        setIsEditing(false);
+                                    }
+                                }}
                                 autoFocus />
                         </ListItem>
                     )
