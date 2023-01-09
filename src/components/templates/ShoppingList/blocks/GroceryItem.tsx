@@ -1,23 +1,25 @@
-import { ChangeEvent } from 'react';
-import { Checkbox, ListItem } from '../../../elements';
+import { ChangeEvent, useState } from 'react';
+import { Checkbox, Counter, ListItem } from '../../../elements';
 
-type Props = {
-    id: string;
-    checked: boolean;
-    name: string;
+interface Props extends Grocery {
     toggleCheckbox: (event: ChangeEvent<HTMLInputElement>, id: Pick<Grocery, 'id'>) => void;
 }
 
 export default function GroceryItem(props: Props) {
-    const { id, checked, name, toggleCheckbox } = props;
+    const { id, isChecked, name, toggleCheckbox, amount } = props;
+    const [count, setCount] = useState(amount);
 
     return (
         <ListItem>
             <Checkbox
                 label={name}
-                checked={checked}
+                checked={isChecked}
                 toggle={(event) => toggleCheckbox(event, id as unknown as Pick<Grocery, 'id'>)}
                 crossOffOnChecked />
+            <Counter
+                value={count}
+                setCounterValue={setCount}
+            />
         </ListItem>
     );
 }

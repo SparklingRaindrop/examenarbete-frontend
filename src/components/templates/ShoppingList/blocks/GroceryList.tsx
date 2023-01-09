@@ -1,32 +1,36 @@
 import { ChangeEvent } from 'react';
-import { List } from '../../../elements';
+import { useGroceriesContext } from '../../../../hooks';
+import { List, Loading } from '../../../elements';
 import GroceryItem from './GroceryItem';
 
 type Props = {
-    items: Grocery[];
-    toggleCheckbox: (event: ChangeEvent<HTMLInputElement>, id: string) => void;
+    toggleCheckbox: (event: ChangeEvent<HTMLInputElement>, id: Pick<Grocery, 'id'>) => void;
     crossed?: boolean;
 }
 
 export default function GroceryList(props: Props) {
-    const { items, toggleCheckbox, crossed } = props;
+    const { toggleCheckbox, crossed } = props;
+    const value = useGroceriesContext();
+    if (!value) {
+        return <Loading />;
+    }
 
+    const { groceries } = value;
     return (
-        <List>
+        <List py='none'>
             {
-                items.map(({ id, isChecked, name }) => {
-                    if (crossed && !isChecked) return;
-                    if (!crossed && isChecked) return;
+                groceries.map(grocery => {
+                    if (crossed && !grocery.isChecked) return;
+                    if (!crossed && grocery.isChecked) return;
                     return (
                         <GroceryItem
-                            key={id}
-                            id={id}
-                            name={name}
-                            checked={isChecked}
+                            key={grocery.id}
+                            {...grocery}
                             toggleCheckbox={toggleCheckbox}
                         />
                     );
                 })
+
             }
         </List>
     );
