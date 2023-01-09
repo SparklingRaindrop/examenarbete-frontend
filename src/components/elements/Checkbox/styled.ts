@@ -7,7 +7,10 @@ export const Wrapper = styled.input.attrs(() => ({
     appearance: none;
     width: ${({ theme }) => theme.font.size.standard};
     height: ${({ theme }) => theme.font.size.standard};
-    border-radius: 0.15em;
+
+    flex-shrink: 0; 
+
+    border-radius: .2rem;
     border: 0.15em solid ${({ theme }) => theme.palette.primary};
     outline: none;
     cursor: pointer;
