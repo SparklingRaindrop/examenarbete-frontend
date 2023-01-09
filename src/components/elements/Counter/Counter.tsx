@@ -4,12 +4,11 @@ import { Input, Wrapper } from './styled';
 
 type Props = {
     value: number;
-    disabled: boolean;
     setCounterValue: Dispatch<SetStateAction<number>>;
 };
 
 export default function Counter(props: Props) {
-    const { value, disabled, setCounterValue } = props;
+    const { value, setCounterValue } = props;
 
     return (
         <Wrapper>
@@ -19,15 +18,13 @@ export default function Counter(props: Props) {
                     if (pre === 0) return pre;
                     return pre - 1;
                 })}
-                disabled={disabled} />
+                disabled={value === 0} />
             <Input
                 onChange={(event) => setCounterValue(Number(event.target.value))}
-                value={value}
-                disabled={disabled} />
+                value={value} />
             <Button
                 label='+'
-                onClick={() => setCounterValue(pre => pre + 1)}
-                disabled={disabled} />
+                onClick={() => setCounterValue(pre => pre + 1)} />
         </Wrapper>
     );
 }
