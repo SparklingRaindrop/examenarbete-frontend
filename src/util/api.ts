@@ -1,21 +1,24 @@
 import axios from 'axios';
+import { Status } from '../types/statusCode';
 
-type Status = number;
 export interface GetResponse<T> {
     data: T;
-    status: Status;
+    status: number;
 }
 
 export interface APIResponse {
     status: Status;
 }
 
+export function isGetResponse(response: Partial<GetResponse<any>>): response is GetResponse<any> {
+    return typeof response?.data !== 'undefined';
+}
 
 const fetch = axios.create({
     baseURL: process.env.SERVER_URL || 'http://localhost:4500',
 });
 
-export async function get<T>(endpoint: string): Promise<GetResponse<T> | undefined> {
+export async function get<T>(endpoint: string): Promise<GetResponse<T> | APIResponse> {
     try {
         const { data, status } = await fetch.get<T>(
             endpoint,
@@ -36,11 +39,13 @@ export async function get<T>(endpoint: string): Promise<GetResponse<T> | undefin
         } else {
             console.error(error);
         }
-        return;
+        return {
+            status: Status.BadRequest
+        };
     }
 }
 
-export async function patch<T>(endpoint: string, data: Partial<T>): Promise<APIResponse | undefined> {
+export async function patch<T>(endpoint: string, data: Partial<T>): Promise<APIResponse> {
     try {
         const { status } = await fetch.patch(endpoint, data);
 
@@ -53,11 +58,13 @@ export async function patch<T>(endpoint: string, data: Partial<T>): Promise<APIR
         } else {
             console.error(error);
         }
-        return;
+        return {
+            status: Status.BadRequest
+        };
     }
 }
 
-export async function remove(endpoint: string): Promise<APIResponse | undefined> {
+export async function remove(endpoint: string): Promise<APIResponse> {
     try {
         const { status } = await fetch.patch(endpoint);
         return {
@@ -69,11 +76,13 @@ export async function remove(endpoint: string): Promise<APIResponse | undefined>
         } else {
             console.error(error);
         }
-        return;
+        return {
+            status: Status.BadRequest
+        };
     }
 }
 
-export async function post<T>(endpoint: string, data: Omit<T, 'id'>): Promise<APIResponse | undefined> {
+export async function post<T>(endpoint: string, data: Omit<T, 'id'>): Promise<APIResponse> {
     try {
         const { status } = await fetch.post(endpoint, data);
         return {
@@ -85,6 +94,8 @@ export async function post<T>(endpoint: string, data: Omit<T, 'id'>): Promise<AP
         } else {
             console.error(error);
         }
-        return;
+        return {
+            status: Status.BadRequest
+        };
     }
 }
