@@ -1,4 +1,5 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { useGroceries } from '../../../../hooks';
 import { Checkbox, Counter, ListItem } from '../../../elements';
 
 interface Props extends Grocery {
@@ -6,8 +7,22 @@ interface Props extends Grocery {
 }
 
 export default function GroceryItem(props: Props) {
-    const { id, isChecked, name, toggleCheckbox, amount } = props;
+    const {
+        id,
+        isChecked,
+        name,
+        amount,
+        toggleCheckbox,
+    } = props;
     const [count, setCount] = useState(amount);
+    const value = useGroceries();
+    const editItem = useCallback((newData: Partial<Grocery>) =>
+        value.editItem(newData, id as unknown as Pick<Grocery, 'id'>)
+        , [value, id]);
+
+    useEffect(() => {
+        editItem({ amount: count });
+    }, [count, editItem]);
 
     return (
         <ListItem>
@@ -19,6 +34,7 @@ export default function GroceryItem(props: Props) {
             <Counter
                 value={count}
                 setCounterValue={setCount}
+                disabled={count === 0}
             />
         </ListItem>
     );
