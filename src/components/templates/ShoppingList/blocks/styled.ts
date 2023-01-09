@@ -3,6 +3,7 @@ import { ListItem } from '../../../elements';
 
 export const Wrapper = styled(ListItem)`
     max-width: 100%;
+    padding: ${({ theme }) => theme.padding.sm};
 
     display: grid;
 
@@ -10,7 +11,7 @@ export const Wrapper = styled(ListItem)`
     align-items: center;
     gap: 0.2rem;
 
-    & > input {
+    & > input:first-child {
         grid-column: 1 / span 1;
     }
     
