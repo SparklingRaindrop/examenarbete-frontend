@@ -34,7 +34,7 @@ export default function useGroceries(): ContextGroceries {
 
     async function addItem(newData: Omit<Grocery, 'id'>): Promise<void> {
         const response = await post<Grocery>('/groceries', newData);
-        if (response && response.status === Status.Succuss) {
+        if (response && response.status === Status.Created) {
             getItems();
         }
     }
