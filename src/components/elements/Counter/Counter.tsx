@@ -14,11 +14,11 @@ export default function Counter(props: Props) {
         <Wrapper>
             <IconButton
                 name='minus'
+                disabled={value === 0}
                 onClick={() => setCounterValue(pre => {
                     if (pre === 0) return pre;
                     return pre - 1;
-                })}
-                disabled={value === 0} />
+                })} />
             <Input
                 onChange={(event) => setCounterValue(Number(event.target.value))}
                 value={value} />

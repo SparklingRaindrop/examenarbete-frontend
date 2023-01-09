@@ -34,7 +34,6 @@ export default function GroceryItem(props: Props) {
             <Counter
                 value={count}
                 setCounterValue={setCount}
-                disabled={count === 0}
             />
         </ListItem>
     );
