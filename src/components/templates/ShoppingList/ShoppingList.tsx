@@ -9,9 +9,6 @@ export default function ShoppingList() {
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [userInput, setUserInput] = useState<string>('');
     const value = useGroceriesContext();
-    if (!value) {
-        return <Loading />;
-    }
 
     const { editItem, addItem } = value;
 

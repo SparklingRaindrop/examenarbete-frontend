@@ -5,8 +5,7 @@ export default function useGroceriesContext() {
     const value = useContext(GroceriesContext);
 
     if (!value) {
-        console.error('It\'s outside of the context provider.');
-        return;
+        throw new Error('It\'s outside of the context provider.');
     }
     return value;
 }

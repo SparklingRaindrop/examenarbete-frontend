@@ -12,9 +12,6 @@ export default function GroceryList(props: Props) {
     const { toggleCheckbox, crossed } = props;
     const value = useGroceriesContext();
 
-    if (!value) {
-        return <Loading />;
-    }
     return (
         <List py='none'>
             {
