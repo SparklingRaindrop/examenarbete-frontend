@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
+import { ContextGroceries } from '../context/GroceriesProvider/GroceriesProvider';
 import { Status } from '../types/statusCode';
 import { get, patch, post, remove } from '../util/api';
 
-export default function useGroceries() {
+export default function useGroceries(): ContextGroceries {
     const [groceries, setGroceries] = useState<Grocery[]>([]);
 
     useEffect(() => {
@@ -38,7 +39,7 @@ export default function useGroceries() {
         }
     }
 
-    async function editItem(newData: Partial<Grocery>, id: Pick<Grocery, 'id'>): Promise<void> {
+    async function editItem(newData: Partial<Pick<Grocery, 'amount' | 'isChecked'>>, id: Pick<Grocery, 'id'>): Promise<void> {
         const response = await patch<Grocery>(`/groceries/${id}`, newData);
         if (response && response.status === Status.Succuss) {
             getItems();
