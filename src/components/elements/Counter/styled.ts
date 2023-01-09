@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.input.attrs(() => ({
+export const Input = styled.input.attrs(() => ({
     type: 'number'
 }))`
     
