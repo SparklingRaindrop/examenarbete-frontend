@@ -6,7 +6,7 @@ export interface ContextGroceries {
     getItems: () => Promise<APIResponse>;
     addItem: (newData: Omit<Grocery, 'id'>) => Promise<APIResponse>;
     removeItem: (id: Pick<Grocery, 'id'>) => Promise<APIResponse>,
-    editItem: (id: Pick<Grocery, 'id'>, newData: Partial<Pick<Grocery, 'amount' | 'isChecked'>>) => Promise<APIResponse>,
+    editItem: (id: Pick<Grocery, 'id'>, newData: Partial<Pick<Grocery, 'amount' | 'isChecked' | 'item_name'>>) => Promise<APIResponse>,
 }
 
 export const GroceriesContext = createContext<ContextGroceries | null>(null);
