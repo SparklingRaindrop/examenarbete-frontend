@@ -6,9 +6,14 @@ interface Grocery {
     item_id: string;
     isChecked: boolean;
 }
+
+type MediaQuery = 'xs' | 'sm' | 'md' | 'lg';
+type FontSize = 'sm' | 'standard' | 'lg';
+type PaddingVariation = 'sm' | 'md' | 'lg' | 'none';
+
 interface CustomCSSProperties {
-    paddingY: string;
-    paddingX: string;
+    py?: PaddingVariation;
+    px?: PaddingVariation;
 }
 
 interface GeneralProps extends CustomCSSProperties, CSSProperties {

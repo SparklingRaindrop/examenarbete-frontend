@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const UnorderedList = styled.ul`
+export const UnorderedList = styled.ul<Partial<CustomCSSProperties>>`
     width: 100%;
     padding: ${({ theme }) => theme.padding.md};
 `;

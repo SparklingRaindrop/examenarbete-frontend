@@ -9,7 +9,7 @@ export default function List(props: Props) {
     const { children } = props;
 
     return (
-        <UnorderedList>
+        <UnorderedList {...props}>
             {children}
         </UnorderedList>
     );

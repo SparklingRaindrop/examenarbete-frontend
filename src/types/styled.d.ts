@@ -1,6 +1,5 @@
 import 'styled-components';
 
-export type MediaQuery = 'xs' | 'sm' | 'md' | 'lg';
 export type Variant = 'ghost';
 
 interface Palette {
@@ -16,12 +15,10 @@ export interface Border {
     size: Record<BorderSize, string>;
 }
 
-export type FontSize = 'sm' | 'standard' | 'lg';
 export interface Font {
     size: Record<FontSize, string>
 }
 
-type PaddingVariation = 'sm' | 'md' | 'lg';
 export type Padding = Record<PaddingVariation, string>
 
 declare module 'styled-components' {
