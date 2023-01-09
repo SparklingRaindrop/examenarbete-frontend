@@ -21,21 +21,25 @@ export const padding: Record<MediaQuery, Padding> = {
         sm: '',
         md: '',
         lg: '',
+        none: '0',
     },
     sm: {
         sm: '0.5rem',
         md: '0.8rem',
         lg: '1rem',
+        none: '0',
     },
     md: {
         sm: '',
         md: '',
         lg: '',
+        none: '0',
     },
     lg: {
         sm: '',
         md: '',
         lg: '',
+        none: '0',
     }
 };
 
