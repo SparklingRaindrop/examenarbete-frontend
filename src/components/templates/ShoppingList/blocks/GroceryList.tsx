@@ -11,15 +11,14 @@ type Props = {
 export default function GroceryList(props: Props) {
     const { toggleCheckbox, crossed } = props;
     const value = useGroceriesContext();
+
     if (!value) {
         return <Loading />;
     }
-
-    const { groceries } = value;
     return (
         <List py='none'>
             {
-                groceries.map(grocery => {
+                value.groceries.map(grocery => {
                     if (crossed && !grocery.isChecked) return;
                     if (!crossed && grocery.isChecked) return;
                     return (
