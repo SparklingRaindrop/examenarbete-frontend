@@ -1,13 +1,12 @@
-import { createContext, ReactNode, useEffect, useState } from 'react';
-import { Status } from '../../types/statusCode';
-import { APIResponse, get, GetResponse, patch, post, remove } from '../../util/api';
+import { createContext, ReactNode } from 'react';
+import { useGroceries } from '../../hooks';
 
 interface ContextGroceries {
     groceries: Grocery[];
-    getItems: () => Promise<GetResponse<Grocery[]> | undefined>;
-    addNewItem: (newData: Grocery) => Promise<GetResponse<Grocery> | undefined>;
-    removeItem: (id: Pick<Grocery, 'id'>) => Promise<APIResponse | undefined>,
-    editItem: (newData: Partial<Grocery>, id: Pick<Grocery, 'id'>) => Promise<APIResponse | undefined>,
+    getItems: () => Promise<void>;
+    addItem: (newData: Omit<Grocery, 'id'>) => Promise<void>;
+    removeItem: (id: Pick<Grocery, 'id'>) => Promise<void>,
+    editItem: (newData: Partial<Grocery>, id: Pick<Grocery, 'id'>) => Promise<void>,
 }
 
 export const GroceriesContext = createContext<ContextGroceries | null>(null);
@@ -18,25 +17,14 @@ type Props = {
 
 export function GroceriesProvider(props: Props) {
     const { children } = props;
-    const [groceries, setGroceries] = useState<Grocery[]>([]);
-
-    useEffect(() => {
-        async function init() {
-            const response = await get<Grocery[]>('/groceries');
-            if (response && response.status === Status.Succuss) {
-                const { data } = response;
-                setGroceries(data);
-            }
-        }
-        init();
-    });
+    const { groceries, addItem, getItems, removeItem, editItem } = useGroceries();
 
     const value = {
         groceries,
-        getItems: () => get<Grocery[]>('/groceries'),
-        addNewItem: (newData: Grocery) => post<Grocery>('/groceries', newData),
-        removeItem: (id: Pick<Grocery, 'id'>) => remove(`/groceries/${id}`),
-        editItem: (newData: Partial<Grocery>, id: Pick<Grocery, 'id'>) => patch<Grocery>(`/groceries/${id}`, newData),
+        getItems,
+        addItem,
+        removeItem,
+        editItem,
     };
 
     return (

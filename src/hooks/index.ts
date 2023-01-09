@@ -1,3 +1,4 @@
-import useGroceries from './useGroceries';
+import useGroceriesContext from './useGroceriesContext';
 import useTheme from './useTheme';
-export { useGroceries, useTheme };
+import useGroceries from './useGroceries';
+export { useGroceriesContext, useTheme, useGroceries };

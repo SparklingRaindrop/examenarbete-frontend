@@ -73,12 +73,11 @@ export async function remove(endpoint: string): Promise<APIResponse | undefined>
     }
 }
 
-export async function post<T>(endpoint: string, data: T): Promise<GetResponse<T> | undefined> {
+export async function post<T>(endpoint: string, data: Omit<T, 'id'>): Promise<APIResponse | undefined> {
     try {
-        const { status } = await fetch.patch(endpoint);
+        const { status } = await fetch.post(endpoint, data);
         return {
-            status,
-            data
+            status
         };
     } catch (error) {
         if (axios.isAxiosError(error)) {

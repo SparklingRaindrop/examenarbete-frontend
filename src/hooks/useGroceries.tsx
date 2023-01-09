@@ -1,12 +1,55 @@
-import { useContext } from 'react';
-import { GroceriesContext } from '../context/GroceriesProvider';
+import { useEffect, useState } from 'react';
+import { Status } from '../types/statusCode';
+import { get, patch, post, remove } from '../util/api';
 
 export default function useGroceries() {
-    const value = useContext(GroceriesContext);
+    const [groceries, setGroceries] = useState<Grocery[]>([]);
 
-    if (!value) {
-        console.error('It\'s outside of the context provider.');
-        return;
+    useEffect(() => {
+        async function init() {
+            const response = await get<Grocery[]>('/groceries');
+            if (response && response.status === Status.Succuss) {
+                const { data } = response;
+                setGroceries(data);
+            }
+        }
+        init();
+    }, []);
+
+    async function getItems(): Promise<void> {
+        const response = await get<Grocery[]>('/groceries');
+        if (response && response.status === Status.Succuss) {
+            const { data } = response;
+            setGroceries(data);
+        }
     }
-    return value;
+
+    async function removeItem(id: Pick<Grocery, 'id'>): Promise<void> {
+        const response = await remove(`/groceries/${id}`);
+        if (response && response.status === Status.NoContent) {
+            getItems();
+        }
+    }
+
+    async function addItem(newData: Omit<Grocery, 'id'>): Promise<void> {
+        const response = await post<Grocery>('/groceries', newData);
+        if (response && response.status === Status.Succuss) {
+            getItems();
+        }
+    }
+
+    async function editItem(newData: Partial<Grocery>, id: Pick<Grocery, 'id'>): Promise<void> {
+        const response = await patch<Grocery>(`/groceries/${id}`, newData);
+        if (response && response.status === Status.Succuss) {
+            getItems();
+        }
+    }
+
+    return {
+        groceries,
+        getItems,
+        removeItem,
+        addItem,
+        editItem,
+    };
 }
