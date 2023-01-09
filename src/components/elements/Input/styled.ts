@@ -1,7 +1,11 @@
 import styled from 'styled-components';
 import { Variant } from '../../../types/styled';
 
-export const Wrapper = styled.input<{ variant?: Variant }>`
-    text-align: center;
-    
+type InputVariant = { variant?: Variant };
+
+export const Wrapper = styled.input.attrs(({ }) => ({
+    type: 'text',
+})) <InputVariant>`
+    background: ${({ variant }) => variant === 'ghost' && 'transparent'};
+    border: ${({ variant }) => variant === 'ghost' && 'none'};
 `;

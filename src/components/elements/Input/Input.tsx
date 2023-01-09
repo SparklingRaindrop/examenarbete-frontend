@@ -1,17 +1,27 @@
+import { createRef, CSSProperties, useEffect } from 'react';
 import { Variant } from '../../../types/styled';
 import { Wrapper } from './styled';
 
 type Props = {
     value: number | string;
     variant?: Variant;
-    onChange: (input: string | number) => void;
+    autoFocus?: boolean;
+    onChange?: (value: string) => void;
+    onBlur?: () => void;
 }
-export default function Input(props: Props) {
-    const { value, variant, onChange } = props;
+
+export default function Input(props: Props & CSSProperties) {
+    const { value, variant, autoFocus, onChange, onBlur } = props;
+
     return (
         <Wrapper
             value={value}
             variant={variant}
-            onChange={(event) => onChange(event.target.value)} />
+            onChange={(event) => {
+                if (typeof onChange === 'undefined') return;
+                onChange(event.target.value);
+            }}
+            onBlur={onBlur}
+            autoFocus={autoFocus} />
     );
 }
