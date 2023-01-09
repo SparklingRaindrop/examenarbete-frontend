@@ -5,6 +5,7 @@ import { Main } from './Main';
 import { Button, IconButton } from './Button';
 import { Loading } from './Loading';
 import { Counter } from './Counter';
+import { Input } from './Input';
 export {
     List,
     Checkbox,
@@ -15,4 +16,5 @@ export {
     IconButton,
     Loading,
     Counter,
+    Input,
 };
