@@ -1,15 +1,33 @@
-import { Input } from './styled';
+import { Dispatch, SetStateAction } from 'react';
+import { Button } from '../Button';
+import { Input, Wrapper } from './styled';
 
 type Props = {
     value: number;
-    setCounterValue: (newValue: number) => void;
+    disabled: boolean;
+    setCounterValue: Dispatch<SetStateAction<number>>;
 };
 
 export default function Counter(props: Props) {
-    const { value, setCounterValue } = props;
+    const { value, disabled, setCounterValue } = props;
+
     return (
-        <Input
-            onChange={(event) => setCounterValue(Number(event.target.value))}
-            value={value} />
+        <Wrapper>
+            <Button
+                label='-'
+                onClick={() => setCounterValue(pre => {
+                    if (pre === 0) return pre;
+                    return pre - 1;
+                })}
+                disabled={disabled} />
+            <Input
+                onChange={(event) => setCounterValue(Number(event.target.value))}
+                value={value}
+                disabled={disabled} />
+            <Button
+                label='+'
+                onClick={() => setCounterValue(pre => pre + 1)}
+                disabled={disabled} />
+        </Wrapper>
     );
 }
