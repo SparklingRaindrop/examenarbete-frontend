@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { Button } from '../Button';
+import { IconButton } from '../Button';
 import { Input, Wrapper } from './styled';
 
 type Props = {
@@ -12,8 +12,8 @@ export default function Counter(props: Props) {
 
     return (
         <Wrapper>
-            <Button
-                label='-'
+            <IconButton
+                name='minus'
                 onClick={() => setCounterValue(pre => {
                     if (pre === 0) return pre;
                     return pre - 1;
@@ -22,8 +22,8 @@ export default function Counter(props: Props) {
             <Input
                 onChange={(event) => setCounterValue(Number(event.target.value))}
                 value={value} />
-            <Button
-                label='+'
+            <IconButton
+                name='plus'
                 onClick={() => setCounterValue(pre => pre + 1)} />
         </Wrapper>
     );
