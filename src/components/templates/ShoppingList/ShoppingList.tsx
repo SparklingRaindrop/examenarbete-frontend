@@ -1,8 +1,7 @@
 import Head from 'next/head';
 import { ChangeEvent, useEffect, useReducer, useState } from 'react';
-import { useGroceries } from '../../../hooks';
+import { useGroceriesContext } from '../../../hooks';
 import { Button, Checkbox, Icon, List, ListItem, Loading, Main } from '../../elements';
-import GroceryItem from './blocks/GroceryItem';
 import GroceryList from './blocks/GroceryList';
 
 const mockGroceries: Grocery[] = [
@@ -26,18 +25,18 @@ const mockGroceries: Grocery[] = [
 export default function ShoppingList() {
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [userInput, setUserInput] = useState<string>('');
-    const value = useGroceries();
+    const value = useGroceriesContext();
     if (!value) {
         return <Loading />;
     }
 
-    const { groceries, editItem, addNewItem } = value;
+    const { groceries, editItem, addItem } = value;
 
     function toggleCheckbox(event: ChangeEvent<HTMLInputElement>, id: Pick<Grocery, 'id'>) {
         const checked = event.target.checked;
         editItem({ isChecked: checked }, id);
     }
-
+    console.log(groceries);
     return (
         <>
             <Head>
@@ -48,14 +47,23 @@ export default function ShoppingList() {
             </Head>
             <Main>
                 <Button label='Generate' />
-                <GroceryList
-                    items={groceries}
-                    toggleCheckbox={toggleCheckbox} />
+                <GroceryList toggleCheckbox={toggleCheckbox} />
                 {
                     isEditing && (
                         <ListItem>
                             <Checkbox checked={false} />
-                            <input type='text' autoFocus />
+                            <input
+                                type='text'
+                                value={userInput}
+                                onChange={(event) => setUserInput(event.target.value)}
+                                onBlur={() => addItem({
+                                    name: userInput,
+                                    updated_at: new Date(),
+                                    amount: 0,
+                                    item_id: '1',
+                                    isChecked: false,
+                                })}
+                                autoFocus />
                         </ListItem>
                     )
                 }
@@ -65,7 +73,7 @@ export default function ShoppingList() {
                     <Icon name='plus' />
                     Add an Item
                 </Button>
-                <GroceryList items={groceries} toggleCheckbox={toggleCheckbox} crossed />
+                <GroceryList toggleCheckbox={toggleCheckbox} crossed />
             </Main>
         </>
     );
