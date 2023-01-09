@@ -4,24 +4,6 @@ import { useGroceriesContext } from '../../../hooks';
 import { Button, Checkbox, Icon, List, ListItem, Loading, Main } from '../../elements';
 import GroceryList from './blocks/GroceryList';
 
-const mockGroceries: Grocery[] = [
-    {
-        id: '1',
-        name: 'tomatoes',
-        updated_at: new Date(1672774937044),
-        amount: 1,
-        item_id: '1',
-        isChecked: false
-    }, {
-        id: '3',
-        name: 'onions',
-        updated_at: new Date(1672774937044),
-        amount: 5,
-        item_id: '2',
-        isChecked: false
-    }
-];
-
 export default function ShoppingList() {
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [userInput, setUserInput] = useState<string>('');
@@ -30,13 +12,13 @@ export default function ShoppingList() {
         return <Loading />;
     }
 
-    const { groceries, editItem, addItem } = value;
+    const { editItem, addItem } = value;
 
     function toggleCheckbox(event: ChangeEvent<HTMLInputElement>, id: Pick<Grocery, 'id'>) {
         const checked = event.target.checked;
-        editItem({ isChecked: checked }, id);
+        editItem(id, { isChecked: checked });
     }
-    console.log(groceries);
+
     return (
         <>
             <Head>
@@ -57,7 +39,7 @@ export default function ShoppingList() {
                                 value={userInput}
                                 onChange={(event) => setUserInput(event.target.value)}
                                 onBlur={() => addItem({
-                                    name: userInput,
+                                    item_name: userInput,
                                     updated_at: new Date(),
                                     amount: 0,
                                     item_id: '1',
