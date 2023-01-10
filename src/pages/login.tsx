@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { Button, IconButton, Input, InputGroup, InputRightElement, Main } from '../components';
-import { useAuth } from '../hooks';
-import { LoginData } from '../hooks/useAuth';
+import { useLogin } from '../hooks';
+import { LoginData } from '../hooks/useLogin';
 import { Status } from '../types/statusCode';
 
 type UserInput = {
@@ -18,20 +18,15 @@ export default function Login() {
         password: ''
     });
     const [isShown, setIsShown] = useState<boolean>(false);
-    const [isError, setIsError] = useState<IsError>({ isError: false, message: '' });
+    const [loginState, setLoginState] = useState<IsError>({ isError: false, message: '' });
+    const { login } = useLogin();
     const router = useRouter();
-    const { login, token } = useAuth();
-
-    useEffect(() => {
-        if (token) {
-            // TODO: redirect it to dashboard
-            router.push('/shoppingList');
-        }
-        // eslint-disable-next-line
-    }, [token]);
 
     function handleOnChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
         const { value, id } = event.target;
+        if (loginState.isError) {
+            setLoginState({ isError: false, message: '' });
+        }
         setUserInput(prev => ({
             ...prev,
             [id]: value,
@@ -49,11 +44,12 @@ export default function Login() {
         }
         const { status, error } = await login(data as LoginData);
         if (status !== Status.Created) {
-            setIsError(({
+            setLoginState(({
                 message: error ? error : '',
                 isError: true,
             }));
         }
+        router.push('/user');
     }
 
     return (
@@ -76,6 +72,7 @@ export default function Login() {
                         onMouseUp={() => setIsShown(false)} />
                 </InputRightElement>
             </InputGroup>
+            <div>{loginState.isError && loginState.message}</div>
             <Button
                 label='Login'
                 onClick={handleLogin}
