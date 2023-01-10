@@ -6,15 +6,17 @@ type Props = {
     value: number | string;
     variant?: Variant;
     autoFocus?: boolean;
+    id?: string;
     onChange?: (value: string) => void;
     onBlur?: () => void;
 }
 
 export default function Input(props: Props & CSSProperties) {
-    const { value, variant, autoFocus, onChange, onBlur } = props;
+    const { value, variant, autoFocus, id, onChange, onBlur } = props;
 
     return (
         <Wrapper
+            id={id}
             value={value}
             variant={variant}
             onChange={(event) => {
