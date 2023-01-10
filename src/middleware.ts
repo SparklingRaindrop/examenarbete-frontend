@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server';
 export function middleware(request: NextRequest) {
     const token = request.cookies.get('token')?.value;
 
-    if (['/user'].includes(request.nextUrl.pathname) &&
+    if (request.nextUrl.pathname.startsWith('/user') &&
         (!token || Date.now() > JSON.parse(token).expiredAt)
     ) {
         request.cookies.delete('token');
@@ -19,5 +19,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/user', '/login'],
+    matcher: ['/user/(.*)', '/login', '/user'],
 };
