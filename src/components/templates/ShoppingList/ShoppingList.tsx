@@ -17,8 +17,8 @@ export default function ShoppingList() {
         editItem(id, { isChecked: checked });
     }
 
-    function updateUserInput(value: string) {
-        setUserInput(value);
+    function updateUserInput(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+        setUserInput(event.target.value);
     }
 
     return (

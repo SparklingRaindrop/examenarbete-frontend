@@ -29,8 +29,8 @@ export default function GroceryItem(props: Props) {
         });
     }
 
-    function updateItemName(value: string) {
-        setInputValue(value);
+    function updateItemName(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+        setInputValue(event.target.value);
     }
 
     return (
