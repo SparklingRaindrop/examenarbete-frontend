@@ -14,6 +14,10 @@ export function isGetResponse(response: Partial<GetResponse<any>>): response is 
     return typeof response?.data !== 'undefined';
 }
 
+export function isPostResponse(response: Partial<PostResponse<any>>): response is PostResponse<any> {
+    return typeof response?.data !== 'undefined';
+}
+
 const fetch = axios.create({
     baseURL: process.env.SERVER_URL || 'http://localhost:4500',
 });
@@ -81,12 +85,17 @@ export async function remove(endpoint: string): Promise<APIResponse> {
     }
 }
 
-export async function post<T>(endpoint: string, data: Omit<T, 'id'>): Promise<APIResponse> {
+type PostResponse<U> = {
+    data?: U
+} & APIResponse;
+
+export async function post<U>(endpoint: string, payload: any): Promise<PostResponse<U> | APIResponse> {
     try {
-        const { status } = await fetch.post(endpoint, data);
+        const { status, data } = await fetch.post<U>(endpoint, payload);
         return {
-            status
-        };
+            status,
+            data
+        } as unknown as PostResponse<U>;
     } catch (error) {
         if (axios.isAxiosError(error)) {
             console.error(error.message);
@@ -95,6 +104,6 @@ export async function post<T>(endpoint: string, data: Omit<T, 'id'>): Promise<AP
         }
         return {
             status: Status.BadRequest
-        };
+        } as APIResponse;
     }
 }

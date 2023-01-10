@@ -15,7 +15,7 @@ type Props = {
     children: ReactNode
 }
 
-export function GroceriesProvider(props: Props) {
+export function GroceriesProvider(props: GeneralProps) {
     const { children } = props;
     const { groceries, addItem, getItems, removeItem, editItem } = useGroceries();
 
