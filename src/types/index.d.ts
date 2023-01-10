@@ -7,6 +7,13 @@ interface Grocery {
     isChecked: boolean;
 }
 
+interface User {
+    id: string;
+    username: string;
+    email: string;
+    password: string;
+}
+
 type MediaQuery = 'xs' | 'sm' | 'md' | 'lg';
 type FontSize = 'sm' | 'standard' | 'lg';
 type PaddingVariation = 'sm' | 'md' | 'lg' | 'none';

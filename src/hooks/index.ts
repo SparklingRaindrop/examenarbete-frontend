@@ -1,4 +1,5 @@
 import useGroceriesContext from './useGroceriesContext';
 import useTheme from './useTheme';
 import useGroceries from './useGroceries';
-export { useGroceriesContext, useTheme, useGroceries };
+import { useAuth } from './useAuth';
+export { useGroceriesContext, useTheme, useGroceries, useAuth };
