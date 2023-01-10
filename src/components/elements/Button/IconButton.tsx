@@ -7,10 +7,10 @@ type Props = {
 } & ButtonProps;
 
 export default function IconButton(props: Props) {
-    const { name, disabled, onClick } = props;
+    const { name, disabled, variant, onClick } = props;
 
     return (
-        <Button onClick={onClick} disabled={disabled}>
+        <Button onClick={onClick} disabled={disabled} variant={variant}>
             <Icon name={name as Path} />
         </Button>
     );
