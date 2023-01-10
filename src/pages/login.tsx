@@ -1,10 +1,16 @@
-import { ChangeEvent, useState } from 'react';
+import { useRouter } from 'next/router';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { Button, IconButton, Input, InputGroup, InputRightElement, Main } from '../components';
+import { useAuth } from '../hooks';
+import { LoginData } from '../hooks/useAuth';
+import { Status } from '../types/statusCode';
 
 type UserInput = {
     identifier: string;
     password: string;
 }
+
+type IsError = { isError: Boolean; message: string }
 
 export default function Login() {
     const [userInput, setUserInput] = useState<UserInput>({
@@ -12,6 +18,17 @@ export default function Login() {
         password: ''
     });
     const [isShown, setIsShown] = useState<boolean>(false);
+    const [isError, setIsError] = useState<IsError>({ isError: false, message: '' });
+    const router = useRouter();
+    const { login, token } = useAuth();
+
+    useEffect(() => {
+        if (token) {
+            // TODO: redirect it to dashboard
+            router.push('/shoppingList');
+        }
+        // eslint-disable-next-line
+    }, [token]);
 
     function handleOnChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
         const { value, id } = event.target;
@@ -19,6 +36,24 @@ export default function Login() {
             ...prev,
             [id]: value,
         }));
+    }
+
+    async function handleLogin() {
+        const data = { ...userInput } as { [key: string]: string };
+        if (userInput.identifier.includes('@')) {
+            data.email = userInput.identifier;
+            delete data.identifier;
+        } else {
+            data.username = userInput.identifier;
+            delete data.identifier;
+        }
+        const { status, error } = await login(data as LoginData);
+        if (status !== Status.Created) {
+            setIsError(({
+                message: error ? error : '',
+                isError: true,
+            }));
+        }
     }
 
     return (
@@ -41,7 +76,10 @@ export default function Login() {
                         onMouseUp={() => setIsShown(false)} />
                 </InputRightElement>
             </InputGroup>
-            <Button label='Login' />
+            <Button
+                label='Login'
+                onClick={handleLogin}
+            />
         </Main>
     );
 }

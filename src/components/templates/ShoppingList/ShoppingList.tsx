@@ -1,6 +1,8 @@
 import Head from 'next/head';
-import { ChangeEvent, useEffect, useReducer, useState } from 'react';
-import { useGroceriesContext } from '../../../hooks';
+import { useRouter } from 'next/router';
+import { ChangeEvent, useEffect, useState } from 'react';
+
+import { useAuth, useGroceriesContext } from '../../../hooks';
 import { Status } from '../../../types/statusCode';
 import { Button, Checkbox, Icon, Input, ListItem, Main } from '../../elements';
 import GroceryList from './blocks/GroceryList';
@@ -8,6 +10,8 @@ import GroceryList from './blocks/GroceryList';
 export default function ShoppingList() {
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [userInput, setUserInput] = useState<string>('');
+    const router = useRouter();
+    const { token } = useAuth();
     const value = useGroceriesContext();
 
     const { editItem, addItem } = value;
@@ -20,6 +24,13 @@ export default function ShoppingList() {
     function updateUserInput(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
         setUserInput(event.target.value);
     }
+
+    useEffect(() => {
+        if (token) {
+            router.push('/login');
+        }
+        // eslint-disable-next-line
+    }, [token]);
 
     return (
         <>
