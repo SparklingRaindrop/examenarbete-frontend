@@ -14,7 +14,7 @@ export const InputGroup = styled.div`
     display:flex;
     flex-direction:row;
 
-    border:1px solid grey;
+    border:1px solid ${({ theme }) => theme.palette.primary};
 
     & > input {
         flex-grow:2;
@@ -26,7 +26,7 @@ export const InputGroup = styled.div`
     }
 
     &:focus-within { 
-        outline: 1px solid blue 
+        outline: 1px solid ${({ theme }) => theme.palette.primary};
     }
 `;
 
