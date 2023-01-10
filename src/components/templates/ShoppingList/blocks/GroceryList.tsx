@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react';
 import { useGroceriesContext } from '../../../../hooks';
-import { List, Loading } from '../../../elements';
+import { List } from '../../../elements';
 import GroceryItem from './GroceryItem';
 
 type Props = {
