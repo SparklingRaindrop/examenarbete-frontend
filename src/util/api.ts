@@ -21,6 +21,8 @@ export function isPostResponse(response: Partial<PostResponse<any>>): response i
 
 const fetch = axios.create({
     baseURL: process.env.SERVER_URL || 'http://localhost:4500',
+    timeout: 30000,
+    timeoutErrorMessage: 'Time out!'
 });
 
 export async function get<T>(endpoint: string): Promise<GetResponse<T> | APIResponse> {
@@ -93,11 +95,7 @@ type PostResponse<U> = {
 export async function post<U>(endpoint: string, payload: any): Promise<PostResponse<U> | APIResponse> {
     try {
         const response = await fetch.post<U>(endpoint, payload);
-        const { status, data } = response;
-        return {
-            status,
-            data
-        } as unknown as PostResponse<U>;
+        return response as unknown as PostResponse<U>;
     } catch (error: Error | AxiosError | unknown) {
 
         const response: { [key: string]: any } = {
