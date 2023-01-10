@@ -10,8 +10,6 @@ import GroceryList from './blocks/GroceryList';
 export default function ShoppingList() {
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [userInput, setUserInput] = useState<string>('');
-    const router = useRouter();
-    const { token } = useAuth();
     const value = useGroceriesContext();
 
     const { editItem, addItem } = value;
@@ -24,13 +22,6 @@ export default function ShoppingList() {
     function updateUserInput(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
         setUserInput(event.target.value);
     }
-
-    useEffect(() => {
-        if (token) {
-            router.push('/login');
-        }
-        // eslint-disable-next-line
-    }, [token]);
 
     return (
         <>
