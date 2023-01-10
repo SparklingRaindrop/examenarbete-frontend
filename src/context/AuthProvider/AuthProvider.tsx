@@ -1,9 +1,10 @@
 import { createContext } from 'react';
 import { LoginData, Token, useAuth } from '../../hooks/useAuth';
 import { Status } from '../../types/statusCode';
+import { APIResponse } from '../../util/api';
 
 export interface ContextAuth {
-    login: (data: LoginData) => Promise<{ status: Status }>,
+    login: (data: LoginData) => Promise<APIResponse>,
     token: Pick<Token, 'token'>;
 }
 
