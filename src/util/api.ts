@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { Status } from '../types/statusCode';
 
 export interface GetResponse<T> {
@@ -92,19 +92,24 @@ type PostResponse<U> = {
 
 export async function post<U>(endpoint: string, payload: any): Promise<PostResponse<U> | APIResponse> {
     try {
-        const { status, data } = await fetch.post<U>(endpoint, payload);
+        const response = await fetch.post<U>(endpoint, payload);
+        const { status, data } = response;
         return {
             status,
             data
         } as unknown as PostResponse<U>;
-    } catch (error) {
+    } catch (error: Error | AxiosError | unknown) {
+
+        const response: { [key: string]: any } = {
+            status: Status.BadRequest,
+        };
+
         if (axios.isAxiosError(error)) {
             console.error(error.message);
+            response.error = error.response?.data.error;
         } else {
             console.error(error);
         }
-        return {
-            status: Status.BadRequest
-        } as APIResponse;
+        return response as APIResponse;
     }
 }
