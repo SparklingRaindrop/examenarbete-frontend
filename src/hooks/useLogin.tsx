@@ -21,8 +21,8 @@ export function useLogin(): {
         const response = await post<Token>('/auth/login', data);
         const { status, error } = response;
         if (isPostResponse(response) && status === Status.Created) {
-            const { token } = response.data;
-            Cookie.set('token', JSON.stringify(token));
+            const { token, expiredAt } = response.data;
+            Cookie.set('token', JSON.stringify(token), expiredAt);
         }
         return { status, error };
     }
