@@ -8,6 +8,7 @@ export interface GetResponse<T> {
 
 export interface APIResponse {
     status: Status;
+    error?: string;
 }
 
 export function isGetResponse(response: Partial<GetResponse<any>>): response is GetResponse<any> {
