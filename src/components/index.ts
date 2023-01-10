@@ -6,6 +6,9 @@ import {
     Main,
     Button,
     IconButton,
+    Input,
+    InputRightElement,
+    InputGroup,
 } from './elements';
 export {
     List,
@@ -15,4 +18,7 @@ export {
     Main,
     Button,
     IconButton,
+    Input,
+    InputRightElement,
+    InputGroup,
 };

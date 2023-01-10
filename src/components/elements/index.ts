@@ -5,7 +5,7 @@ import { Main } from './Main';
 import { Button, IconButton } from './Button';
 import { Loading } from './Loading';
 import { Counter } from './Counter';
-import { Input } from './Input';
+import { Input, InputGroup, InputRightElement } from './Input';
 export {
     List,
     Checkbox,
@@ -17,4 +17,6 @@ export {
     Loading,
     Counter,
     Input,
+    InputGroup,
+    InputRightElement
 };

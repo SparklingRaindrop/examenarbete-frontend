@@ -9,3 +9,27 @@ export const Wrapper = styled.input.attrs(({ type }) => ({
     background: ${({ variant }) => variant === 'ghost' && 'transparent'};
     border: ${({ variant }) => variant === 'ghost' && 'none'};
 `;
+
+export const InputGroup = styled.div`
+    display:flex;
+    flex-direction:row;
+
+    border:1px solid grey;
+
+    & > input {
+        flex-grow:2;
+        border:none;
+    }
+
+    input:focus {
+        outline: none;
+    }
+
+    &:focus-within { 
+        outline: 1px solid blue 
+    }
+`;
+
+export const InputRightElement = styled.div`
+    padding: 2px;
+`;

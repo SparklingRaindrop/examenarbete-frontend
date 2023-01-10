@@ -1,2 +1,3 @@
 import Input from './Input';
-export { Input };
+import { InputRightElement, InputGroup } from './styled';
+export { Input, InputGroup, InputRightElement };
