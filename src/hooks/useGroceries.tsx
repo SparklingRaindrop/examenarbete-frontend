@@ -26,7 +26,7 @@ export default function useGroceries(): ContextGroceries {
         return { status: response.status };
     }
 
-    async function removeItem(id: Pick<Grocery, 'id'>): Promise<APIResponse> {
+    async function removeItem(id: Grocery['id']): Promise<APIResponse> {
         const response = await remove(`/groceries/${id}`);
         if (response && response.status === Status.NoContent) {
             getItems();
@@ -43,7 +43,7 @@ export default function useGroceries(): ContextGroceries {
     }
 
     async function editItem(
-        id: Pick<Grocery, 'id'>,
+        id: Grocery['id'],
         newData: Partial<Pick<Grocery, 'amount' | 'isChecked' | 'item_name'>>
     ): Promise<APIResponse> {
         const response = await patch<Grocery>(`/groceries/${id}`, newData);

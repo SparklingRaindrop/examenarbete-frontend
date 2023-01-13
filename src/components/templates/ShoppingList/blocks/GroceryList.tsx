@@ -4,7 +4,7 @@ import { List } from '../../../elements';
 import GroceryItem from './GroceryItem';
 
 type Props = {
-    toggleCheckbox: (event: ChangeEvent<HTMLInputElement>, id: Pick<Grocery, 'id'>) => void;
+    toggleCheckbox: (event: ChangeEvent<HTMLInputElement>, id: Grocery['id']) => void;
     crossed?: boolean;
 }
 

@@ -4,7 +4,7 @@ import { Checkbox, Counter, IconButton, Input } from '../../../elements';
 import { Wrapper } from './styled';
 
 interface Props extends Grocery {
-    toggleCheckbox: (event: ChangeEvent<HTMLInputElement>, id: Pick<Grocery, 'id'>) => void;
+    toggleCheckbox: (event: ChangeEvent<HTMLInputElement>, id: Grocery['id']) => void;
 }
 
 export default function GroceryItem(props: Props) {
@@ -24,7 +24,7 @@ export default function GroceryItem(props: Props) {
 
     function updateCounterValue(value: number, action?: string): void {
         if (value < 0 && amount === 0) return;
-        editItem(id as unknown as Pick<Grocery, 'id'>, {
+        editItem(id, {
             amount: action === 'replace' ? value : amount + value
         });
     }
@@ -37,7 +37,7 @@ export default function GroceryItem(props: Props) {
         <Wrapper>
             <Checkbox
                 checked={isChecked}
-                toggle={(event) => toggleCheckbox(event, id as unknown as Pick<Grocery, 'id'>)}
+                toggle={(event) => toggleCheckbox(event, id)}
                 crossOffOnChecked />
             {
                 isEditing ?
@@ -47,7 +47,7 @@ export default function GroceryItem(props: Props) {
                         onChange={updateItemName}
                         onBlur={async () => {
                             setIsEditing(false);
-                            editItem(id as unknown as Pick<Grocery, 'id'>, {
+                            editItem(id, {
                                 item_name: inputValue,
                             });
                         }}
@@ -60,7 +60,7 @@ export default function GroceryItem(props: Props) {
             />
             <IconButton
                 name='delete'
-                onClick={() => removeItem(id as unknown as Pick<Grocery, 'id'>)} />
+                onClick={() => removeItem(id)} />
         </Wrapper>
     );
 }

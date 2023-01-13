@@ -1,8 +1,7 @@
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
-import { useAuth, useGroceriesContext } from '../../../hooks';
+import { useGroceriesContext } from '../../../hooks';
 import { Status } from '../../../types/statusCode';
 import { Button, Checkbox, Icon, Input, ListItem, Main } from '../../elements';
 import GroceryList from './blocks/GroceryList';
@@ -14,7 +13,7 @@ export default function ShoppingList() {
 
     const { editItem, addItem } = value;
 
-    function toggleCheckbox(event: ChangeEvent<HTMLInputElement>, id: Pick<Grocery, 'id'>) {
+    function toggleCheckbox(event: ChangeEvent<HTMLInputElement>, id: Grocery['id']) {
         const checked = event.target.checked;
         editItem(id, { isChecked: checked });
     }
