@@ -1,5 +1,5 @@
 import { DefaultTheme } from 'styled-components';
-import { Border, Font, MediaQuery, Padding } from '../../types/styled';
+import { Border, Font, Padding } from '../../types/styled';
 
 const border: Border = {
     size: {
@@ -49,8 +49,9 @@ export const palette = {
 };
 
 export const light = {
-    primary: 'tomato',
-    secondary: '#ffffff',
+    main: '#ABF731',
+    primary: '#6B3EF7',
+    secondary: '#DAE022',
     disabled: ''
 };
 
