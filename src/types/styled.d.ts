@@ -1,3 +1,4 @@
+import { StringifyOptions } from 'querystring';
 import 'styled-components';
 
 export type Variant = 'ghost';
@@ -8,6 +9,7 @@ interface Palette {
     primary: string;
     secondary: string;
     disabled: string;
+    main: string;
 }
 
 type BorderSize = 'thin' | 'bold';
