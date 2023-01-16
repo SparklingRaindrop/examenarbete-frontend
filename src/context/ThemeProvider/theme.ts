@@ -18,13 +18,13 @@ const font: Font = {
 
 export const padding: Record<MediaQuery, Padding> = {
     xs: {
-        sm: '',
+        sm: '1rem',
         md: '',
         lg: '',
         none: '0',
     },
     sm: {
-        sm: '0.5rem',
+        sm: '1rem',
         md: '0.8rem',
         lg: '1rem',
         none: '0',
@@ -44,8 +44,8 @@ export const padding: Record<MediaQuery, Padding> = {
 };
 
 export const palette = {
-    black: '#222831',
-    white: '#ffffff',
+    black: '#090D03',
+    white: '#F6F7F5',
 };
 
 export const light = {
