@@ -1,13 +1,21 @@
 import { StringifyOptions } from 'querystring';
 import 'styled-components';
 
-export type Variant = 'ghost';
+export type Variant = 'ghost' | 'secondary';
+
+type ColorVariations = {
+    original: string;
+    shade: string;
+    light: string;
+    dull: string;
+};
 
 interface Palette {
     black: string;
     white: string;
-    primary: string;
-    secondary: string;
+    primary: ColorVariations;
+    secondary: ColorVariations;
+    Accent: ColorVariations;
     disabled: string;
     main: string;
 }
