@@ -1,7 +1,6 @@
 import { CSSProperties } from 'react';
-import { FontSize } from '../../../types/styled';
 import { Path, path } from './path';
-import { Wrapper } from './styled'
+import { Wrapper } from './styled';
 
 type Props = {
     name: Path;
@@ -25,5 +24,3 @@ export default function Icon(props: Props) {
         </Wrapper>
     );
 }
-
-
