@@ -50,8 +50,24 @@ export const palette = {
 
 export const light = {
     main: '#ABF731',
-    primary: '#6B3EF7',
-    secondary: '#DAE022',
+    primary: {
+        original: '#6B3EF7',
+        shade: '#5631C4',
+        light: '#A589F9',
+        dull: '#CCC5E0',
+    },
+    secondary: {
+        original: '#DAE022',
+        shade: '#A8AD1A',
+        light: '#E1E667',
+        dull: '#E9EACE',
+    },
+    accent: {
+        original: '#F72576',
+        shade: '#C41D5D',
+        light: '#F970A4',
+        dull: '#EFD3DE',
+    },
     disabled: ''
 };
 
