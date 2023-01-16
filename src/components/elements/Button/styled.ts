@@ -6,8 +6,8 @@ interface ButtonProps {
 }
 
 export const Wrapper = styled.button<ButtonProps>`
-    min-width: ${({ theme }) => theme.font.size.standard};
-    min-height: ${({ theme }) => theme.font.size.standard};
+    min-width: 1.5rem;
+    min-height: 1.5rem;
 
     display: flex;
     align-items: center;
