@@ -19,7 +19,8 @@ export default function Button(props: ButtonProps) {
             onClick={onClick}
             onMouseUp={onMouseUp}
             onMouseDown={onMouseDown}
-            disabled={disabled}>
+            disabled={disabled}
+            {...props}>
             {label}
             {children}
         </Wrapper>

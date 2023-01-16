@@ -15,7 +15,8 @@ export default function IconButton(props: Props) {
             onMouseUp={onMouseUp}
             onMouseDown={onMouseDown}
             disabled={disabled}
-            variant={variant}>
+            variant={variant}
+            {...props}>
             <Icon name={name as Path} />
         </Button>
     );
