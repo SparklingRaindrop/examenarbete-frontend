@@ -10,6 +10,9 @@ import {
     InputRightElement,
     InputGroup,
 } from './elements';
+import {
+    Layout
+} from './layout';
 export {
     List,
     Checkbox,
@@ -21,4 +24,5 @@ export {
     Input,
     InputRightElement,
     InputGroup,
+    Layout
 };
