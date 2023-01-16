@@ -1,6 +1,7 @@
 import { Icon } from '../Icon';
 import { Path } from '../Icon/path';
-import Button, { ButtonProps } from './Button';
+import { ButtonProps } from './Button';
+import { IconButtonWrapper } from './styled';
 
 type Props = {
     name: string;
@@ -10,7 +11,7 @@ export default function IconButton(props: Props) {
     const { name, disabled, variant, onClick, onMouseUp, onMouseDown } = props;
 
     return (
-        <Button
+        <IconButtonWrapper
             onClick={onClick}
             onMouseUp={onMouseUp}
             onMouseDown={onMouseDown}
@@ -18,6 +19,6 @@ export default function IconButton(props: Props) {
             variant={variant}
             {...props}>
             <Icon name={name as Path} />
-        </Button>
+        </IconButtonWrapper>
     );
 }
