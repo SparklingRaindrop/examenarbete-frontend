@@ -6,22 +6,17 @@ type Props = {
     disabled?: boolean;
     label?: string;
     crossOffOnChecked?: boolean;
-    toggle?: (event: ChangeEvent<HTMLInputElement>) => void;
+    onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function Checkbox(props: Props) {
-    const { checked, disabled, label, crossOffOnChecked, toggle } = props;
+    const { checked, disabled, label, crossOffOnChecked, onChange } = props;
 
     return (
         <Flex>
             <Wrapper
                 checked={checked}
-                onChange={(event) => {
-                    if (!toggle) {
-                        throw new Error('Function is undefined');
-                    }
-                    toggle(event);
-                }}
+                onChange={onChange}
                 disabled={disabled} />
             {
                 label &&
