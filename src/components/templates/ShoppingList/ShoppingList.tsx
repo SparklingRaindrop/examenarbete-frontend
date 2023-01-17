@@ -1,14 +1,18 @@
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { useGroceries } from '../../../hooks';
 import { Status } from '../../../types/statusCode';
 import { get, isGetResponse } from '../../../util/api';
 
 import { Button, Icon } from '../../elements';
+import GroceryInput from './blocks/GroceryInput';
 import GroceryList from './blocks/GroceryList';
 import GroupedButtons from './blocks/GroupedButtons';
 
 export default function ShoppingList() {
     const [groceries, setGroceries] = useState<Grocery[]>([]);
+    const [isEditing, setIsEditing] = useState<boolean>(false);
+    const { editItem } = useGroceries();
 
     useEffect(() => {
         async function init() {
@@ -21,6 +25,23 @@ export default function ShoppingList() {
         init();
     }, []);
 
+
+    function toggleInput(): void {
+        setIsEditing(prev => !prev);
+    }
+
+    async function handleCheckbox(event: ChangeEvent<HTMLInputElement>, id: string) {
+        const { checked } = event.target;
+        await editItem(id, {
+            isChecked: checked
+        });
+        const response = await get<Grocery[]>('/groceries');
+        if (response && response.status === Status.Succuss && isGetResponse(response)) {
+            const { data } = response;
+            setGroceries(data);
+        }
+    }
+
     return (
         <>
             <Head>
@@ -32,16 +53,17 @@ export default function ShoppingList() {
             <GroupedButtons />
             <GroceryList
                 groceryList={groceries.filter(item => !item.isChecked)}
-                setGroceries={setGroceries} />
+                handleCheckbox={handleCheckbox} />
+            {isEditing && <GroceryInput toggle={toggleInput} handleCheckbox={handleCheckbox} />}
             <Button
                 variant='ghost'
-                onClick={() => console.log()}>
+                onClick={() => setIsEditing(true)}>
                 <Icon name='plus' />
                 Add an Item
             </Button>
             <GroceryList
                 groceryList={groceries.filter(item => item.isChecked)}
-                setGroceries={setGroceries}
+                handleCheckbox={handleCheckbox}
                 isCheckedList />
         </>
     );
