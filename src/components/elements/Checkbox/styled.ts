@@ -10,7 +10,7 @@ export const Wrapper = styled.input.attrs(() => ({
 
     flex-shrink: 0; 
 
-    border-radius: .2rem;
+    border-radius: ${({ theme }) => theme.borderRadius.md};
     border: 0.15rem solid ${({ theme }) => theme.palette.primary.original};
     outline: none;
     cursor: pointer;
