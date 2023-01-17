@@ -1,13 +1,44 @@
 import { useEffect, useState } from 'react';
-import { IconButton } from '../Button';
-import { Input, Wrapper } from './styled';
+import { Icon } from '../Icon';
+import { Input, Wrapper, Button } from './styled';
 
 type Props = {
     value: number;
-    setCounterValue: (value: number, action?: 'replace') => void;
+    setCounterValue: (value: number) => void;
+    onBlur?: () => void;
 };
 
 export default function Counter(props: Props) {
+    const { value, setCounterValue, onBlur } = props;
+
+    return (
+        <Wrapper>
+            <Button
+                disabled={value === 0}
+                onClick={() => setCounterValue(value - 1)}>
+                <Icon name='minus' />
+            </Button>
+            <Input
+                value={value}
+                onChange={(event) => {
+                    if (isNaN(Number(event.target.value))) {
+                        setCounterValue(0);
+                    } else {
+                        setCounterValue(Number(event.target.value));
+                    }
+                }}
+                onBlur={onBlur} />
+            <Button
+                name='plus'
+                onClick={() => setCounterValue(value + 1)}>
+                <Icon name='plus' />
+            </Button>
+        </Wrapper>
+    );
+}
+
+
+/* export default function Counter(props: Props) {
     const { value, setCounterValue } = props;
     // Keeping inputValue string allows users to hold empty input field
     const [inputValue, setInputValue] = useState<string>(value.toString());
@@ -39,4 +70,4 @@ export default function Counter(props: Props) {
                 onClick={() => setCounterValue(1)} />
         </Wrapper>
     );
-}
+} */

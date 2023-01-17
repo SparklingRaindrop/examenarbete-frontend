@@ -9,6 +9,7 @@ import {
     Input,
     InputRightElement,
     InputGroup,
+    Counter
 } from './elements';
 import {
     Layout
@@ -24,5 +25,6 @@ export {
     Input,
     InputRightElement,
     InputGroup,
-    Layout
+    Layout,
+    Counter
 };
