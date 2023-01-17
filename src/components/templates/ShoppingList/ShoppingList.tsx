@@ -25,13 +25,6 @@ export default function ShoppingList() {
             </Head>
             <GroupedButtons />
             <GroceryList groceryList={groceries.filter(item => !item.isChecked)} />
-            {/*  {isEditing && <GroceryInput toggle={toggleInput} />} */}
-            <Button
-                variant='ghost'
-                onClick={() => setIsEditing(true)}>
-                <Icon name='plus' />
-                Add an Item
-            </Button>
             <GroceryList
                 groceryList={groceries.filter(item => item.isChecked)}
                 isCheckedList />
