@@ -1,4 +1,3 @@
-import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { useDisclosure } from '../../../../hooks';
 
 import { Icon, List } from '../../../elements';
@@ -8,11 +7,10 @@ import { Wrapper } from './styled';
 type Props = {
     isCheckedList?: boolean;
     groceryList: Grocery[];
-    handleCheckbox: (event: ChangeEvent<HTMLInputElement>, id: string) => Promise<void>;
 }
 
 export default function GroceryList(props: Props) {
-    const { isCheckedList, groceryList, handleCheckbox } = props;
+    const { isCheckedList, groceryList } = props;
     const { isOpen, toggleIsOpen } = useDisclosure();
 
     return (
@@ -29,7 +27,6 @@ export default function GroceryList(props: Props) {
                 ((isCheckedList && isOpen) || (!isCheckedList)) && groceryList.map((grocery) => (
                     <GroceryItem
                         key={grocery.id}
-                        handleCheckbox={handleCheckbox}
                         {...grocery} />
                 ))
             }

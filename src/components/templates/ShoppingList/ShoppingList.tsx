@@ -1,8 +1,6 @@
 import Head from 'next/head';
-import { ChangeEvent, useEffect, useState } from 'react';
-import { useGroceries } from '../../../hooks';
-import { Status } from '../../../types/statusCode';
-import { get, isGetResponse } from '../../../util/api';
+import { useState } from 'react';
+import { useGroceriesContext } from '../../../hooks';
 
 import { Button, Icon } from '../../elements';
 import GroceryInput from './blocks/GroceryInput';
@@ -10,36 +8,11 @@ import GroceryList from './blocks/GroceryList';
 import GroupedButtons from './blocks/GroupedButtons';
 
 export default function ShoppingList() {
-    const [groceries, setGroceries] = useState<Grocery[]>([]);
     const [isEditing, setIsEditing] = useState<boolean>(false);
-    const { editItem } = useGroceries();
-
-    useEffect(() => {
-        async function init() {
-            const response = await get<Grocery[]>('/groceries');
-            if (response && response.status === Status.Succuss && isGetResponse(response)) {
-                const { data } = response;
-                setGroceries(data);
-            }
-        }
-        init();
-    }, []);
-
+    const { groceries } = useGroceriesContext();
 
     function toggleInput(): void {
         setIsEditing(prev => !prev);
-    }
-
-    async function handleCheckbox(event: ChangeEvent<HTMLInputElement>, id: string) {
-        const { checked } = event.target;
-        await editItem(id, {
-            isChecked: checked
-        });
-        const response = await get<Grocery[]>('/groceries');
-        if (response && response.status === Status.Succuss && isGetResponse(response)) {
-            const { data } = response;
-            setGroceries(data);
-        }
     }
 
     return (
@@ -51,10 +24,8 @@ export default function ShoppingList() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <GroupedButtons />
-            <GroceryList
-                groceryList={groceries.filter(item => !item.isChecked)}
-                handleCheckbox={handleCheckbox} />
-            {isEditing && <GroceryInput toggle={toggleInput} handleCheckbox={handleCheckbox} />}
+            <GroceryList groceryList={groceries.filter(item => !item.isChecked)} />
+            {/*  {isEditing && <GroceryInput toggle={toggleInput} />} */}
             <Button
                 variant='ghost'
                 onClick={() => setIsEditing(true)}>
@@ -63,7 +34,6 @@ export default function ShoppingList() {
             </Button>
             <GroceryList
                 groceryList={groceries.filter(item => item.isChecked)}
-                handleCheckbox={handleCheckbox}
                 isCheckedList />
         </>
     );

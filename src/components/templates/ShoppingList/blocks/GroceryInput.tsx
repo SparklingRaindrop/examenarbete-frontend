@@ -1,13 +1,16 @@
-import { ChangeEvent } from 'react';
+import { useEffect, useState } from 'react';
+import { useGroceriesContext } from '../../../../hooks';
 import { Checkbox, Icon } from '../../../elements';
-import { Wrapper } from './styled';
+import { InputField, Wrapper } from './styled';
 
 type Props = {
     toggle: () => void;
-    handleCheckbox: (event: ChangeEvent<HTMLInputElement>, id: string) => Promise<void>;
 }
+
 export default function GroceryInput(props: Props) {
-    const { toggle, handleCheckbox } = props;
+    const { toggle } = props;
+    const [userInput, setUserInput] = useState<string>('');
+    const { addItem } = useGroceriesContext();
 
     return (
         <Wrapper>
@@ -15,10 +18,10 @@ export default function GroceryInput(props: Props) {
             <Checkbox
                 checked={false}
                 onChange={() => { }} />
-            <input
-                type='text'
-                onBlur={() => toggle()}
-                autoFocus />
+            <InputField
+                value={userInput}
+                onChange={(event) => setUserInput(event.target.value)}
+                onBlur={() => toggle()} />
         </Wrapper>
 
     );

@@ -1,17 +1,22 @@
-import { ChangeEvent, Dispatch, SetStateAction } from 'react';
-import { useGroceries } from '../../../../hooks';
-import { Status } from '../../../../types/statusCode';
-import { get, isGetResponse } from '../../../../util/api';
+import { ChangeEvent } from 'react';
+import { useGroceriesContext } from '../../../../hooks';
 import { Checkbox, Icon } from '../../../elements';
 import { TextContent, Wrapper } from './styled';
 
 type Props = {
     id: string;
-    handleCheckbox: (event: ChangeEvent<HTMLInputElement>, id: string) => Promise<void>;
 } & Grocery;
 
 export default function GroceryItem(props: Props) {
-    const { handleCheckbox, isChecked, item, unit, amount, id } = props;
+    const { isChecked, item, unit, amount, id } = props;
+    const { editItem } = useGroceriesContext();
+
+    function handleCheckbox(event: ChangeEvent<HTMLInputElement>, id: string) {
+        const { checked } = event.target;
+        editItem(id, {
+            isChecked: checked
+        });
+    }
 
     return (
         <Wrapper>
