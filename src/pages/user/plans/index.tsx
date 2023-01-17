@@ -1,6 +1,11 @@
+import { MealPlans } from '../../../components/templates';
+import { MealPlansProvider } from '../../../context';
+
 type Props = {}
-export default function Plans({ }: Props) {
+export default function MealPlanPage({ }: Props) {
     return (
-        <div>index</div>
+        <MealPlansProvider>
+            <MealPlans />
+        </MealPlansProvider>
     );
 }
