@@ -1,33 +1,42 @@
 import styled from 'styled-components';
-import { ListItem } from '../../../elements';
+import { StyledListItem } from '../../../elements/List/styled';
 
-export const Wrapper = styled(ListItem)`
+export const Wrapper = styled(StyledListItem)`
     max-width: 100%;
     padding: ${({ theme }) => theme.padding.sm};
 
-    display: grid;
+    gap: 1rem;
+    justify-content: center;
 
-    grid-template-columns: min-content 1fr min-content min-content;
-    align-items: center;
+    font-size: 1.5rem;
+`;
+
+export const TextContent = styled.div<{ isChecked: boolean; }>`
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
     gap: 0.2rem;
 
-    & > input:first-child {
-        grid-column: 1 / span 1;
-    }
-    
     & > label {
-        grid-column: 2 / span 1;
-        min-width: min-content;
         overflow: hidden;
+
         word-break: break-all;
+        text-transform: capitalize;
         white-space: pre-line;
+        min-width: min-content;
+        text-decoration: ${({ isChecked }) => isChecked ? 'line-through' : 'none'};
     }
 
-    & > div {
-        grid-column: 3 / span 1;
+    & > div.count {
+        font-size: 1rem;
+        color: ${({ theme, isChecked }) => theme.palette.black + (isChecked ? '80' : '')};
     }
+`;
 
-    & > button {
-        grid-column: 4 / span 1;
-    }
+export const Flex = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 `;

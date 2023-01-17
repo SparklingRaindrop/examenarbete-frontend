@@ -1,32 +1,38 @@
-import { ChangeEvent } from 'react';
-import { useGroceriesContext } from '../../../../hooks';
-import { List } from '../../../elements';
+import { useDisclosure, useGroceriesContext } from '../../../../hooks';
+import { Icon, List } from '../../../elements';
 import GroceryItem from './GroceryItem';
+import { Wrapper } from './styled';
 
 type Props = {
-    toggleCheckbox: (event: ChangeEvent<HTMLInputElement>, id: Grocery['id']) => void;
-    crossed?: boolean;
+    isCheckedList?: boolean;
 }
 
 export default function GroceryList(props: Props) {
-    const { toggleCheckbox, crossed } = props;
-    const value = useGroceriesContext();
+    const { isCheckedList } = props;
+    const { isOpen, toggleIsOpen } = useDisclosure();
+    const { groceries } = useGroceriesContext();
 
     return (
-        <List py='none'>
+        <List>
             {
-                value.groceries.map(grocery => {
-                    if (crossed && !grocery.isChecked) return;
-                    if (!crossed && grocery.isChecked) return;
-                    return (
-                        <GroceryItem
-                            key={grocery.id}
-                            {...grocery}
-                            toggleCheckbox={toggleCheckbox}
-                        />
-                    );
-                })
+                isCheckedList && (
+                    <Wrapper onClick={() => toggleIsOpen()}>
+                        Marked Items
+                        <Icon name={isOpen ? 'chevronUp' : 'chevronDown'} />
+                    </Wrapper>
+                )
+            }
+            {
+                groceries.map(grocery => {
+                    const { id, isChecked } = grocery;
 
+                    if (isOpen && isCheckedList && isChecked) {
+                        return <GroceryItem key={id} {...grocery} />;
+                    } else if (!isCheckedList && !isChecked) {
+                        return <GroceryItem key={id} {...grocery} />;
+                    }
+                    return;
+                })
             }
         </List>
     );
