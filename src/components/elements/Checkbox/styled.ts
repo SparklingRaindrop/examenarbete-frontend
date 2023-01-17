@@ -5,18 +5,18 @@ export const Wrapper = styled.input.attrs(() => ({
 }))`
     -webkit-appearance: none;
     appearance: none;
-    width: ${({ theme }) => theme.font.size.standard};
-    height: ${({ theme }) => theme.font.size.standard};
+    width: 1.5rem;
+    height: 1.5rem;
 
     flex-shrink: 0; 
 
     border-radius: .2rem;
-    border: 0.15em solid ${({ theme }) => theme.palette.primary};
+    border: 0.15rem solid ${({ theme }) => theme.palette.primary.original};
     outline: none;
     cursor: pointer;
 
     &:checked {
-        background-color: ${({ theme }) => theme.palette.primary};
+        background-color: ${({ theme }) => theme.palette.primary.original};
         position: relative;
     }
 
@@ -24,25 +24,35 @@ export const Wrapper = styled.input.attrs(() => ({
         content:'\\2713';
         color: ${({ theme }) => theme.palette.white};
         position: absolute;
-        right: 1px;
-        top: -5px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
     }
 
     &:disabled {
-        border-color: ${({ theme }) => theme.palette.disabled};
-        background-color: ${({ theme }) => theme.palette.disabled};
-    }
-
-    &:focus {
-        box-shadow: 0 0 20px ${({ theme }) => theme.palette.primary};
+        border-color: ${({ theme }) => theme.palette.primary.disabled};
+        background-color: ${({ theme }) => theme.palette.primary.disabled};
     }
 `;
 
 interface LabelProps {
-    crossOffOnChecked?: boolean;
+    isCrossedOff?: boolean;
 }
 
 export const Label = styled.label<LabelProps>`
     width: 100%;
-    text-decoration: ${({ crossOffOnChecked }) => crossOffOnChecked ? 'none' : 'line-through'};
+    text-decoration: ${({ isCrossedOff }) => {
+        if (!isCrossedOff) {
+            return 'none';
+        } else {
+            return isCrossedOff ? 'none' : 'line-through';
+        }
+    }};
+`;
+
+export const Flex = styled.div`
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
 `;

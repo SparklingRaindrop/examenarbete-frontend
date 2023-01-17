@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react';
-import { Label, Wrapper } from './styled';
+import { Flex, Label, Wrapper } from './styled';
 
 type Props = {
     checked: boolean;
@@ -13,7 +13,7 @@ export default function Checkbox(props: Props) {
     const { checked, disabled, label, crossOffOnChecked, toggle } = props;
 
     return (
-        <>
+        <Flex>
             <Wrapper
                 checked={checked}
                 onChange={(event) => {
@@ -25,10 +25,11 @@ export default function Checkbox(props: Props) {
                 disabled={disabled} />
             {
                 label &&
-                <Label crossOffOnChecked={crossOffOnChecked && !checked}>
+                <Label
+                    isCrossedOff={crossOffOnChecked && checked}>
                     {label}
                 </Label>
             }
-        </>
+        </Flex>
     );
 }
