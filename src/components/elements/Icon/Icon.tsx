@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react';
 import { Path, path } from './path';
-import { Wrapper } from './styled';
+import { Svg, Wrapper } from './styled';
 
 type Props = {
     name: Path;
@@ -11,16 +11,18 @@ export default function Icon(props: Props) {
     const { name, size } = props;
 
     return (
-        <Wrapper size={size}>
-            {
-                path[name].map((stroke, index) => (
-                    <path
-                        key={index}
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                        d={stroke} />
-                ))
-            }
+        <Wrapper>
+            <Svg size={size}>
+                {
+                    path[name].map((stroke, index) => (
+                        <path
+                            key={index}
+                            strokeLinecap='round'
+                            strokeLinejoin='round'
+                            d={stroke} />
+                    ))
+                }
+            </Svg>
         </Wrapper>
     );
 }

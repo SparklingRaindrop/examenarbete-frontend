@@ -94,6 +94,5 @@ export const Wrapper = styled.button<ButtonProps>`
 `;
 
 export const IconButtonWrapper = styled(Wrapper)`
-    min-width: 1.5rem;
-    min-height: 1.5rem;
+    padding: 0.8rem;
 `;
