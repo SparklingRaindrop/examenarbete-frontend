@@ -40,3 +40,13 @@ export const Flex = styled.div`
     flex-direction: row;
     justify-content: space-between;
 `;
+
+export const InputField = styled.input.attrs(() => ({
+    type: 'text',
+    autoFocus: true,
+}))`
+    width: 100%;
+    outline: none;
+    border: none;
+    border-bottom: ${({ theme }) => `${theme.border.thin} ${theme.palette.black}`} solid ;
+`;
