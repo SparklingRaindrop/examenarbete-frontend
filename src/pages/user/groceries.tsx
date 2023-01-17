@@ -1,11 +1,10 @@
-import { GetServerSideProps } from 'next';
-import { ShoppingList } from '../../components/templates';
+import { Groceries } from '../../components/templates';
 import { GroceriesProvider } from '../../context';
 
 export default function Grocery() {
     return (
         <GroceriesProvider>
-            <ShoppingList />
+            <Groceries />
         </GroceriesProvider>
     );
 }

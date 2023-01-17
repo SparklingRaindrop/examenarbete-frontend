@@ -7,13 +7,8 @@ import GroceryInput from './blocks/GroceryInput';
 import GroceryList from './blocks/GroceryList';
 import GroupedButtons from './blocks/GroupedButtons';
 
-export default function ShoppingList() {
-    const [isEditing, setIsEditing] = useState<boolean>(false);
+export default function Groceries() {
     const { groceries } = useGroceriesContext();
-
-    function toggleInput(): void {
-        setIsEditing(prev => !prev);
-    }
 
     return (
         <>
