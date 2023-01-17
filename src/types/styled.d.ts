@@ -16,7 +16,7 @@ interface Palette {
     white: string;
     primary: ColorVariations;
     secondary: ColorVariations;
-    Accent: ColorVariations;
+    accent: ColorVariations;
     main: string;
 }
 
