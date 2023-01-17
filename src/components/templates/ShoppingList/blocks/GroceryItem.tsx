@@ -1,32 +1,38 @@
-import { ChangeEvent, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { useGroceries } from '../../../../hooks';
-import { Checkbox, Counter, IconButton, Input } from '../../../elements';
+import { Status } from '../../../../types/statusCode';
+import { get, isGetResponse } from '../../../../util/api';
+import { Checkbox, Icon } from '../../../elements';
 import { TextContent, Wrapper } from './styled';
 
-interface Props extends Grocery {
-    item: { name: string, id: string };
-    unit: { name: string, id: string };
-    amount: number;
-    isChecked: boolean;
-}
+type Props = {
+    id: string;
+    setGroceries: Dispatch<SetStateAction<Grocery[]>>;
+} & Grocery;
 
 export default function GroceryItem(props: Props) {
-    const { id, item, unit, amount, isChecked } = props;
+    const { id, setGroceries, isChecked, item, unit, amount } = props;
     const { editItem } = useGroceries();
 
-    function handleCheckbox(event: ChangeEvent<HTMLInputElement>) {
+    async function handleCheckbox(event: ChangeEvent<HTMLInputElement>) {
         const { checked } = event.target;
-        editItem(id, {
+        await editItem(id, {
             isChecked: checked
         });
+        const response = await get<Grocery[]>('/groceries');
+        if (response && response.status === Status.Succuss && isGetResponse(response)) {
+            const { data } = response;
+            setGroceries(data);
+        }
     }
 
     return (
         <Wrapper>
+            <Icon name='sixDots' />
             <Checkbox
-                checked={isChecked}
+                checked={isChecked || false}
                 onChange={handleCheckbox} />
-            <TextContent isChecked={isChecked}>
+            <TextContent isChecked={isChecked || false}>
                 <label>{item.name}</label>
                 <div className='count'>{amount} {unit.name}</div>
             </TextContent>

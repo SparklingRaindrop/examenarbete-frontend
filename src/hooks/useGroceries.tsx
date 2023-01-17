@@ -44,7 +44,7 @@ export default function useGroceries(): ContextGroceries {
 
     async function editItem(
         id: Grocery['id'],
-        newData: Partial<Pick<Grocery, 'amount' | 'isChecked' | 'item_name'>>
+        newData: Partial<Pick<Grocery, 'amount' | 'isChecked'>>
     ): Promise<APIResponse> {
         const response = await patch<Grocery>(`/groceries/${id}`, newData);
         if (response && response.status === Status.Succuss) {

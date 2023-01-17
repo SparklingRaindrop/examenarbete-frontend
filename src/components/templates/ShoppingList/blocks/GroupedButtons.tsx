@@ -8,5 +8,5 @@ export default function GroupedButtons({ }: Props) {
             <Button label='Generate from meal plan' />
             <IconButton name='threeDots' variant='ghost' />
         </Flex>
-    )
+    );
 }

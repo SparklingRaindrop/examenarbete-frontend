@@ -1,4 +1,4 @@
-import { createContext, ReactNode } from 'react';
+import { createContext, ReactNode, useEffect } from 'react';
 import { useGroceries } from '../../hooks';
 import { APIResponse } from '../../util/api';
 export interface ContextGroceries {
@@ -6,14 +6,10 @@ export interface ContextGroceries {
     getItems: () => Promise<APIResponse>;
     addItem: (newData: Omit<Grocery, 'id'>) => Promise<APIResponse>;
     removeItem: (id: Grocery['id']) => Promise<APIResponse>,
-    editItem: (id: Grocery['id'], newData: Partial<Pick<Grocery, 'amount' | 'isChecked' | 'item_name'>>) => Promise<APIResponse>,
+    editItem: (id: Grocery['id'], newData: Partial<Pick<Grocery, 'amount' | 'isChecked'>>) => Promise<APIResponse>,
 }
 
 export const GroceriesContext = createContext<ContextGroceries | null>(null);
-
-type Props = {
-    children: ReactNode
-}
 
 export function GroceriesProvider(props: GeneralProps) {
     const { children } = props;
