@@ -1,12 +1,12 @@
 import useGroceriesContext from './useGroceriesContext';
 import useTheme from './useTheme';
-import useGroceries from './useGroceries';
+import useGroceriesAPI from './useGroceriesAPI';
 import { useLogin } from './useLogin';
 import useDisclosure from './useDisclosure';
 export {
     useGroceriesContext,
     useTheme,
-    useGroceries,
+    useGroceriesAPI,
     useLogin,
     useDisclosure
 };

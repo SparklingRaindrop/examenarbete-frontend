@@ -1,5 +1,5 @@
-import { createContext, ReactNode, useEffect } from 'react';
-import { useGroceries } from '../../hooks';
+import { createContext } from 'react';
+import { useGroceriesAPI } from '../../hooks';
 import { APIResponse } from '../../util/api';
 export interface ContextGroceries {
     groceries: Grocery[];
@@ -13,7 +13,7 @@ export const GroceriesContext = createContext<ContextGroceries | null>(null);
 
 export function GroceriesProvider(props: GeneralProps) {
     const { children } = props;
-    const { groceries, addItem, getItems, removeItem, editItem } = useGroceries();
+    const { groceries, addItem, getItems, removeItem, editItem } = useGroceriesAPI();
 
     const value = {
         groceries,

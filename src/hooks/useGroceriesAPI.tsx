@@ -3,7 +3,7 @@ import { ContextGroceries } from '../context/GroceriesProvider/GroceriesProvider
 import { Status } from '../types/statusCode';
 import { APIResponse, get, isGetResponse, patch, post, remove } from '../util/api';
 
-export default function useGroceries(): ContextGroceries {
+export default function useGroceriesAPI(): ContextGroceries {
     const [groceries, setGroceries] = useState<Grocery[]>([]);
 
     useEffect(() => {
@@ -36,9 +36,6 @@ export default function useGroceries(): ContextGroceries {
 
     async function addItem(newData: Omit<Grocery, 'id'>): Promise<APIResponse> {
         const response = await post<Grocery>('/groceries', newData);
-        if (response && response.status === Status.Created) {
-            getItems();
-        }
         return { status: response.status };
     }
 
