@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Icon } from '../Icon';
 import { Input, Wrapper, Button } from './styled';
 
