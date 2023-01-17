@@ -8,6 +8,7 @@ type ColorVariations = {
     shade: string;
     light: string;
     dull: string;
+    disabled: string;
 };
 
 interface Palette {
@@ -16,13 +17,11 @@ interface Palette {
     primary: ColorVariations;
     secondary: ColorVariations;
     Accent: ColorVariations;
-    disabled: string;
     main: string;
 }
 
 type BorderSize = 'thin' | 'bold';
-export interface Border {
-    size: Record<BorderSize, string>;
+export interface Border extends Record<BorderSize, string> {
 }
 
 export interface Font {
@@ -31,9 +30,14 @@ export interface Font {
 
 export type Padding = Record<PaddingVariation, string>
 
+type BorderRadiusVariant = 'sm' | 'md';
+export interface BorderRadius extends Record<BorderRadiusVariant, string> {
+}
+
 declare module 'styled-components' {
     export interface DefaultTheme {
         border: Border;
+        borderRadius: BorderRadius,
         font: Font;
         palette: Palette;
         padding: Padding;

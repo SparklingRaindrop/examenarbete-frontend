@@ -1,11 +1,14 @@
 import { DefaultTheme } from 'styled-components';
-import { Border, Font, Padding } from '../../types/styled';
+import { Border, BorderRadius, Font, Padding } from '../../types/styled';
 
 const border: Border = {
-    size: {
-        thin: '1px',
-        bold: '5px',
-    }
+    thin: '1px',
+    bold: '0.2rem',
+};
+
+const borderRadius: BorderRadius = {
+    sm: '0.1rem',
+    md: '0.3rem',
 };
 
 const font: Font = {
@@ -80,4 +83,5 @@ export const dark = {
 export const theme: Omit<DefaultTheme, 'palette' | 'toggleTheme' | 'padding'> = {
     border,
     font,
+    borderRadius,
 };
