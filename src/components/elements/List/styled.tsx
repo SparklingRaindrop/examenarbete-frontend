@@ -2,12 +2,15 @@ import styled from 'styled-components';
 
 export const UnorderedList = styled.ul<Pick<CustomCSSProperties, 'py' | 'px'>>`
     width: 100%;
-    padding: ${({ theme, px, py }) => `${py || theme.padding.md} ${px || theme.padding.md}`};
+    padding: ${({ px, py }) => `${py || 0} ${px || 0}`};
 `;
 
-export const StyledListItem = styled.li<Pick<CustomCSSProperties, 'gap'>>`
+export const StyledListItem = styled.li`
     width: 100%;
-    padding: ${({ theme }) => `${theme.padding.sm} ${theme.padding.md}`};
-    
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
     list-style: none;
 `;
