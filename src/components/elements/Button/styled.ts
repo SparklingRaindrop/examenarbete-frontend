@@ -10,7 +10,19 @@ export const Wrapper = styled.button<ButtonProps>`
     padding: 1rem 1.5rem;
 
     font-size: 1rem;
-    color: ${({ theme, variant }) => variant === 'secondary' ? theme.palette.black : theme.palette.white};
+    color: ${({ variant, theme }) => {
+        switch (variant) {
+            case 'ghost':
+                return theme.palette.secondary.shade;
+                break;
+            case 'secondary':
+                return theme.palette.black;
+                break;
+            default:
+                return theme.palette.white;
+                break;
+        }
+    }};
     text-transform: capitalize;
 
     border-radius: 2em;
