@@ -7,12 +7,13 @@ interface Grocery {
     unit: Pick<Item, 'id' | 'name'>;
 }
 
+type Meal = 'breakfast' | 'lunch' | 'dinner';
 interface Plan {
     id: string;
     recipe: Pick<Recipe, 'id' | 'title'>;
     date: Date;
     updated_at: Date;
-    type: string;
+    type: Meal;
 }
 
 interface Recipe {
