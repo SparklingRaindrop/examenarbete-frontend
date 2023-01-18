@@ -10,16 +10,7 @@ const Flex = styled.div`
 
 export const Wrapper = styled(Flex)`
     flex-direction: column;
-`;
-
-export const Meal = styled(Wrapper)`
-    gap: 1rem;
-`;
-
-export const MealName = styled(Flex)`
-    justify-content: space-between;
-    gap: 0.25rem;
-    text-transform: capitalize;
+    padding: 0 0 1.5rem 1.5rem;
 `;
 
 export const Plan = styled(Flex)`
