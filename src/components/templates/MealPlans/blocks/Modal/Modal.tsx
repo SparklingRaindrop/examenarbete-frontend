@@ -8,6 +8,7 @@ import { FlexRow, Wrapper, Result } from './styled';
 type Props = {
     date: Date | null;
     type: string | null;
+    onClose: () => void;
 }
 
 export default function Modal(props: Props) {
@@ -52,6 +53,8 @@ export default function Modal(props: Props) {
                                         });
                                         if (response.status !== Status.Created) {
                                             alert('Not successful!');
+                                        } else {
+
                                         }
                                     }} />
                             </FlexRow>
