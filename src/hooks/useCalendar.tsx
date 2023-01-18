@@ -10,7 +10,14 @@ function getWeekNumber() {
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-function parseDate(date: number) {
+export type Day = {
+    month: string;
+    day: number;
+    dayOfWeek: string;
+    date: number;
+}
+
+function parseDate(date: number): Day {
     const target = new Date(date);
     const dayOfWeek = DAYS[target.getDay()];
     const day = target.getDate();
@@ -19,6 +26,7 @@ function parseDate(date: number) {
         month,
         day,
         dayOfWeek,
+        date
     };
 }
 
@@ -32,7 +40,7 @@ function getDateOfWeek(week: number, year: number) {
     return Array.from(Array(7).keys()).map((num) => parseDate(new Date().setDate(ISOweekStart.getDate() + num)));
 }
 
-export default function useCalendar() {
+export function useCalendar() {
     const [currentWeek, setCurrentWeek] = useState<number>(getWeekNumber());
     const currentDays = useMemo(() => getDateOfWeek(currentWeek, 2023), [currentWeek]);
 

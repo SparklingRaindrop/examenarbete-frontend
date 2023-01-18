@@ -1,29 +1,56 @@
 import { useCalendar } from '../../../../hooks';
 import { IconButton } from '../../../elements';
-import { FlexRow, Wrapper, Day } from './styled';
+import { FlexRow, Wrapper, Day, Switcher, Week } from './styled';
 
-type Props = {}
+type Props = {
+    addSelectedDate: (target: Date | Date[]) => void;
+    selectedDates: Date[];
+}
 
-export default function Calendar({ }: Props) {
+function isSelected(date: number, range: Date[]) {
+    if (range.length === 1) return date === range[0].getDate();
+    return range[0].getDate() <= date && date <= range[1].getDate();
+}
+
+export default function Calendar(props: Props) {
+    const { addSelectedDate, selectedDates } = props;
     const { currentWeek, currentDays, moveToAdjacentWeek } = useCalendar();
 
     return (
         <Wrapper>
             <FlexRow>
                 <h3>April</h3>
-                <IconButton
-                    name='chevronLeft'
-                    onClick={() => moveToAdjacentWeek(-1)} />
-                <div>Week{currentWeek}</div>
-                <IconButton
-                    name='chevronRight'
-                    onClick={() => moveToAdjacentWeek(1)} />
+                <Switcher>
+                    <IconButton
+                        name='chevronLeft'
+                        variant='ghost'
+                        onClick={() => moveToAdjacentWeek(-1)} />
+                    <Week
+                        onClick={() => addSelectedDate([
+                            new Date(currentDays[0].date),
+                            new Date(currentDays[currentDays.length - 1].date),
+                        ])}>
+                        Week{currentWeek}
+                    </Week>
+                    <IconButton
+                        name='chevronRight'
+                        variant='ghost'
+                        onClick={() => moveToAdjacentWeek(1)} />
+                </Switcher>
             </FlexRow>
             <FlexRow>
                 {
-                    currentDays.map(({ day, dayOfWeek }) => <Day key={day}><span>{day}</span><span>{dayOfWeek}</span></Day>)
+                    currentDays.map(({ day, dayOfWeek, date }) => (
+                        <Day
+                            key={day}
+                            selected={isSelected(day, selectedDates)}
+                            onClick={() => addSelectedDate(new Date(date))}>
+                            <span>{day}</span>
+                            <span>{dayOfWeek}</span>
+                        </Day>
+                    ))
                 }
             </FlexRow>
         </Wrapper>
-    )
+    );
 }
