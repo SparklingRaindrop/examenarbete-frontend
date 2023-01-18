@@ -1,4 +1,5 @@
 import { useCalendar } from '../../../../../hooks';
+import { Day as DayType } from '../../../../../hooks/useCalendar';
 import { IconButton } from '../../../../elements';
 import { FlexRow, Wrapper, Day, Switcher, Week } from '../Calendar/styled';
 
@@ -13,7 +14,7 @@ function isSelected(date: number, range: Date[]) {
 }
 
 export default function Calendar(props: Props) {
-    const { addSelectedDate, selectedDates } = props;
+    const { selectedDates, addSelectedDate } = props;
     const { currentWeek, currentDays, moveToAdjacentWeek } = useCalendar();
 
     return (

@@ -30,7 +30,7 @@ function parseDate(date: number): Day {
     };
 }
 
-function getDateOfWeek(week: number, year: number) {
+function getDateOfWeek(week: number, year: number): Day[] {
     const simpleWeekNumber = new Date(year, 0, 1 + (week - 1) * 7);
     const ISOweekStart = simpleWeekNumber;
     if (simpleWeekNumber.getDay() <= 4)
@@ -44,7 +44,7 @@ export function useCalendar() {
     const [currentWeek, setCurrentWeek] = useState<number>(getWeekNumber());
     const currentDays = useMemo(() => getDateOfWeek(currentWeek, 2023), [currentWeek]);
 
-    function moveToAdjacentWeek(direction: -1 | 1) {
+    function moveToAdjacentWeek(direction: -1 | 1): void {
         if (currentWeek === 1 || currentWeek === 52) return;
         setCurrentWeek(prev => prev + direction);
     }
