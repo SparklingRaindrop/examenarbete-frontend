@@ -59,7 +59,7 @@ export default function Plans(props: Props) {
                                                 date={date} />
                                         </Wrapper>
                                     </Meal>
-                                )
+                                );
                             })
 
                         }
