@@ -9,6 +9,7 @@ const border: Border = {
 const borderRadius: BorderRadius = {
     sm: '0.1rem',
     md: '0.3rem',
+    lg: '0.6rem'
 };
 
 const font: Font = {

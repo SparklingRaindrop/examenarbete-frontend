@@ -30,7 +30,7 @@ export interface Font {
 
 export type Padding = Record<PaddingVariation, string>
 
-type BorderRadiusVariant = 'sm' | 'md';
+type BorderRadiusVariant = 'sm' | 'md' | 'lg';
 export interface BorderRadius extends Record<BorderRadiusVariant, string> {
 }
 
