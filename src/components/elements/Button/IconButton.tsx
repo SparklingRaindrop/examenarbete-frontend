@@ -4,7 +4,7 @@ import { ButtonProps } from './Button';
 import { IconButtonWrapper } from './styled';
 
 type Props = {
-    name: string;
+    name: Path;
 } & ButtonProps;
 
 export default function IconButton(props: Props) {
