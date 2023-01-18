@@ -1,4 +1,5 @@
-import { useCalendar } from '../../../../../hooks';
+import { useEffect } from 'react';
+import { useCalendar, useMealPlansContext } from '../../../../../hooks';
 import { IconButton } from '../../../../elements';
 import { FlexRow, Wrapper, Day, Switcher, Week, Month } from '../Calendar/styled';
 
@@ -14,12 +15,12 @@ function isSelected(date: number, range: Date[]) {
 
 export default function Calendar(props: Props) {
     const { selectedDates, addSelectedDate } = props;
-    const { currentWeek, currentDays, currentMonth, moveToAdjacentWeek } = useCalendar();
+    const { currentWeek, activeSevenDates, currentMonthName, moveToAdjacentWeek } = useCalendar();
 
     return (
         <Wrapper>
             <FlexRow>
-                <Month>{currentMonth}</Month>
+                <Month>{currentMonthName}</Month>
                 <Switcher>
                     <IconButton
                         name='chevronLeft'
@@ -28,8 +29,8 @@ export default function Calendar(props: Props) {
                         disabled={currentWeek === 1} />
                     <Week
                         onClick={() => addSelectedDate([
-                            new Date(currentDays[0].date),
-                            new Date(currentDays[currentDays.length - 1].date),
+                            new Date(activeSevenDates[0].date),
+                            new Date(activeSevenDates[activeSevenDates.length - 1].date),
                         ])}>
                         Week{currentWeek}
                     </Week>
@@ -42,7 +43,7 @@ export default function Calendar(props: Props) {
             </FlexRow>
             <FlexRow>
                 {
-                    currentDays.map(({ day, dayOfWeek, date }) => (
+                    activeSevenDates.map(({ day, dayOfWeek, date }) => (
                         <Day
                             key={day}
                             selected={isSelected(day, selectedDates)}
