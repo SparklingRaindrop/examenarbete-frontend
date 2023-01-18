@@ -3,7 +3,7 @@ import { useRecipesAPI } from '../../hooks';
 import { APIResponse, GetResponse } from '../../util/api';
 
 export interface ContextRecipes {
-    getRecipes: () => Promise<GetResponse<Recipe[]> | APIResponse>;
+    getRecipes: (keyword: string) => Promise<GetResponse<Recipe[]> | APIResponse>;
 }
 
 export const RecipesContext = createContext<ContextRecipes | null>(null);
