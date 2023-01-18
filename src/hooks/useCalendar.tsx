@@ -43,15 +43,23 @@ function getDateOfWeek(week: number, year: number): Day[] {
 export function useCalendar() {
     const [currentWeek, setCurrentWeek] = useState<number>(getWeekNumber());
     const currentDays = useMemo(() => getDateOfWeek(currentWeek, 2023), [currentWeek]);
+    const currentMonth = useMemo(() => currentDays.reduce((result: string[], current) => {
+        if (!result.includes(current.month)) {
+            result.push(current.month);
+        }
+        return result;
+    }, []).join(' / '), [currentDays]);
 
     function moveToAdjacentWeek(direction: -1 | 1): void {
-        if (currentWeek === 1 || currentWeek === 52) return;
+        if ((currentWeek === 1 && direction == -1) ||
+            (currentWeek === 52 && direction === 1)) return;
         setCurrentWeek(prev => prev + direction);
     }
 
     return {
         currentWeek,
         currentDays,
+        currentMonth,
         moveToAdjacentWeek
     };
 }
