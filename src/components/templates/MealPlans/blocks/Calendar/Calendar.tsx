@@ -15,17 +15,18 @@ function isSelected(date: number, range: Date[]) {
 
 export default function Calendar(props: Props) {
     const { selectedDates, addSelectedDate } = props;
-    const { currentWeek, currentDays, moveToAdjacentWeek } = useCalendar();
+    const { currentWeek, currentDays, moveToAdjacentWeek, currentMonth } = useCalendar();
 
     return (
         <Wrapper>
             <FlexRow>
-                <h3>April</h3>
+                <h3>{currentMonth}</h3>
                 <Switcher>
                     <IconButton
                         name='chevronLeft'
                         variant='ghost'
-                        onClick={() => moveToAdjacentWeek(-1)} />
+                        onClick={() => moveToAdjacentWeek(-1)}
+                        disabled={currentWeek === 1} />
                     <Week
                         onClick={() => addSelectedDate([
                             new Date(currentDays[0].date),
@@ -36,7 +37,8 @@ export default function Calendar(props: Props) {
                     <IconButton
                         name='chevronRight'
                         variant='ghost'
-                        onClick={() => moveToAdjacentWeek(1)} />
+                        onClick={() => moveToAdjacentWeek(1)}
+                        disabled={currentWeek === 51} />
                 </Switcher>
             </FlexRow>
             <FlexRow>
