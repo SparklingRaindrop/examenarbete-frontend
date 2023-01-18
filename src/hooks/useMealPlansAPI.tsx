@@ -32,6 +32,9 @@ export default function useMealPlansAPI() {
 
     async function addPlan(newData: { date: Date, type: string } & { recipe_id: Recipe['id'] }): Promise<APIResponse> {
         const response = await post<Grocery>('/plans', newData);
+        if (response && response.status === Status.Created) {
+            getPlans();
+        }
         return { status: response.status };
     }
 
