@@ -5,7 +5,7 @@ import DailyPlan from '../DailyPlan/DailyPlan';
 import { Wrapper, H3, MealName, Meal } from './styled';
 
 type Props = {
-    filteredPlans: Plan[][];
+    filteredPlans: Plan[];
     selectedDates: Date[];
     openModal: (newData: NewPlan) => void;
 }
@@ -38,34 +38,30 @@ export default function Plans(props: Props) {
                             }
                         </H3>
                         {
-                            MEALS.map(meal => (
-                                <Meal key={meal}>
-                                    <MealName>
-                                        <h3>{meal}</h3>
-                                        <IconButton
-                                            name='plus'
-                                            onClick={() => openModal({
-                                                type: meal,
-                                                date: new Date(date),
-                                            })} />
-                                    </MealName>
-                                    {
-                                        filteredPlans.filter(plans =>
-                                            new Date(plans[0].date).getDate() === new Date(date).getDate() &&
-                                            plans[0].type === meal
-                                        ).map((plans) => {
-                                            const { id } = plans[0];
-                                            return (
-                                                <Wrapper key={id}>
-                                                    <DailyPlan
-                                                        plans={plans}
-                                                        date={date} />
-                                                </Wrapper>
-                                            );
-                                        })
-                                    }
-                                </Meal>
-                            ))
+                            MEALS.map(meal => {
+                                const dailyPlans = filteredPlans.filter(plan =>
+                                    new Date(plan.date).getDate() === new Date(date).getDate()
+                                );
+                                return (
+                                    <Meal key={meal}>
+                                        <MealName>
+                                            <h3>{meal}</h3>
+                                            <IconButton
+                                                name='plus'
+                                                onClick={() => openModal({
+                                                    type: meal,
+                                                    date: new Date(date),
+                                                })} />
+                                        </MealName>
+                                        <Wrapper key={meal + new Date()}>
+                                            <DailyPlan
+                                                plans={dailyPlans.filter(plan => plan.type === meal)}
+                                                date={date} />
+                                        </Wrapper>
+                                    </Meal>
+                                )
+                            })
+
                         }
                     </>
                 ))
@@ -74,3 +70,7 @@ export default function Plans(props: Props) {
         </>
     );
 }
+
+
+/* 
+        )) */
