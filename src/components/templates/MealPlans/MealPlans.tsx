@@ -41,7 +41,7 @@ export default function MealPlans({ }: Props) {
         }
     }
 
-    function getTargetPlans(): Plan[][] {
+    function getTargetPlans(): Plan[] {
         // Filtered by selected date
         const filtered = plans.filter(({ date }) => {
             const targetDate = new Date(date).getDate();
@@ -52,20 +52,10 @@ export default function MealPlans({ }: Props) {
                     targetDate <= selectedDates[1].getDate();
             }
         });
-        // Divide into each date
-        const divided = filtered.reduce((result: Plan[][], currentPlan: Plan, index) => {
-            const currentDate = new Date(currentPlan.date).getDate();
-            if (index === 0 || new Date(result[result.length - 1][0].date).getDate() !== currentDate) {
-                result.push([currentPlan]);
-                return result;
-            }
-            result[result.length - 1].push(currentPlan);
-            return result;
-        }, []);
         // Sort in ascending order
-        return divided.sort((a, b) => {
-            const aDate = new Date(a[0].date).getDate();
-            const bDate = new Date(b[0].date).getDate();
+        return filtered.sort((a, b) => {
+            const aDate = new Date(a.date).getDate();
+            const bDate = new Date(b.date).getDate();
             if (aDate < bDate) {
                 return -1;
             }
