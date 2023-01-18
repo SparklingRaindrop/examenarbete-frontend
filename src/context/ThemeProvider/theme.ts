@@ -59,26 +59,47 @@ export const light = {
         shade: '#5631C4',
         light: '#A589F9',
         dull: '#CCC5E0',
+        disabled: ''
     },
     secondary: {
         original: '#DAE022',
         shade: '#A8AD1A',
         light: '#E1E667',
         dull: '#E9EACE',
+        disabled: ''
     },
     accent: {
         original: '#F72576',
         shade: '#C41D5D',
         light: '#F970A4',
         dull: '#EFD3DE',
+        disabled: ''
     },
-    disabled: ''
 };
 
 export const dark = {
-    primary: '#709fb0',
-    secondary: '#ffffff',
-    disabled: ''
+    main: '#ABF731',
+    primary: {
+        original: '#6B3EF7',
+        shade: '#5631C4',
+        light: '#A589F9',
+        dull: '#CCC5E0',
+        disabled: ''
+    },
+    secondary: {
+        original: '#DAE022',
+        shade: '#A8AD1A',
+        light: '#E1E667',
+        dull: '#E9EACE',
+        disabled: ''
+    },
+    accent: {
+        original: '#F72576',
+        shade: '#C41D5D',
+        light: '#F970A4',
+        dull: '#EFD3DE',
+        disabled: ''
+    },
 };
 
 export const theme: Omit<DefaultTheme, 'palette' | 'toggleTheme' | 'padding'> = {
