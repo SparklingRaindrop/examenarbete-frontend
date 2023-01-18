@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Status } from '../types/statusCode';
-import { APIResponse, get, isGetResponse, remove } from '../util/api';
+import { APIResponse, get, isGetResponse, post, remove } from '../util/api';
 
 export default function useMealPlansAPI() {
     const [plans, setPlans] = useState<Plan[]>([]);
@@ -30,8 +30,14 @@ export default function useMealPlansAPI() {
         return { status: response.status };
     }
 
+    async function addPlan(newData: { date: Date, type: string } & { recipe_id: Recipe['id'] }): Promise<APIResponse> {
+        const response = await post<Grocery>('/plans', newData);
+        return { status: response.status };
+    }
+
     return {
         plans,
-        removePlan
+        removePlan,
+        addPlan
     };
 }
