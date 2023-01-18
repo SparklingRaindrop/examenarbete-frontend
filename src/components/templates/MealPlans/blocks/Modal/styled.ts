@@ -25,6 +25,8 @@ export const FlexRow = styled.div`
     flex-direction: row;
     align-items: center;
     gap: 0.5rem;
+
+    text-transform: capitalize;
 `;
 
 export const Result = styled.div`
