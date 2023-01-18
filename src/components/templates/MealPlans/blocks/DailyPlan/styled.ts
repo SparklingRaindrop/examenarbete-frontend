@@ -23,8 +23,11 @@ export const MealName = styled(Flex)`
 `;
 
 export const Plan = styled(Flex)`
-    padding: ${({ theme }) => theme.padding.sm};
+    padding: 0 ${({ theme }) => theme.padding.sm};
+
+    justify-content: space-between;
 
     background-color: ${({ theme }) => theme.palette.primary.dull};
     border: ${({ theme }) => theme.palette.primary.light} 1px solid;
+    border-radius: ${({ theme }) => theme.borderRadius.md};
 `;
