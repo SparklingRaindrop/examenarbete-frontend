@@ -8,6 +8,7 @@ const Flex = styled.div`
 
 export const Wrapper = styled(Flex)`
     flex-direction: column;
+    gap: 1rem;
 `;
 
 export const FlexRow = styled(Flex)`

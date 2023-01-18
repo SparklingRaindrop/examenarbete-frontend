@@ -1,10 +1,9 @@
 import { useState } from 'react';
 
-import { IconButton } from '../..';
 import useMealPlansContext from '../../../hooks/useMealPlansContext';
 
-import Calendar from './blocks/Calendar';
-import Plans from './blocks/Plans';
+import Calendar from './blocks/Calendar/Calendar';
+import Plans from './blocks/Plans/Plans';
 
 type Props = {}
 

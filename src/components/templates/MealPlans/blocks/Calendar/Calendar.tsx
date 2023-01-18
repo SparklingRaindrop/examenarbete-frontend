@@ -1,6 +1,6 @@
-import { useCalendar } from '../../../../hooks';
-import { IconButton } from '../../../elements';
-import { FlexRow, Wrapper, Day, Switcher, Week } from './styled';
+import { useCalendar } from '../../../../../hooks';
+import { IconButton } from '../../../../elements';
+import { FlexRow, Wrapper, Day, Switcher, Week } from '../Calendar/styled';
 
 type Props = {
     addSelectedDate: (target: Date | Date[]) => void;
