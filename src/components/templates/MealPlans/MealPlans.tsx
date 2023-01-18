@@ -21,7 +21,7 @@ export default function MealPlans({ }: Props) {
         type: null
     });
     const { plans } = useMealPlansContext();
-    const { isOpen, toggleIsOpen } = useDisclosure();
+    const { isOpen, toggleIsOpen, onClose } = useDisclosure();
 
     function addSelectedDate(newDate: Date | Date[]) {
         if (Array.isArray(newDate)) {
@@ -90,7 +90,7 @@ export default function MealPlans({ }: Props) {
                 filteredPlans={getTargetPlans()}
                 selectedDates={selectedDates}
                 openModal={openModal} />
-            {isOpen && <Modal {...newPlan} />}
+            {isOpen && <Modal {...newPlan} onClose={onClose} />}
         </>
     );
 }
