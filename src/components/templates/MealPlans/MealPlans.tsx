@@ -9,81 +9,17 @@ import Plans from './blocks/Plans/Plans';
 
 type Props = {}
 
-const sample: Plan[] = [
-    {
-        id: 'plan8',
-        date: new Date(2023, 0, 18),
-        updated_at: new Date(),
-        type: 'breakfast',
-        recipe: {
-            title: 'test18',
-            id: 'recipe11',
-        }
-    },
-    {
-        id: 'plan9',
-        date: new Date(2023, 0, 16),
-        updated_at: new Date(),
-        type: 'lunch',
-        recipe: {
-            title: 'test16',
-            id: 'recipe12',
-        }
-    },
-    {
-        id: 'plan10',
-        date: new Date(2023, 0, 17),
-        updated_at: new Date(),
-        type: 'dinner',
-        recipe: {
-            title: 'test17',
-            id: 'recipe13',
-        }
-    },
-    {
-        id: 'plan11',
-        date: new Date(2023, 0, 18),
-        updated_at: new Date(),
-        type: 'lunch',
-        recipe: {
-            title: 'test18',
-            id: 'recipe14',
-        }
-    },
-    {
-        id: 'plan12',
-        date: new Date(2023, 0, 19),
-        updated_at: new Date(),
-        type: 'dinner',
-        recipe: {
-            title: 'test19',
-            id: 'recipe15',
-        }
-    },
-    {
-        id: 'plan13',
-        date: new Date(2023, 0, 20),
-        updated_at: new Date(),
-        type: 'dinner',
-        recipe: {
-            title: 'test20',
-            id: 'recipe15',
-        }
-    },
-    {
-        id: 'plan14',
-        date: new Date(2023, 0, 21),
-        updated_at: new Date(),
-        type: 'dinner',
-        recipe: {
-            title: 'test21',
-            id: 'recipe15',
-        }
-    }
-];
+export type NewPlan = {
+    date: Date | null,
+    type: string | null
+};
 
 export default function MealPlans({ }: Props) {
     const [selectedDates, setSelectedDates] = useState<Date[]>([new Date()]);
+    const [newPlan, setNewPlan] = useState<NewPlan>({
+        date: null,
+        type: null
+    });
     const { plans } = useMealPlansContext();
     const { isOpen, toggleIsOpen } = useDisclosure();
 
@@ -103,12 +39,11 @@ export default function MealPlans({ }: Props) {
         } else {
             setSelectedDates([newDate]);
         }
-
     }
 
     function getTargetPlans(): Plan[][] {
         // Filtered by selected date
-        const filtered = sample.filter(({ date }) => {
+        const filtered = plans.filter(({ date }) => {
             const targetDate = new Date(date).getDate();
             if (selectedDates.length === 1) {
                 return selectedDates[0].getDate() === targetDate;
@@ -119,8 +54,8 @@ export default function MealPlans({ }: Props) {
         });
         // Divide into each date
         const divided = filtered.reduce((result: Plan[][], currentPlan: Plan, index) => {
-            const currentDate = currentPlan.date.getDate();
-            if (index === 0 || result[result.length - 1][0].date.getDate() !== currentDate) {
+            const currentDate = new Date(currentPlan.date).getDate();
+            if (index === 0 || new Date(result[result.length - 1][0].date).getDate() !== currentDate) {
                 result.push([currentPlan]);
                 return result;
             }
@@ -129,8 +64,8 @@ export default function MealPlans({ }: Props) {
         }, []);
         // Sort in ascending order
         return divided.sort((a, b) => {
-            const aDate = a[0].date.getDate();
-            const bDate = b[0].date.getDate();
+            const aDate = new Date(a[0].date).getDate();
+            const bDate = new Date(b[0].date).getDate();
             if (aDate < bDate) {
                 return -1;
             }
@@ -141,11 +76,21 @@ export default function MealPlans({ }: Props) {
         });
     }
 
+    function openModal(newData: NewPlan) {
+        setNewPlan(newData);
+        toggleIsOpen();
+    }
+
     return (
         <>
-            <Calendar selectedDates={selectedDates} addSelectedDate={addSelectedDate} />
-            <Plans filteredPlans={getTargetPlans()} openModal={toggleIsOpen} />
-            <Modal />
+            <Calendar
+                selectedDates={selectedDates}
+                addSelectedDate={addSelectedDate} />
+            <Plans
+                filteredPlans={getTargetPlans()}
+                selectedDates={selectedDates}
+                openModal={openModal} />
+            {isOpen && <Modal {...newPlan} />}
         </>
     );
 }
