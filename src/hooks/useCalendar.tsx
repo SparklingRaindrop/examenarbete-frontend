@@ -14,10 +14,10 @@ export type Day = {
     month: string;
     day: number;
     dayOfWeek: string;
-    date: number;
+    date: Date;
 }
 
-function parseDate(date: number): Day {
+function parseDate(date: Date): Day {
     const target = new Date(date);
     const dayOfWeek = DAYS[target.getDay()];
     const day = target.getDate();
@@ -30,27 +30,33 @@ function parseDate(date: number): Day {
     };
 }
 
-function getDateOfWeek(week: number, year: number): Day[] {
-    const simpleWeekNumber = new Date(year, 0, 1 + (week - 1) * 7);
-    const ISOweekStart = simpleWeekNumber;
-    if (simpleWeekNumber.getDay() <= 4)
-        ISOweekStart.setDate(simpleWeekNumber.getDate() - simpleWeekNumber.getDay() + 1);
+function getNextSevenDates(weekNo: number, year: number) {
+    const simple = new Date(year, 0, 1 + (weekNo - 1) * 7);
+    const dow = simple.getDay();
+    const ISOweekStart = simple;
+    if (dow <= 4)
+        ISOweekStart.setDate(simple.getDate() - simple.getDay() + 1);
     else
-        ISOweekStart.setDate(simpleWeekNumber.getDate() + 8 - simpleWeekNumber.getDay());
-    return Array.from(Array(7).keys()).map((num) => parseDate(new Date().setDate(ISOweekStart.getDate() + num)));
+        ISOweekStart.setDate(simple.getDate() + 8 - simple.getDay());
+
+    return [0, 1, 2, 3, 4, 5, 6].map(increment => {
+        const date = new Date(ISOweekStart);
+        date.setDate(ISOweekStart.getDate() + increment);
+        return parseDate(date);
+    });
 }
 
 export function useCalendar() {
     const [currentWeek, setCurrentWeek] = useState<number>(getWeekNumber());
-    const currentDays = useMemo(() => getDateOfWeek(currentWeek, 2023), [currentWeek]);
+    const activeSevenDates = useMemo(() => getNextSevenDates(currentWeek, 2023), [currentWeek]);
     const currentMonthName = useMemo(() => (
-        currentDays.reduce((result: string[], current) => {
+        activeSevenDates.reduce((result: string[], current) => {
             if (!result.includes(current.month)) {
                 result.push(current.month);
             }
             return result;
         }, []).join(' / ')
-    ), [currentDays]);
+    ), [activeSevenDates]);
 
     function moveToAdjacentWeek(direction: -1 | 1): void {
         if ((currentWeek === 1 && direction == -1) ||
@@ -60,7 +66,7 @@ export function useCalendar() {
 
     return {
         currentWeek,
-        currentDays,
+        activeSevenDates,
         currentMonthName,
         moveToAdjacentWeek
     };
