@@ -13,11 +13,14 @@ export default function useMealPlansAPI() {
     }, []);
 
     // TODO: fetch only current month
-    async function getPlans(): Promise<APIResponse> {
-        const response = await get<Plan[]>('/plans');
+    async function getPlans(range?: { start: string, end: string }): Promise<APIResponse> {
+        const response = await get<Plan[]>(`/plans${range && `?bids=start${range.start}&end=${range.end}`}`);
         if (response && response.status === Status.Succuss && isGetResponse(response)) {
             const { data } = response;
-            setPlans(data);
+            setPlans(prev => ([
+                ...prev,
+                ...data
+            ]));
         }
         return { status: response.status };
     }
@@ -41,6 +44,7 @@ export default function useMealPlansAPI() {
     return {
         plans,
         removePlan,
-        addPlan
+        addPlan,
+        getPlans
     };
 }
