@@ -36,13 +36,14 @@ export default function useCalendar() {
     const [currentWeek, setCurrentWeek] = useState<number>(getWeekNumber());
     const currentDays = useMemo(() => getDateOfWeek(currentWeek, 2023), [currentWeek]);
 
-    function changeCurrentWeek(direction: -1 | 1) {
+    function moveToAdjacentWeek(direction: -1 | 1) {
+        if (currentWeek === 1 || currentWeek === 52) return;
         setCurrentWeek(prev => prev + direction);
     }
 
     return {
         currentWeek,
         currentDays,
-        changeCurrentWeek
+        moveToAdjacentWeek
     };
 }
