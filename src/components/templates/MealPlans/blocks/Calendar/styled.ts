@@ -35,3 +35,7 @@ export const Day = styled.button<{ selected: boolean }>`
 
 export const Week = styled.button`
 `;
+
+export const Month = styled.h3`
+    width: 100%;
+`;
