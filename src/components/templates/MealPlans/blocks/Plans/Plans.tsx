@@ -3,10 +3,11 @@ import { Wrapper, H3 } from './styled';
 
 type Props = {
     filteredPlans: Plan[][];
+    openModal: () => void;
 }
 
 export default function Plans(props: Props) {
-    const { filteredPlans } = props;
+    const { filteredPlans, openModal } = props;
 
     return (
         <>
@@ -21,11 +22,11 @@ export default function Plans(props: Props) {
                                     {new Date(date).toLocaleDateString('en-us', { month: 'long', day: 'numeric', weekday: 'short' })}
                                 </H3>
                             }
-                            <DailyPlan plans={plans} />
+                            <DailyPlan plans={plans} openModal={openModal} />
                         </Wrapper>
-                    )
+                    );
                 })
             }
         </>
-    )
+    );
 }

@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useDisclosure } from '../../../hooks';
 
 import useMealPlansContext from '../../../hooks/useMealPlansContext';
 
 import Calendar from './blocks/Calendar/Calendar';
+import { Modal } from './blocks/Modal';
 import Plans from './blocks/Plans/Plans';
 
 type Props = {}
@@ -83,6 +85,7 @@ const sample: Plan[] = [
 export default function MealPlans({ }: Props) {
     const [selectedDates, setSelectedDates] = useState<Date[]>([new Date()]);
     const { plans } = useMealPlansContext();
+    const { isOpen, toggleIsOpen } = useDisclosure();
 
     function addSelectedDate(newDate: Date | Date[]) {
         if (Array.isArray(newDate)) {
@@ -141,7 +144,8 @@ export default function MealPlans({ }: Props) {
     return (
         <>
             <Calendar selectedDates={selectedDates} addSelectedDate={addSelectedDate} />
-            <Plans filteredPlans={getTargetPlans()} />
+            <Plans filteredPlans={getTargetPlans()} openModal={toggleIsOpen} />
+            <Modal />
         </>
     );
 }
