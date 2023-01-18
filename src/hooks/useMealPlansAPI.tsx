@@ -2,6 +2,17 @@ import { useEffect, useState } from 'react';
 import { Status } from '../types/statusCode';
 import { APIResponse, get, isGetResponse, post, remove } from '../util/api';
 
+type DateData = {
+    year: number,
+    month: number;
+    day: number;
+};
+
+export type Range = {
+    start: DateData,
+    end: DateData,
+}
+
 export default function useMealPlansAPI() {
     const [plans, setPlans] = useState<Plan[]>([]);
 
@@ -12,9 +23,8 @@ export default function useMealPlansAPI() {
         init();
     }, []);
 
-    // TODO: fetch only current month
-    async function getPlans(range?: { start: string, end: string }): Promise<APIResponse> {
-        const response = await get<Plan[]>(`/plans${range && `?bids=start${range.start}&end=${range.end}`}`);
+    async function getPlans(range?: Range): Promise<APIResponse> {
+        const response = await get<Plan[]>(`/plans${range ? `?bids=start${range.start}&end=${range.end}` : ''}`);
         if (response && response.status === Status.Succuss && isGetResponse(response)) {
             const { data } = response;
             setPlans(prev => ([

@@ -1,10 +1,10 @@
 import { createContext } from 'react';
-import useMealPlansAPI from '../../hooks/useMealPlansAPI';
+import useMealPlansAPI, { Range } from '../../hooks/useMealPlansAPI';
 import { APIResponse } from '../../util/api';
 
 export interface ContextMealPlans {
     plans: Plan[];
-    getPlans: (range?: { start: string, end: string }) => Promise<APIResponse>;
+    getPlans: (range?: Range) => Promise<APIResponse>;
     removePlan: (id: Plan['id']) => void;
     addPlan: (newData: { date: Date, type: string } & { recipe_id: Recipe['id'] }) => Promise<APIResponse>;
 }
