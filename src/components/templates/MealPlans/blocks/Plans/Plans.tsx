@@ -26,9 +26,9 @@ export default function Plans(props: Props) {
     return (
         <>
             {
-                days.map((date) => (
-                    <>
-                        <H3 key={date.toString()}>
+                days.map((date, index) => (
+                    <Wrapper key={date.toString() + index}>
+                        <H3>
                             {
                                 days.length !== 1 && // don't display if selected days is only one day
                                 new Date(date).toLocaleDateString(
@@ -43,7 +43,7 @@ export default function Plans(props: Props) {
                                     new Date(plan.date).getDate() === new Date(date).getDate()
                                 );
                                 return (
-                                    <Meal key={meal}>
+                                    <Meal key={date + meal}>
                                         <MealName>
                                             <h3>{meal}</h3>
                                             <IconButton
@@ -63,7 +63,7 @@ export default function Plans(props: Props) {
                             })
 
                         }
-                    </>
+                    </Wrapper>
                 ))
 
             }
