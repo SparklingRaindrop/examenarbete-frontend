@@ -1,12 +1,24 @@
 interface Grocery {
     id: string;
-    item_name: string;
     updated_at: Date;
     amount: number;
-    item_id: string;
     isChecked: boolean;
+    item: Pick<Item, 'id' | 'name'>;
+    unit: Pick<Item, 'id' | 'name'>;
 }
 
+interface Plan {
+    id: string;
+    recipe: Pick<Recipe, 'id' | 'title'>;
+    date: Date;
+    updated_at: Date;
+    type: string;
+}
+
+interface Recipe {
+    id: string;
+    title: string;
+}
 interface User {
     id: string;
     username: string;
