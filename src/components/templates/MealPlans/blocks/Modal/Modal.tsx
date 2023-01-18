@@ -1,21 +1,28 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useMealPlansContext, useRecipesContext } from '../../../../../hooks';
+import { Status } from '../../../../../types/statusCode';
+import { isGetResponse } from '../../../../../util/api';
 import { IconButton, Input } from '../../../../elements';
 import { FlexRow, Wrapper, Result } from './styled';
 
+type Props = {
+    date: Date | null;
+    type: string | null;
+}
 
-type Props = {}
-const sample = [
-    {
-        id: 'qweqwe',
-        title: 'dfsdfdsf'
-    }, {
-        id: 'qweqwdfge',
-        title: 'dfsdfdsf'
-    }
-];
-
-export default function Modal({ }: Props) {
+export default function Modal(props: Props) {
+    const { date, type } = props;
     const [userInput, setUserInput] = useState<string>('');
+    const [result, setResult] = useState<Recipe[]>([]);
+    const { getRecipes } = useRecipesContext();
+    const { addPlan } = useMealPlansContext();
+
+    async function handleSearch() {
+        const response = await getRecipes(userInput);
+        if (response.status === Status.Succuss && isGetResponse(response)) {
+            setResult(response.data);
+        }
+    }
 
     return (
         <Wrapper>
@@ -23,13 +30,32 @@ export default function Modal({ }: Props) {
                 <Input
                     value={userInput}
                     onChange={(event) => setUserInput(event.target.value)} />
-                <IconButton name='magnifyingGlass' />
+                <IconButton
+                    name='magnifyingGlass'
+                    onClick={handleSearch} />
             </FlexRow>
             <Result>
                 {
-                    sample.length === 0 ?
+                    result.length === 0 ?
                         <div>No matches</div> :
-                        sample.map(recipe => <div key={recipe.id}>{recipe.title}</div>)
+                        result.map(({ id, title }) => (
+                            <FlexRow key={id}>
+                                {title}
+                                <IconButton
+                                    name='plus'
+                                    onClick={async () => {
+                                        if (!date || !type) return;
+                                        const response = await addPlan({
+                                            date,
+                                            type,
+                                            recipe_id: id
+                                        });
+                                        if (response.status !== Status.Created) {
+                                            alert('Not successful!');
+                                        }
+                                    }} />
+                            </FlexRow>
+                        ))
                 }
             </Result>
         </Wrapper>
