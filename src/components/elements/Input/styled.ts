@@ -3,7 +3,7 @@ import { Variant } from '../../../types/styled';
 
 export const Wrapper = styled.input.attrs(({ type }) => ({
     type: type || 'text',
-})) <{ isError: boolean }>`
+})) <{ isError?: boolean }>`
     padding: ${({ theme }) => theme.padding.md};
     
     outline: none;

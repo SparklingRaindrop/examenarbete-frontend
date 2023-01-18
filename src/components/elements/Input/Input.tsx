@@ -8,7 +8,7 @@ type Props = {
     autoFocus?: boolean;
     type?: HTMLInputTypeAttribute;
     id?: string;
-    isError: boolean;
+    isError?: boolean;
     error?: string;
     required?: boolean;
     onChange?: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
