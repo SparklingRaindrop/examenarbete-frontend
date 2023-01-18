@@ -12,7 +12,7 @@ type Props = {
 }
 
 export default function Modal(props: Props) {
-    const { date, type } = props;
+    const { date, type, onClose } = props;
     const [userInput, setUserInput] = useState<string>('');
     const [result, setResult] = useState<Recipe[]>([]);
     const { getRecipes } = useRecipesContext();
@@ -27,6 +27,9 @@ export default function Modal(props: Props) {
 
     return (
         <Wrapper>
+            <IconButton
+                name='xMark'
+                onClick={onClose} />
             <FlexRow>
                 <Input
                     value={userInput}
@@ -37,7 +40,7 @@ export default function Modal(props: Props) {
             </FlexRow>
             <Result>
                 {
-                    result.length === 0 ?
+                    !result || result.length === 0 ?
                         <div>No matches</div> :
                         result.map(({ id, title }) => (
                             <FlexRow key={id}>
@@ -54,7 +57,7 @@ export default function Modal(props: Props) {
                                         if (response.status !== Status.Created) {
                                             alert('Not successful!');
                                         } else {
-
+                                            onClose();
                                         }
                                     }} />
                             </FlexRow>
