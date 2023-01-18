@@ -87,8 +87,29 @@ export const Wrapper = styled.button<ButtonProps>`
     }
 
     &:disabled {
-        background-color: rgba(79, 66, 120, 0.44);
-        color:  rgba(244, 247, 240, 0.59);
+        background-color: ${({ variant, theme }) => {
+        switch (variant) {
+            case 'ghost':
+                return 'transparent';
+                break;
+            case 'secondary':
+                return 'rgba(229, 230, 83, 0.5)';
+                break;
+            default:
+                return 'rgba(79, 66, 120, 0.44)';
+                break;
+        }
+    }};
+        color: ${({ variant, theme }) => {
+        switch (variant) {
+            case 'ghost':
+                return 'rgba(172, 177, 164, 1)';
+                break;
+            default:
+                return 'rgba(244, 247, 240, 0.59)';
+                break;
+        }
+    }}; 
     }
 
 `;
