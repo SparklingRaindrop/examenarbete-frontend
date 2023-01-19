@@ -2,7 +2,6 @@ import { Status } from '../types/statusCode';
 import { APIResponse, get, GetResponse, isGetResponse, remove } from '../util/api';
 
 export default function useRecipesAPI() {
-
     async function getRecipes(keyword?: string): Promise<GetResponse<Recipe[]> | APIResponse> {
         const response = await get<Recipe[]>(`/recipes${keyword ? '?keyword=' + keyword : ''}`);
         if (response && response.status === Status.Succuss && isGetResponse(response)) {
@@ -12,7 +11,13 @@ export default function useRecipesAPI() {
         return { status: response.status };
     }
 
+    async function removeRecipe(id: Recipe['id']): Promise<APIResponse> {
+        const response = await remove(`/recipes/${id}`);
+        return response;
+    }
+
     return {
         getRecipes,
+        removeRecipe
     };
 }
