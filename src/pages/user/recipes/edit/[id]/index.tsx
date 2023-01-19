@@ -1,12 +1,18 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { Icon } from '../../../../../components';
 import { RecipeEditor } from '../../../../../components/templates/Recipes/blocks';
-import { RecipesContext } from '../../../../../context';
 
 export default function PostPage() {
-    const router = useRouter()
+    const router = useRouter();
     const id = router.query.id as string;
 
     return (
-        <RecipeEditor id={id} />
+        <>
+            <button>
+                <Link href='/user/recipes'><Icon name='chevronLeft' />Back</Link>
+            </button>
+            <RecipeEditor id={id} />
+        </>
     );
 }
