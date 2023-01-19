@@ -38,7 +38,6 @@ export default function useMealPlansAPI() {
     const getPlans = useCallback(async (): Promise<GetResponse<Plan[]>> => {
         const response = await get<Plan[]>(`/plans${generateQuery(fetchedPlansRange)}`);
         if (response.data && response.status === Status.Succuss && isGetResponse(response)) {
-            console.log(response.data)
             setPlans(response.data);
         }
         return { status: response.status };
