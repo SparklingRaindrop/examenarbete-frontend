@@ -19,6 +19,11 @@ interface Plan {
 interface Recipe {
     id: string;
     title: string;
+    ingredients: {
+        amount: number;
+        item: Pick<Item, 'id' | 'name'>
+        unit: Pick<Item, 'id' | 'name'>
+    }[]
 }
 interface User {
     id: string;
