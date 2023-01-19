@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Status } from '../types/statusCode';
 import { APIResponse, get, isGetResponse, post, remove } from '../util/api';
 
@@ -14,11 +14,6 @@ export type PlanRange = {
 }
 
 function generateQuery(range: [Date, Date]): string {
-    /* Object.keys(range).forEach(type => {
-        Object.keys(range[type as keyof PlanRange]).forEach(key => {
-            parsed[type + key] = range[type as keyof PlanRange][key as keyof DateData].toString().padStart(2, '0');
-        });
-    }); */
     const [start, end] = range;
     const startMonth = start.getMonth() + 1;
     const startDay = start.getDate();
@@ -40,22 +35,25 @@ function getInitialFetchedRange(): [Date, Date] {
 export default function useMealPlansAPI() {
     const [plans, setPlans] = useState<Plan[]>([]);
     const [fetchedPlansRange, setFetchedPlansRange] = useState<[Date, Date]>(getInitialFetchedRange());
-
-    useEffect(() => {
-        async function init() {
-            getPlans();
+    const getPlans = useCallback(async (): Promise<APIResponse> => {
+        const response = await get<Plan[]>(`/plans${generateQuery(fetchedPlansRange)}`);
+        if (response && response.status === Status.Succuss && isGetResponse(response)) {
+            const { data } = response;
+            setPlans(data);
         }
-        init();
-        // eslint-disable-next-line
-    }, []);
-
-    useEffect(() => {
-        async function init() {
-            getPlans();
-        }
-        init();
-        // eslint-disable-next-line
+        return { status: response.status };
     }, [fetchedPlansRange]);
+
+    useEffect(() => {
+        async function init() {
+            getPlans();
+        }
+        init();
+    }, [getPlans]);
+
+    useEffect(() => {
+        getPlans();
+    }, [fetchedPlansRange, getPlans]);
 
     function updateRange(range: PlanRange) {
         const { start, end } = range;
@@ -75,15 +73,6 @@ export default function useMealPlansAPI() {
                 return newData as [Date, Date];
             });
         }
-    }
-
-    async function getPlans(): Promise<APIResponse> {
-        const response = await get<Plan[]>(`/plans${generateQuery(fetchedPlansRange)}`);
-        if (response && response.status === Status.Succuss && isGetResponse(response)) {
-            const { data } = response;
-            setPlans(data);
-        }
-        return { status: response.status };
     }
 
     async function removePlan(id: Plan['id']): Promise<APIResponse> {
