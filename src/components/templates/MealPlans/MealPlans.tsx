@@ -3,7 +3,7 @@ import { useDisclosure } from '../../../hooks';
 
 import useMealPlansContext from '../../../hooks/useMealPlansContext';
 
-import { Calendar, Modal, Plans } from './blocks';
+import { Calendar, MealPlanModal, Plans } from './blocks';
 
 export type NewPlan = {
     date: Date | null,
@@ -80,7 +80,7 @@ export default function MealPlans() {
                 filteredPlans={getTargetPlans()}
                 selectedDates={selectedDates}
                 openModal={openModal} />
-            {isOpen && <Modal {...newPlan} onClose={onClose} />}
+            {isOpen && <MealPlanModal {...newPlan} onClose={onClose} />}
         </>
     );
 }

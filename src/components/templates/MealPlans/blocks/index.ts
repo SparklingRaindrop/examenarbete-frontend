@@ -1,5 +1,5 @@
 import { Calendar } from './Calendar';
 import { DailyPlan } from './DailyPlan';
-import { Modal } from './Modal';
+import { MealPlanModal } from './MealPlanModal';
 import { Plans } from './Plans';
-export { Calendar, DailyPlan, Modal, Plans };
+export { Calendar, DailyPlan, MealPlanModal, Plans };

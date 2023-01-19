@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useMealPlansContext, useRecipesContext } from '../../../../../hooks';
 import { Status } from '../../../../../types/statusCode';
 import { isGetResponse } from '../../../../../util/api';
-import { IconButton, Input } from '../../../../elements';
-import { FlexRow, Wrapper, Result } from './styled';
+import { IconButton, Input, Modal } from '../../../../elements';
+import { FlexRow, Result } from './styled';
 
 type Props = {
     date: Date | null;
@@ -11,7 +11,7 @@ type Props = {
     onClose: () => void;
 }
 
-export default function Modal(props: Props) {
+export default function MealPlanModal(props: Props) {
     const { date, type, onClose } = props;
     const [userInput, setUserInput] = useState<string>('');
     const [result, setResult] = useState<Recipe[]>([]);
@@ -20,13 +20,13 @@ export default function Modal(props: Props) {
 
     async function handleSearch() {
         const response = await getRecipes(userInput);
-        if (response.status === Status.Succuss && isGetResponse(response)) {
+        if (response.data && response.status === Status.Succuss) {
             setResult(response.data);
         }
     }
 
     return (
-        <Wrapper>
+        <Modal>
             <IconButton
                 name='xMark'
                 onClick={onClose} />
@@ -64,6 +64,6 @@ export default function Modal(props: Props) {
                         ))
                 }
             </Result>
-        </Wrapper>
+        </Modal>
     );
 }
