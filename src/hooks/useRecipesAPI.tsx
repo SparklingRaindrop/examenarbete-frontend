@@ -4,7 +4,7 @@ import { APIResponse, get, GetResponse, isGetResponse, remove } from '../util/ap
 export default function useRecipesAPI() {
 
     async function getRecipes(keyword?: string): Promise<GetResponse<Recipe[]> | APIResponse> {
-        const response = await get<Recipe[]>(`/recipes${keyword && '?keyword=' + keyword}`);
+        const response = await get<Recipe[]>(`/recipes${keyword ? '?keyword=' + keyword : ''}`);
         if (response && response.status === Status.Succuss && isGetResponse(response)) {
             const { data } = response;
             return { status: response.status, data };
