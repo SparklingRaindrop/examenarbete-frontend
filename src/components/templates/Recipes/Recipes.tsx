@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import { useRecipesContext } from '../../../hooks';
@@ -9,6 +10,8 @@ import { RecipeList } from './blocks';
 export default function Recipes() {
     const [recipes, setRecipes] = useState<Recipe[]>([]);
     const { getRecipes } = useRecipesContext();
+    const router = useRouter();
+
 
     useEffect(() => {
         updateRecipes();
@@ -31,7 +34,9 @@ export default function Recipes() {
             <h3>
                 My Recipes
             </h3>
-            <IconButton name='plus' />
+            <IconButton
+                name='plus'
+                onClick={() => router.push('/user/recipes/new')} />
             <RecipeList
                 recipes={recipes}
                 updateRecipes={updateRecipes} />
