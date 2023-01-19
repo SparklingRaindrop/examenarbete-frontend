@@ -1,5 +1,5 @@
-import { Button, IconButton } from '../../../elements';
-import { Flex } from './styled';
+import { Button, IconButton } from '../../../../elements';
+import { Flex } from '../styled';
 
 type Props = {}
 export default function GroupedButtons({ }: Props) {

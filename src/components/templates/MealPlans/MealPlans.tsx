@@ -3,9 +3,7 @@ import { useDisclosure } from '../../../hooks';
 
 import useMealPlansContext from '../../../hooks/useMealPlansContext';
 
-import Calendar from './blocks/Calendar/Calendar';
-import { Modal } from './blocks/Modal';
-import Plans from './blocks/Plans/Plans';
+import { Calendar, Modal, Plans } from './blocks';
 
 export type NewPlan = {
     date: Date | null,

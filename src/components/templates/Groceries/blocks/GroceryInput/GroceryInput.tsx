@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { useGroceriesContext } from '../../../../hooks';
-import { Checkbox, Icon } from '../../../elements';
+import { useState } from 'react';
+import { useGroceriesContext } from '../../../../../hooks';
+import { Checkbox, Icon } from '../../../../elements';
 import { InputField, Wrapper } from './styled';
 
 type Props = {

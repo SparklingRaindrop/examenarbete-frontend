@@ -2,8 +2,7 @@ import { MealPlans } from '../../../components/templates';
 import { MealPlansProvider } from '../../../context';
 import { RecipesProvider } from '../../../context/RecipesProvider';
 
-type Props = {}
-export default function MealPlanPage({ }: Props) {
+export default function MealPlanPage() {
     return (
         <MealPlansProvider>
             <RecipesProvider>

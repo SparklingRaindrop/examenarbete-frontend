@@ -1,7 +1,7 @@
-import { useDisclosure } from '../../../../hooks';
+import { useDisclosure } from '../../../../../hooks';
 
-import { Icon, List } from '../../../elements';
-import GroceryItem from './GroceryItem';
+import { Icon, List } from '../../../../elements';
+import { GroceryItem } from '../GroceryItem';
 import { Wrapper } from './styled';
 
 type Props = {

@@ -1,11 +1,7 @@
 import Head from 'next/head';
-import { useState } from 'react';
 import { useGroceriesContext } from '../../../hooks';
 
-import { Button, Icon } from '../../elements';
-import GroceryInput from './blocks/GroceryInput';
-import GroceryList from './blocks/GroceryList';
-import GroupedButtons from './blocks/GroupedButtons';
+import { GroceryList, GroupedButtons } from './blocks';
 
 export default function Groceries() {
     const { groceries } = useGroceriesContext();

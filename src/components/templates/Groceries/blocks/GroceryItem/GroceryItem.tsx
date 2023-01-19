@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react';
-import { useGroceriesContext } from '../../../../hooks';
-import { Checkbox, Icon } from '../../../elements';
+import { useGroceriesContext } from '../../../../../hooks';
+import { Checkbox, Icon } from '../../../../elements';
 import { TextContent, Wrapper } from './styled';
 
 type Props = {
