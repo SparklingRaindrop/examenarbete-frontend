@@ -1,7 +1,7 @@
 import { useEffect, useReducer } from 'react';
 import { useRecipesContext } from '../../../../../hooks';
 import { Status } from '../../../../../types/statusCode';
-import { Button, Modal } from '../../../../elements';
+import { Button, IconButton, Modal } from '../../../../elements';
 
 type Props = {
     id?: string;
@@ -11,7 +11,8 @@ type RecipeData = {
     title: Recipe['title'];
     ingredients: {
         item: Pick<Item, 'id' | 'name'>,
-        unit: Pick<Unit, 'name' | 'id'>
+        unit: Pick<Unit, 'name' | 'id'>,
+        amount: number;
     }[];
 }
 
@@ -23,8 +24,12 @@ const initial: RecipeData = {
 type Action = 'initial';
 function reducer(state: RecipeData, action: { type: Action, value: any }): RecipeData {
     if (action.type === 'initial') {
-        console.log(action.value);
-        return { ...state };
+        const { value } = action;
+        return {
+            ...state,
+            title: value.title,
+            ingredients: value.ingredients,
+        };
     }
     throw Error('Unknown action.');
 }
@@ -50,19 +55,24 @@ export default function RecipeEditor(props: Props) {
         // eslint-disable-next-line
     }, []);
 
+    const { title, ingredients } = state;
     return (
         <Modal>
             <h2>
-                DishName
+                {title ? title : 'No title'}
             </h2>
             <h3>
                 ingredients
             </h3>
-            {/*             {
-                ingredients.map(item => (
-                    <li>{item.name}{item.amount}{item.unit.name}</li>
+            {
+                ingredients.length > 0 && ingredients.map(({ amount, item, unit }, index) => (
+                    <li key={item.id + index}>
+                        {item.name}
+                        {amount}
+                        {unit.name}
+                    </li>
                 ))
-            } */}
+            }
             <Button label='add an item' />
             <h3>
                 How to cook
