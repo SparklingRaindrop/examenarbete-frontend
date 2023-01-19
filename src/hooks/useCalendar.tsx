@@ -3,8 +3,7 @@ import { useMemo, useState } from 'react';
 function getWeekNumber() {
     const today = new Date();
     const firstOfJan = new Date(today.getFullYear(), 0, 1);
-    const numberOfDays = Math.floor((today.getTime() - firstOfJan.getTime()) / (24 * 60 * 60 * 1000));
-    return Math.ceil((today.getDay() + 1 + numberOfDays) / 7);
+    return Math.ceil((((today.getTime() - firstOfJan.getTime()) / (24 * 60 * 60 * 1000)) + firstOfJan.getDay() + 1) / 7);
 }
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -47,8 +46,8 @@ function getNextSevenDates(weekNo: number, year: number) {
 }
 
 export function useCalendar() {
-    const [currentWeek, setCurrentWeek] = useState<number>(getWeekNumber());
-    const activeSevenDates = useMemo(() => getNextSevenDates(currentWeek, 2023), [currentWeek]);
+    const [activeWeek, setActiveWeek] = useState<number>(getWeekNumber());
+    const activeSevenDates = useMemo(() => getNextSevenDates(activeWeek, 2023), [activeWeek]);
     const currentMonthName = useMemo(() => (
         activeSevenDates.reduce((result: string[], current) => {
             if (!result.includes(current.month)) {
@@ -59,15 +58,19 @@ export function useCalendar() {
     ), [activeSevenDates]);
 
     function moveToAdjacentWeek(direction: -1 | 1): void {
-        if ((currentWeek === 1 && direction == -1) ||
-            (currentWeek === 52 && direction === 1)) return;
-        setCurrentWeek(prev => prev + direction);
+        if ((activeWeek === 1 && direction == -1) ||
+            (activeWeek === 52 && direction === 1)) return;
+        setActiveWeek(prev => prev + direction);
+    }
+    function resetActiveWeek() {
+        setActiveWeek(getWeekNumber());
     }
 
     return {
-        currentWeek,
+        activeWeek,
         activeSevenDates,
         currentMonthName,
-        moveToAdjacentWeek
+        moveToAdjacentWeek,
+        resetActiveWeek
     };
 }
