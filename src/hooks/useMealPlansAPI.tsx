@@ -8,9 +8,20 @@ type DateData = {
     day: number;
 };
 
-export type Range = {
+export type PlanRange = {
     start: DateData,
     end: DateData,
+}
+
+function generateQuery(range: PlanRange): string {
+    const parsed: { [key: string]: string } = {};
+    Object.keys(range).forEach(type => {
+        Object.keys(range[type as keyof PlanRange]).forEach(key => {
+            parsed[type + key] = range[type as keyof PlanRange][key as keyof DateData].toString().padStart(2, '0');
+        });
+    });
+    return `/?start=${parsed.startmonth}-${parsed.startday}-${parsed.startyear}` +
+        `&end=${parsed.endmonth}-${parsed.endday}-${parsed.endyear}`;
 }
 
 export default function useMealPlansAPI() {
@@ -23,8 +34,8 @@ export default function useMealPlansAPI() {
         init();
     }, []);
 
-    async function getPlans(range?: Range): Promise<APIResponse> {
-        const response = await get<Plan[]>(`/plans${range ? `?bids=start${range.start}&end=${range.end}` : ''}`);
+    async function getPlans(range?: PlanRange): Promise<APIResponse> {
+        const response = await get<Plan[]>(`/plans${range ? generateQuery(range) : ''}`);
         if (response && response.status === Status.Succuss && isGetResponse(response)) {
             const { data } = response;
             setPlans(prev => ([
