@@ -15,7 +15,7 @@ const MEALS = ['breakfast', 'lunch', 'dinner'];
 export default function Plans(props: Props) {
     const { filteredPlans, selectedDates, openModal } = props;
     const days = useMemo(() => {
-        if (selectedDates.length === 1) return selectedDates;
+        if (selectedDates.length < 2) return selectedDates;
 
         const startDate = selectedDates[0];
         const endDate = selectedDates[1];
@@ -26,7 +26,7 @@ export default function Plans(props: Props) {
     return (
         <>
             {
-                days.map((date, index) => (
+                days.length > 0 && days.map((date, index) => (
                     <Wrapper key={date.toString() + index}>
                         <H3>
                             {

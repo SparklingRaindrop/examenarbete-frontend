@@ -30,11 +30,15 @@ export default function Calendar(props: Props) {
         resetActiveWeek
     } = useCalendar();
     const router = useRouter();
-    const resetVisibleWeek = useCallback(() => resetActiveWeek, [resetActiveWeek]);
 
     useEffect(() => {
-        resetVisibleWeek();
-    }, [router.pathname, resetVisibleWeek]);
+        resetActiveWeek();
+    }, [router.pathname]);
+
+    function handleMoveWeek(direction: -1 | 1) {
+        moveToAdjacentWeek(direction);
+        addSelectedDate([]);
+    }
 
     return (
         <Wrapper>
@@ -44,7 +48,7 @@ export default function Calendar(props: Props) {
                     <IconButton
                         name='chevronLeft'
                         variant='ghost'
-                        onClick={() => moveToAdjacentWeek(-1)}
+                        onClick={() => handleMoveWeek(-1)}
                         disabled={activeWeek === 1} />
                     <Week
                         onClick={() => addSelectedDate([
@@ -56,7 +60,7 @@ export default function Calendar(props: Props) {
                     <IconButton
                         name='chevronRight'
                         variant='ghost'
-                        onClick={() => moveToAdjacentWeek(1)}
+                        onClick={() => handleMoveWeek(1)}
                         disabled={activeWeek === 51} />
                 </Switcher>
             </FlexRow>
@@ -65,7 +69,8 @@ export default function Calendar(props: Props) {
                     activeSevenDates.map(({ day, dayOfWeek, date }) => (
                         <Day
                             key={day}
-                            selected={isSelected(date, selectedDates)}
+                            isSelected={isSelected(date, selectedDates)}
+                            isToday={areSameDay(date, new Date())}
                             onClick={() => addSelectedDate(new Date(date))}>
                             <span>{day}</span>
                             <span>{dayOfWeek}</span>
