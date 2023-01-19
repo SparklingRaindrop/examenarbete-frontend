@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { useCalendar, useMealPlansContext } from '../../../../../hooks';
+import { useCalendar } from '../../../../../hooks';
 import { IconButton } from '../../../../elements';
 import { FlexRow, Wrapper, Day, Switcher, Week, Month } from '../Calendar/styled';
 
@@ -8,9 +7,15 @@ type Props = {
     selectedDates: Date[];
 }
 
-function isSelected(date: number, range: Date[]) {
-    if (range.length === 1) return date === range[0].getDate();
-    return range[0].getDate() <= date && date <= range[1].getDate();
+function areSameDay(d1: Date, d2: Date) {
+    return d1.getFullYear() === d2.getFullYear() &&
+        d1.getMonth() === d2.getMonth() &&
+        d1.getDate() === d2.getDate();
+}
+
+function isSelected(date: Date, range: Date[]) {
+    if (range.length === 1) return areSameDay(date, range[0]);
+    return range[0] <= date && date <= range[1];
 }
 
 export default function Calendar(props: Props) {
@@ -46,7 +51,7 @@ export default function Calendar(props: Props) {
                     activeSevenDates.map(({ day, dayOfWeek, date }) => (
                         <Day
                             key={day}
-                            selected={isSelected(day, selectedDates)}
+                            selected={isSelected(date, selectedDates)}
                             onClick={() => addSelectedDate(new Date(date))}>
                             <span>{day}</span>
                             <span>{dayOfWeek}</span>
