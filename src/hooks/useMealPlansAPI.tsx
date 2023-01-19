@@ -13,18 +13,24 @@ export type PlanRange = {
     end: DateData,
 }
 
-function generateQuery(range: PlanRange): string {
-    const parsed: { [key: string]: string } = {};
-    Object.keys(range).forEach(type => {
+function generateQuery(range: [Date, Date]): string {
+    /* Object.keys(range).forEach(type => {
         Object.keys(range[type as keyof PlanRange]).forEach(key => {
             parsed[type + key] = range[type as keyof PlanRange][key as keyof DateData].toString().padStart(2, '0');
         });
-    });
-    return `/?start=${parsed.startmonth}-${parsed.startday}-${parsed.startyear}` +
-        `&end=${parsed.endmonth}-${parsed.endday}-${parsed.endyear}`;
+    }); */
+    const [start, end] = range;
+    const startMonth = start.getMonth() + 1;
+    const startDay = start.getDate();
+    const startYear = start.getFullYear();
+    const endMonth = end.getMonth() + 1;
+    const endDay = end.getDate();
+    const endYear = end.getFullYear();
+    return `/?start=${startMonth}-${startDay}-${startYear}` +
+        `&end=${endMonth}-${endDay}-${endYear}`;
 }
 
-function getInitialFetchedRange(): Date[] {
+function getInitialFetchedRange(): [Date, Date] {
     const today = new Date();
     const start = new Date(today.getFullYear(), today.getMonth(), 1);
     const end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
@@ -33,7 +39,7 @@ function getInitialFetchedRange(): Date[] {
 
 export default function useMealPlansAPI() {
     const [plans, setPlans] = useState<Plan[]>([]);
-    const [fetchedRange, setFetchedRange] = useState<Date[]>(getInitialFetchedRange());
+    const [fetchedPlansRange, setFetchedPlansRange] = useState<[Date, Date]>(getInitialFetchedRange());
 
     useEffect(() => {
         async function init() {
@@ -43,37 +49,39 @@ export default function useMealPlansAPI() {
         // eslint-disable-next-line
     }, []);
 
-    function addRange(range: PlanRange) {
+    useEffect(() => {
+        async function init() {
+            getPlans();
+        }
+        init();
+        // eslint-disable-next-line
+    }, [fetchedPlansRange]);
+
+    function updateRange(range: PlanRange) {
         const { start, end } = range;
         // PlanRange's month isn't "index month"
         const date1 = new Date(start.year, start.month - 1, start.day);
         const date2 = new Date(end.year, end.month - 1, end.day);
-        if (date1 < fetchedRange[0]) {
-            setFetchedRange(prev => {
+        if (date1 < fetchedPlansRange[0]) {
+            setFetchedPlansRange(prev => {
                 const newData = [...prev];
                 newData[0] = date1;
-                return newData;
+                return newData as [Date, Date];
             });
-        } else if (fetchedRange[1] < date2) {
-            setFetchedRange(prev => {
+        } else if (fetchedPlansRange[1] < date2) {
+            setFetchedPlansRange(prev => {
                 const newData = [...prev];
                 newData[1] = date2;
-                return newData;
+                return newData as [Date, Date];
             });
         }
     }
 
-    async function getPlans(range?: PlanRange): Promise<APIResponse> {
-        const response = await get<Plan[]>(`/plans${range ? generateQuery(range) : ''}`);
-        if (range) {
-            addRange(range);
-        }
+    async function getPlans(): Promise<APIResponse> {
+        const response = await get<Plan[]>(`/plans${generateQuery(fetchedPlansRange)}`);
         if (response && response.status === Status.Succuss && isGetResponse(response)) {
             const { data } = response;
-            setPlans(prev => ([
-                ...prev,
-                ...data
-            ]));
+            setPlans(data);
         }
         return { status: response.status };
     }
@@ -96,9 +104,9 @@ export default function useMealPlansAPI() {
 
     return {
         plans,
-        fetchedRange,
+        fetchedPlansRange,
         removePlan,
         addPlan,
-        getPlans
+        updateRange
     };
 }

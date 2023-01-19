@@ -1,6 +1,6 @@
 import useMealPlansContext from '../../../../../hooks/useMealPlansContext';
+import { Status } from '../../../../../types/statusCode';
 import { IconButton } from '../../../../elements';
-import { NewPlan } from '../../MealPlans';
 import { Plan, Wrapper } from './styled';
 
 type Props = {
@@ -21,7 +21,12 @@ export default function DailyPlan(props: Props) {
                         <IconButton
                             name='xMark'
                             variant='ghost'
-                            onClick={() => removePlan(id)} />
+                            onClick={async () => {
+                                const response = await removePlan(id);
+                                if (response.status === Status.NotFound || response.status === Status.BadRequest) {
+                                    alert('Couldn\'t delete');
+                                }
+                            }} />
                     </Plan>
                 ))
             }

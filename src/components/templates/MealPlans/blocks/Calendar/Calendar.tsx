@@ -50,7 +50,7 @@ function generateDateObj(date: Date): PlanRange {
 
 export default function Calendar(props: Props) {
     const { selectedDates, addSelectedDate } = props;
-    const { getPlans, fetchedRange } = useMealPlansContext();
+    const { updateRange, fetchedPlansRange } = useMealPlansContext();
     const {
         activeWeek,
         activeSevenDates,
@@ -72,11 +72,11 @@ export default function Calendar(props: Props) {
     if (activeSevenDates.some(({ day, date }) => day === 1 || isLastDay(date))) {
         const targets = activeSevenDates.filter(({ day, date }) => day === 1 || isLastDay(date));
         const nextRange = targets.find(({ date }) => {
-            return date < fetchedRange[0] && date < fetchedRange[1] || // before than fetched range
-                fetchedRange[0] < date && fetchedRange[1] < date; // after than fetched range
+            return date < fetchedPlansRange[0] && date < fetchedPlansRange[1] || // before than fetched range
+                fetchedPlansRange[0] < date && fetchedPlansRange[1] < date; // after than fetched range
         });
         if (nextRange) {
-            getPlans(generateDateObj(nextRange.date));
+            updateRange(generateDateObj(nextRange.date));
         }
     }
 
