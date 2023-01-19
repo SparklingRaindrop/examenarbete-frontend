@@ -25,6 +25,7 @@ const fetch = axios.create({
     timeoutErrorMessage: 'Time out!'
 });
 
+const controller = new AbortController();
 export async function get<T>(endpoint: string): Promise<GetResponse<T>> {
     try {
         const { data, status } = await fetch.get<T>(
@@ -33,6 +34,7 @@ export async function get<T>(endpoint: string): Promise<GetResponse<T>> {
                 headers: {
                     Accept: 'application/json',
                 },
+                signal: controller.signal
             },
         );
 
