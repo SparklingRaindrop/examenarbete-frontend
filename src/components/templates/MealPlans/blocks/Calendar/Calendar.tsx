@@ -1,12 +1,14 @@
 import { useRouter } from 'next/router';
 import { useCallback, useEffect } from 'react';
-import { useCalendar } from '../../../../../hooks';
+import { useCalendar, useMealPlansContext } from '../../../../../hooks';
+import { Range } from '../../../../../hooks/useMealPlansAPI';
 import { IconButton } from '../../../../elements';
 import { FlexRow, Wrapper, Day, Switcher, Week, Month } from '../Calendar/styled';
 
 type Props = {
-    addSelectedDate: (target: Date | Date[]) => void;
     selectedDates: Date[];
+    planRange: { latestPlan: number, oldestPlan: number } | undefined;
+    addSelectedDate: (target: Date | Date[]) => void;
 }
 
 function areSameDay(d1: Date, d2: Date) {
@@ -20,8 +22,28 @@ function isSelected(date: Date, range: Date[]) {
     return range[0] <= date && date <= range[1];
 }
 
+function generateDateObj(date: Date): Range {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const start = {
+        year,
+        month,
+        day: new Date(year, month, 1).getDate()
+    };
+    const end = {
+        year,
+        month,
+        day: new Date(year, month, 0).getDate(),
+    };
+    return {
+        start,
+        end
+    };
+}
+
 export default function Calendar(props: Props) {
-    const { selectedDates, addSelectedDate } = props;
+    const { selectedDates, planRange, addSelectedDate } = props;
+    const { getPlans } = useMealPlansContext();
     const {
         activeWeek,
         activeSevenDates,
@@ -34,6 +56,20 @@ export default function Calendar(props: Props) {
     useEffect(() => {
         resetActiveWeek();
     }, [router.pathname]);
+
+    useEffect(() => {
+        if (!planRange) return;
+
+        const { oldestPlan, latestPlan } = planRange;
+        // TODO: If there is no plan it will fetch again on page switch
+        if (activeSevenDates[0].date.getTime() < oldestPlan) {
+            const newRange = generateDateObj(activeSevenDates[0].date);
+            getPlans(newRange);
+        } else if (latestPlan < activeSevenDates[1].date.getTime()) {
+            const newRange = generateDateObj(activeSevenDates[1].date);
+            getPlans(newRange);
+        }
+    }, [planRange, activeSevenDates]);
 
     function handleMoveWeek(direction: -1 | 1) {
         moveToAdjacentWeek(direction);
