@@ -6,6 +6,7 @@ import { Button, IconButton } from './Button';
 import { Loading } from './Loading';
 import { Counter } from './Counter';
 import { Input, InputGroup, InputRightElement } from './Input';
+import { Modal } from './Modal';
 export {
     List,
     Checkbox,
@@ -17,6 +18,7 @@ export {
     Loading,
     Counter,
     Input,
+    Modal,
     InputGroup,
     InputRightElement
 };
