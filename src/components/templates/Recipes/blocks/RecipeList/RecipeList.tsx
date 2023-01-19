@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useRecipesContext } from '../../../../../hooks';
 import { IconButton } from '../../../../elements';
 
@@ -8,10 +9,7 @@ type Props = {
 export default function RecipeList(props: Props) {
     const { recipes, updateRecipes } = props;
     const { removeRecipe } = useRecipesContext();
-
-    async function deleteRecipe(id: string) {
-        return removeRecipe(id);
-    }
+    const router = useRouter();
 
     return (
         <ul>
@@ -21,12 +19,15 @@ export default function RecipeList(props: Props) {
                         <h3>{title}</h3>
                         <IconButton
                             variant='ghost'
-                            name='pencil' />
+                            name='pencil'
+                            onClick={() => {
+                                router.push(`/user/recipes/edit/${id}`);
+                            }} />
                         <IconButton
                             variant='ghost'
                             name='delete'
                             onClick={() => (
-                                deleteRecipe(id)
+                                removeRecipe(id)
                                     .then(() => updateRecipes())
                             )} />
                     </div>

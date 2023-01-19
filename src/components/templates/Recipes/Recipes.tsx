@@ -4,7 +4,6 @@ import { useRecipesContext } from '../../../hooks';
 
 import { IconButton } from '../../elements';
 
-import { RecipeEditor } from './blocks';
 import { RecipeList } from './blocks';
 
 export default function Recipes() {
@@ -33,8 +32,9 @@ export default function Recipes() {
                 My Recipes
             </h3>
             <IconButton name='plus' />
-            <RecipeList recipes={recipes} updateRecipes={updateRecipes} />
-            {<RecipeEditor />}
+            <RecipeList
+                recipes={recipes}
+                updateRecipes={updateRecipes} />
         </>
     );
 }
