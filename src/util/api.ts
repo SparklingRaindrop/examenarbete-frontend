@@ -2,7 +2,7 @@ import axios, { AxiosError } from 'axios';
 import { Status } from '../types/statusCode';
 
 export interface GetResponse<T> {
-    data: T;
+    data?: T;
     status: number;
 }
 
@@ -25,7 +25,7 @@ const fetch = axios.create({
     timeoutErrorMessage: 'Time out!'
 });
 
-export async function get<T>(endpoint: string): Promise<GetResponse<T> | APIResponse> {
+export async function get<T>(endpoint: string): Promise<GetResponse<T>> {
     try {
         const { data, status } = await fetch.get<T>(
             endpoint,
