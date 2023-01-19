@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router';
+import { useCallback, useEffect } from 'react';
 import { useCalendar } from '../../../../../hooks';
 import { IconButton } from '../../../../elements';
 import { FlexRow, Wrapper, Day, Switcher, Week, Month } from '../Calendar/styled';
@@ -20,7 +22,19 @@ function isSelected(date: Date, range: Date[]) {
 
 export default function Calendar(props: Props) {
     const { selectedDates, addSelectedDate } = props;
-    const { currentWeek, activeSevenDates, currentMonthName, moveToAdjacentWeek } = useCalendar();
+    const {
+        activeWeek,
+        activeSevenDates,
+        currentMonthName,
+        moveToAdjacentWeek,
+        resetActiveWeek
+    } = useCalendar();
+    const router = useRouter();
+    const resetVisibleWeek = useCallback(() => resetActiveWeek, [resetActiveWeek]);
+
+    useEffect(() => {
+        resetVisibleWeek();
+    }, [router.pathname, resetVisibleWeek]);
 
     return (
         <Wrapper>
@@ -31,19 +45,19 @@ export default function Calendar(props: Props) {
                         name='chevronLeft'
                         variant='ghost'
                         onClick={() => moveToAdjacentWeek(-1)}
-                        disabled={currentWeek === 1} />
+                        disabled={activeWeek === 1} />
                     <Week
                         onClick={() => addSelectedDate([
                             new Date(activeSevenDates[0].date),
                             new Date(activeSevenDates[activeSevenDates.length - 1].date),
                         ])}>
-                        Week{currentWeek}
+                        Week{activeWeek}
                     </Week>
                     <IconButton
                         name='chevronRight'
                         variant='ghost'
                         onClick={() => moveToAdjacentWeek(1)}
-                        disabled={currentWeek === 51} />
+                        disabled={activeWeek === 51} />
                 </Switcher>
             </FlexRow>
             <FlexRow>
