@@ -1,13 +1,12 @@
 import { useRouter } from 'next/router';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useCalendar, useMealPlansContext } from '../../../../../hooks';
-import { Range } from '../../../../../hooks/useMealPlansAPI';
+import { PlanRange } from '../../../../../hooks/useMealPlansAPI';
 import { IconButton } from '../../../../elements';
 import { FlexRow, Wrapper, Day, Switcher, Week, Month } from '../Calendar/styled';
 
 type Props = {
     selectedDates: Date[];
-    planRange: { latestPlan: number, oldestPlan: number } | undefined;
     addSelectedDate: (target: Date | Date[]) => void;
 }
 
@@ -22,7 +21,15 @@ function isSelected(date: Date, range: Date[]) {
     return range[0] <= date && date <= range[1];
 }
 
-function generateDateObj(date: Date): Range {
+function isLastDay(date: Date): boolean {
+    const target = new Date(date.getTime());
+    const targetMonth = target.getMonth();
+
+    target.setDate(target.getDate() + 1);
+    return target.getMonth() !== targetMonth;
+}
+
+function generateDateObj(date: Date): PlanRange {
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const start = {
@@ -42,8 +49,8 @@ function generateDateObj(date: Date): Range {
 }
 
 export default function Calendar(props: Props) {
-    const { selectedDates, planRange, addSelectedDate } = props;
-    const { getPlans } = useMealPlansContext();
+    const { selectedDates, addSelectedDate } = props;
+    const { getPlans, fetchedRange } = useMealPlansContext();
     const {
         activeWeek,
         activeSevenDates,
@@ -57,23 +64,20 @@ export default function Calendar(props: Props) {
         resetActiveWeek();
     }, [router.pathname]);
 
-    useEffect(() => {
-        if (!planRange) return;
-
-        const { oldestPlan, latestPlan } = planRange;
-        // TODO: If there is no plan it will fetch again on page switch
-        if (activeSevenDates[0].date.getTime() < oldestPlan) {
-            const newRange = generateDateObj(activeSevenDates[0].date);
-            getPlans(newRange);
-        } else if (latestPlan < activeSevenDates[1].date.getTime()) {
-            const newRange = generateDateObj(activeSevenDates[1].date);
-            getPlans(newRange);
-        }
-    }, [planRange, activeSevenDates]);
-
     function handleMoveWeek(direction: -1 | 1) {
         moveToAdjacentWeek(direction);
         addSelectedDate([]);
+    }
+
+    if (activeSevenDates.some(({ day, date }) => day === 1 || isLastDay(date))) {
+        const targets = activeSevenDates.filter(({ day, date }) => day === 1 || isLastDay(date));
+        const nextRange = targets.find(({ date }) => {
+            return date < fetchedRange[0] && date < fetchedRange[1] || // before than fetched range
+                fetchedRange[0] < date && fetchedRange[1] < date; // after than fetched range
+        });
+        if (nextRange) {
+            getPlans(generateDateObj(nextRange.date));
+        }
     }
 
     return (
