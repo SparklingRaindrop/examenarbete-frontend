@@ -16,6 +16,17 @@ interface Plan {
     type: Meal;
 }
 
+interface Item {
+    id: string;
+    name: string;
+    unit: Pick<Unit, 'name', 'id'>;
+}
+
+interface Unit {
+    id: string;
+    name: string;
+}
+
 interface Recipe {
     id: string;
     title: string;
