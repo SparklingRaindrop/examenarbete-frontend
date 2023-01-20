@@ -2,7 +2,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { useRecipesContext } from '../../../../../../hooks';
 import { Autocomplete, IconButton } from '../../../../../elements';
 
-export interface NewIngredient extends Item {
+export interface NewIngredient {
+    item: Item,
     amount: number;
 }
 
@@ -63,7 +64,9 @@ export default function ItemInputFields(props: Props) {
                     const itemData = items.find(item => item.name === userInput.name);
                     if (itemData) {
                         addItem({
-                            ...itemData,
+                            item: {
+                                ...itemData
+                            },
                             amount: Number(userInput.amount),
                         });
                         onClose();

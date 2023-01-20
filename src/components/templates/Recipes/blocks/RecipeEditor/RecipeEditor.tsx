@@ -80,7 +80,7 @@ export default function RecipeEditor(props: Props) {
     }, [getData]);
 
     function addItem(newItem: NewIngredient): void {
-        if (newItem.id === '') return;
+        if (newItem.item.id === '') return;
         dispatch({
             type: 'ingredient_add',
             value: newItem,
@@ -113,10 +113,10 @@ export default function RecipeEditor(props: Props) {
                 ingredients
             </h3>
             {
-                ingredients.length > 0 && ingredients.map((item, index) => (
+                ingredients.length > 0 && ingredients.map(({ item, amount }, index) => (
                     <li key={item.id + index}>
                         {item.name}
-                        {item.amount}
+                        {amount}
                         {item.unit.name}
                     </li>
                 ))
@@ -171,9 +171,9 @@ export default function RecipeEditor(props: Props) {
                     if (id) {
                         //updateRecipe();
                     } else {
-                        const ingredientList = ingredients.map(({ id, amount }) => ({
+                        const ingredientList = ingredients.map(({ item, amount }) => ({
                             amount,
-                            item_id: id
+                            item_id: item.id
                         }));
                         addRecipe({
                             title,

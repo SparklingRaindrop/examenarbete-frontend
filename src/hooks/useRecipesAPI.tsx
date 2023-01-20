@@ -3,10 +3,10 @@ import { Status } from '../types/statusCode';
 import { APIResponse, get, GetResponse, post, remove } from '../util/api';
 
 export interface RecipeData extends Pick<Recipe, 'title'> {
-    ingredients: {
-        item: Item,
+    ingredients: Array<{
+        item: Item;
         amount: number;
-    }[];
+    }>;
     instructions: Array<Omit<Instruction, 'id'> & { id?: Instruction['id'] }>;
 }
 
@@ -23,7 +23,7 @@ export default function useRecipesAPI() {
 
     useEffect(() => {
         async function init() {
-            const response = await getItems();
+            const response = await get<Item[]>('/items');
             if (response.status === Status.Succuss && response.data) {
                 setItems(response.data);
             }
@@ -64,7 +64,7 @@ export default function useRecipesAPI() {
         return response;
     }
 
-    function filterItems(keyword?: string) {
+    function getFilteredItems(keyword?: string) {
         if (!keyword) return items;
 
         const key = keyword.toLowerCase();
@@ -79,6 +79,6 @@ export default function useRecipesAPI() {
         getItems,
         getUnits,
         addRecipe,
-        filterItems,
+        getFilteredItems,
     };
 }
