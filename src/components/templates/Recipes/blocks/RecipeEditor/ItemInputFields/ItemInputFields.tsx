@@ -2,54 +2,46 @@ import { useCallback, useEffect, useState } from 'react';
 import { useRecipesContext } from '../../../../../../hooks';
 import { Autocomplete, IconButton } from '../../../../../elements';
 
-export interface IngredientInput {
-    item: Omit<Item, 'unit'> & Partial<Pick<Item, 'unit'>>;
-    amount: string;
+export interface NewIngredient extends Item {
+    amount: number;
 }
 
 type Props = {
-    addItem: (newItem: IngredientInput & { unit_id?: Unit['id'] }) => void;
+    addItem: (newItem: NewIngredient) => void;
     onClose: () => void;
 }
 
 export default function ItemInputFields(props: Props) {
     const { addItem, onClose } = props;
-    const [userInput, setUserInput] = useState<IngredientInput>({
-        item: {
-            name: '',
-            id: '',
-            unit: {
-                name: '',
-                id: '',
-            }
-        },
+    const [userInput, setUserInput] = useState<{
+        name: string;
+        amount: string;
+    }>({
+        name: '',
         amount: '',
     });
-
-    const [suggestions, setSuggestions] = useState<Item[]>([]);
-    const { filterItems } = useRecipesContext();
-    const getSuggestions = useCallback(async () => {
-        const filteredItems = filterItems(userInput.item.name);
-        setSuggestions(filteredItems);
-    }, [filterItems, userInput.item.name]);
-
-    useEffect(() => {
-        if (userInput.item.name === '') return;
-        getSuggestions();
-    }, [getSuggestions, userInput.item.name]);
+    const { items } = useRecipesContext();
+    /*     const [suggestions, setSuggestions] = useState<It em[]>([]);*/
+    /*     const { getFilteredItems } = useRecipesContext(); */
+    /*     const getSuggestions = useCallback(async () => {
+            const filteredItems = getFilteredItems(userInput.item.name);
+            setSuggestions(filteredItems);
+        }, [getFilteredItems, userInput.item.name]);
+    
+        useEffect(() => {
+            if (userInput.item.name === '') return;
+            getSuggestions();
+        }, [getSuggestions, userInput.item.name]); */
 
     return (
         <div>
             <Autocomplete
-                suggestions={suggestions.map(item => item.name)}
-                userInput={userInput.item.name}
+                suggestions={items.map(item => item.name)}
+                userInput={userInput.name}
                 updateUserInput={(value) => {
                     setUserInput(prev => ({
                         ...prev,
-                        item: {
-                            ...prev.item,
-                            name: value
-                        }
+                        name: value
                     }));
                 }} />
             <input
@@ -63,20 +55,19 @@ export default function ItemInputFields(props: Props) {
                     }));
                 }} />
             {
-                suggestions.find(item => item.name === userInput.item.name)?.unit.name // Ignore new Item for now
+                items.find(item => item.name === userInput.name)?.unit.name // Ignore new Item for now
             }
             <IconButton
                 name='plus'
                 onClick={() => {
-                    const itemData = suggestions.find(item => item.name === userInput.item.name);
-                    addItem({
-                        ...userInput,
-                        item: {
-                            ...userInput.item,
-                            unit: itemData?.unit,
-                        }
-                    });
-                    onClose();
+                    const itemData = items.find(item => item.name === userInput.name);
+                    if (itemData) {
+                        addItem({
+                            ...itemData,
+                            amount: Number(userInput.amount),
+                        });
+                        onClose();
+                    }
                 }} />
         </div>
     );

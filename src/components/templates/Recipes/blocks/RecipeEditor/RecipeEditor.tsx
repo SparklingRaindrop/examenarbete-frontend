@@ -5,7 +5,7 @@ import { Status } from '../../../../../types/statusCode';
 import { Button, Modal } from '../../../../elements';
 import { InstructionTextarea } from './InstructionTextarea';
 import { ItemInputFields } from './ItemInputFields';
-import { IngredientInput } from './ItemInputFields/ItemInputFields';
+import { NewIngredient } from './ItemInputFields/ItemInputFields';
 
 type Props = {
     id?: string;
@@ -79,8 +79,8 @@ export default function RecipeEditor(props: Props) {
         getData();
     }, [getData]);
 
-    function addItem(newItem: IngredientInput & { unit_id?: Unit['id'] }): void {
-        if (newItem.item.name === '') return;
+    function addItem(newItem: NewIngredient): void {
+        if (newItem.id === '') return;
         dispatch({
             type: 'ingredient_add',
             value: newItem,
@@ -99,6 +99,7 @@ export default function RecipeEditor(props: Props) {
     }
 
     const { title, ingredients, instructions } = state;
+
     return (
         <Modal>
             <input
@@ -112,10 +113,10 @@ export default function RecipeEditor(props: Props) {
                 ingredients
             </h3>
             {
-                ingredients.length > 0 && ingredients.map(({ amount, item }, index) => (
+                ingredients.length > 0 && ingredients.map((item, index) => (
                     <li key={item.id + index}>
                         {item.name}
-                        {amount}
+                        {item.amount}
                         {item.unit.name}
                     </li>
                 ))
@@ -170,9 +171,9 @@ export default function RecipeEditor(props: Props) {
                     if (id) {
                         //updateRecipe();
                     } else {
-                        const ingredientList = ingredients.map(({ item, amount }) => ({
+                        const ingredientList = ingredients.map(({ id, amount }) => ({
                             amount,
-                            item_id: item.id
+                            item_id: id
                         }));
                         addRecipe({
                             title,
