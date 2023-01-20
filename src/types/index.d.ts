@@ -26,6 +26,11 @@ interface Unit {
     id: string;
     name: string;
 }
+interface Stock {
+    id: string;
+    item: Item;
+    amount: number;
+}
 
 interface Instruction {
     id: string;
