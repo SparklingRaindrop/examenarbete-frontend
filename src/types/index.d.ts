@@ -19,7 +19,7 @@ interface Plan {
 interface Item {
     id: string;
     name: string;
-    unit: Pick<Unit, 'name', 'id'>;
+    unit: Unit;
 }
 
 interface Unit {
