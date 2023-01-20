@@ -1,7 +1,8 @@
 import { useEffect, useReducer, useRef, useState } from 'react';
 import { useRecipesContext } from '../../../../../hooks';
 import { Status } from '../../../../../types/statusCode';
-import { Button, IconButton, Modal } from '../../../../elements';
+import { Button, Modal } from '../../../../elements';
+import { ItemInputFields } from './ItemInputFields';
 
 type Props = {
     id?: string;
@@ -49,10 +50,6 @@ function reducer(state: RecipeData, action: { type: Action, value: any }): Recip
     throw Error('Unknown action.');
 }
 
-type IngredientInput = {
-    name: string;
-    amount: string;
-}
 export default function RecipeEditor(props: Props) {
     const { id } = props;
     const [state, dispatch] = useReducer(reducer, initial);
@@ -60,14 +57,13 @@ export default function RecipeEditor(props: Props) {
         ingredient: false,
         step: false
     });
-    const [userInput, setUserInput] = useState<{ ingredient: IngredientInput, step: string }>({
-        ingredient: {
-            name: '',
-            amount: ''
-        },
-        step: ''
-    });
-    const newIngredientRef = useRef(null);
+    /*     const [userInput, setUserInput] = useState<{ ingredient: IngredientInput, step: string }>({
+            ingredient: {
+                name: '',
+                amount: ''
+            },
+            step: ''
+        }); */
 
     const { getRecipe } = useRecipesContext();
     useEffect(() => {
@@ -85,27 +81,6 @@ export default function RecipeEditor(props: Props) {
         }
         // eslint-disable-next-line
     }, []);
-
-    function addIngredient() {
-        dispatch({
-            type: 'ingredient_add',
-            value: {
-                item: {
-                    id: '',
-                    name: userInput.ingredient.name,
-                },
-                unit: {
-                    name: '',
-                    id: ''
-                },
-                amount: Number(userInput.ingredient.amount),
-            }
-        });
-        setIsEditing(prev => ({
-            ...prev,
-            ingredient: false,
-        }));
-    }
 
     const { title, ingredients } = state;
     return (
@@ -130,37 +105,7 @@ export default function RecipeEditor(props: Props) {
                 ))
             }
             {
-                isEditing.ingredient && (
-                    <div ref={newIngredientRef}>
-                        <input
-                            type='text'
-                            value={userInput.ingredient.name}
-                            onChange={(event) => setUserInput(prev => ({
-                                ...prev,
-                                ingredient: {
-                                    ...prev.ingredient,
-                                    name: event.target.value
-                                }
-                            }))} />
-                        <input
-                            type='text'
-                            value={userInput.ingredient.amount}
-                            onChange={(event) => {
-                                if (isNaN(Number(event.target.value))) return;
-                                setUserInput(prev => ({
-                                    ...prev,
-                                    ingredient: {
-                                        ...prev.ingredient,
-                                        amount: event.target.value
-                                    }
-                                }));
-                            }} />
-                        st{/* get from backend */}
-                        <IconButton
-                            name='plus'
-                            onClick={addIngredient} />
-                    </div>
-                )
+                isEditing.ingredient && <ItemInputFields />
             }
             <Button
                 label='add an item'
