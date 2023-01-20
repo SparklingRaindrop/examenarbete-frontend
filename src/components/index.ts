@@ -9,6 +9,7 @@ import {
     Input,
     InputRightElement,
     InputGroup,
+    Autocomplete,
     Counter
 } from './elements';
 import {
@@ -23,8 +24,9 @@ export {
     Button,
     IconButton,
     Input,
-    InputRightElement,
-    InputGroup,
     Layout,
-    Counter
+    Counter,
+    Autocomplete,
+    InputGroup,
+    InputRightElement,
 };

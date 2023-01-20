@@ -7,6 +7,7 @@ import { Loading } from './Loading';
 import { Counter } from './Counter';
 import { Input, InputGroup, InputRightElement } from './Input';
 import { Modal } from './Modal';
+import { Autocomplete } from './Autocomplete';
 export {
     List,
     Checkbox,
@@ -19,6 +20,7 @@ export {
     Counter,
     Input,
     Modal,
+    Autocomplete,
     InputGroup,
     InputRightElement
 };
