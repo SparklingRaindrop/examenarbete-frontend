@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import { useRecipesContext } from '../../../../../hooks';
+import { RecipeData } from '../../../../../hooks/useRecipesAPI';
 import { Status } from '../../../../../types/statusCode';
 import { Button, Modal } from '../../../../elements';
 import { InstructionTextarea } from './InstructionTextarea';
@@ -8,15 +9,6 @@ import { IngredientInput } from './ItemInputFields/ItemInputFields';
 
 type Props = {
     id?: string;
-}
-
-type RecipeData = {
-    title: Recipe['title'];
-    ingredients: {
-        item: Item,
-        amount: number;
-    }[];
-    instructions: Array<Omit<Instruction, 'id'> & { id?: Instruction['id'] }>;
 }
 
 const initial: RecipeData = {
@@ -70,7 +62,7 @@ export default function RecipeEditor(props: Props) {
         ingredient: false,
         instruction: false
     });
-    const { getRecipe } = useRecipesContext();
+    const { getRecipe, addRecipe } = useRecipesContext();
     const getData = useCallback(async () => {
         if (!id) return;
         const response = await getRecipe(id);
@@ -178,9 +170,18 @@ export default function RecipeEditor(props: Props) {
                     if (id) {
                         //updateRecipe();
                     } else {
-                        //createRecipe()
+                        const ingredientList = ingredients.map(({ item, amount }) => ({
+                            amount,
+                            item_id: item.id
+                        }));
+                        addRecipe({
+                            title,
+                            instructions,
+                            ingredients: ingredientList,
+                        });
                     }
                 }} />
         </Modal>
     );
 }
+
