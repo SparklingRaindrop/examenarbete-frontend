@@ -12,8 +12,7 @@ type Props = {
 type RecipeData = {
     title: Recipe['title'];
     ingredients: {
-        item: Pick<Item, 'id' | 'name'>,
-        unit: Pick<Unit, 'name' | 'id'>,
+        item: Item,
         amount: number;
     }[];
 }
@@ -76,6 +75,7 @@ export default function RecipeEditor(props: Props) {
     }, [getData]);
 
     function addItem(newItem: IngredientInput & { unit_id?: Unit['id'] }): void {
+        if (newItem.item.name === '') return;
         dispatch({
             type: 'ingredient_add',
             value: newItem,
@@ -96,16 +96,22 @@ export default function RecipeEditor(props: Props) {
                 ingredients
             </h3>
             {
-                ingredients.length > 0 && ingredients.map(({ amount, item, unit }, index) => (
+                ingredients.length > 0 && ingredients.map(({ amount, item }, index) => (
                     <li key={item.id + index}>
                         {item.name}
                         {amount}
-                        {unit.name}
+                        {item.unit.name}
                     </li>
                 ))
             }
             {
-                isEditing.ingredient && <ItemInputFields addItem={addItem} />
+                isEditing.ingredient &&
+                <ItemInputFields
+                    addItem={addItem}
+                    onClose={() => setIsEditing(prev => ({
+                        ...prev,
+                        ingredient: false,
+                    }))} />
             }
             <Button
                 label='add an item'

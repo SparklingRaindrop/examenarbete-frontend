@@ -3,45 +3,55 @@ import { useRecipesContext } from '../../../../../../hooks';
 import { Autocomplete, IconButton } from '../../../../../elements';
 
 export interface IngredientInput {
-    name: Item['name'];
-    item_id?: Item['id'];
+    item: Omit<Item, 'unit'> & Partial<Pick<Item, 'unit'>>;
     amount: string;
 }
 
 type Props = {
     addItem: (newItem: IngredientInput & { unit_id?: Unit['id'] }) => void;
+    onClose: () => void;
 }
 
 export default function ItemInputFields(props: Props) {
-    const { addItem } = props;
+    const { addItem, onClose } = props;
     const [userInput, setUserInput] = useState<IngredientInput>({
-        name: '',
-        item_id: '',
+        item: {
+            name: '',
+            id: '',
+            unit: {
+                name: '',
+                id: '',
+            }
+        },
         amount: '',
     });
+
     const [suggestions, setSuggestions] = useState<Item[]>([]);
     const { getItems } = useRecipesContext();
     const getSuggestions = useCallback(async () => {
-        const response = await getItems(userInput.name);
+        const response = await getItems(userInput.item.name);
         if (response.data) {
             setSuggestions(response.data);
         }
-    }, [getItems, userInput.name]);
+    }, [getItems, userInput.item.name]);
 
     useEffect(() => {
-        if (userInput.name === '') return;
+        if (userInput.item.name === '') return;
         getSuggestions();
-    }, [getSuggestions, userInput.name]);
+    }, [getSuggestions, userInput.item.name]);
 
     return (
         <div>
             <Autocomplete
                 suggestions={suggestions.map(item => item.name)}
-                userInput={userInput.name}
+                userInput={userInput.item.name}
                 updateUserInput={(value) => {
                     setUserInput(prev => ({
                         ...prev,
-                        name: value
+                        item: {
+                            ...prev.item,
+                            name: value
+                        }
                     }));
                 }} />
             <input
@@ -51,24 +61,25 @@ export default function ItemInputFields(props: Props) {
                     if (isNaN(Number(event.target.value))) return;
                     setUserInput(prev => ({
                         ...prev,
-                        ingredient: {
-                            ...prev,
-                            amount: event.target.value
-                        }
+                        amount: event.target.value
                     }));
                 }} />
-            {suggestions.find(item => item.name === userInput.name)?.unit.name}
+            {
+                suggestions.find(item => item.name === userInput.item.name)?.unit.name // Ignore new Item for now
+            }
             <IconButton
                 name='plus'
                 onClick={() => {
-                    const unit = suggestions.find(item => item.name === userInput.name)?.unit;
+                    const itemData = suggestions.find(item => item.name === userInput.item.name);
                     addItem({
                         ...userInput,
-                        unit_id: unit?.id,
+                        item: {
+                            ...userInput.item,
+                            unit: itemData?.unit,
+                        }
                     });
+                    onClose();
                 }} />
         </div>
     );
 }
-
-// if it's a new item, show available unit
