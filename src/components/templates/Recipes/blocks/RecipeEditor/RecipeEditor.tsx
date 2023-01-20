@@ -2,6 +2,7 @@ import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import { useRecipesContext } from '../../../../../hooks';
 import { Status } from '../../../../../types/statusCode';
 import { Button, Modal } from '../../../../elements';
+import { InstructionTextarea } from './InstructionTextarea';
 import { ItemInputFields } from './ItemInputFields';
 import { IngredientInput } from './ItemInputFields/ItemInputFields';
 
@@ -15,14 +16,16 @@ type RecipeData = {
         item: Item,
         amount: number;
     }[];
+    instructions: Array<Omit<Instruction, 'id'> & { id?: Instruction['id'] }>;
 }
 
 const initial: RecipeData = {
     title: '',
-    ingredients: []
+    ingredients: [],
+    instructions: [],
 };
 
-type Action = 'initial' | 'title_edit' | 'ingredient_add';
+type Action = 'initial' | 'title_edit' | 'ingredient_add' | 'instruction_add';
 function reducer(state: RecipeData, action: { type: Action, value: any }): RecipeData {
     if (action.type === 'initial') {
         const { value } = action;
@@ -30,12 +33,22 @@ function reducer(state: RecipeData, action: { type: Action, value: any }): Recip
             ...state,
             title: value.title,
             ingredients: value.ingredients,
+            instructions: value.instructions,
         };
     } else if (action.type === 'title_edit') {
         const { value } = action;
         return {
             ...state,
             title: value,
+        };
+    } else if (action.type === 'instruction_add') {
+        const { value }: { value: Omit<Instruction, 'id'> & { id?: Instruction['id'] } } = action;
+        return {
+            ...state,
+            instructions: [
+                ...state.instructions,
+                value,
+            ],
         };
     } else if (action.type === 'ingredient_add') {
         const { value } = action;
@@ -53,9 +66,9 @@ function reducer(state: RecipeData, action: { type: Action, value: any }): Recip
 export default function RecipeEditor(props: Props) {
     const { id } = props;
     const [state, dispatch] = useReducer(reducer, initial);
-    const [isEditing, setIsEditing] = useState<{ ingredient: boolean, step: boolean }>({
+    const [isEditing, setIsEditing] = useState<{ ingredient: boolean, instruction: boolean }>({
         ingredient: false,
-        step: false
+        instruction: false
     });
     const { getRecipe } = useRecipesContext();
     const getData = useCallback(async () => {
@@ -82,7 +95,18 @@ export default function RecipeEditor(props: Props) {
         });
     }
 
-    const { title, ingredients } = state;
+    function addInstruction(newInstruction: string): void {
+        if (!newInstruction) return;
+        dispatch({
+            type: 'instruction_add',
+            value: {
+                step_no: instructions.length + 1,
+                instruction: newInstruction,
+            },
+        });
+    }
+
+    const { title, ingredients, instructions } = state;
     return (
         <Modal>
             <input
@@ -122,10 +146,41 @@ export default function RecipeEditor(props: Props) {
             <h3>
                 How to cook
             </h3>
-            {/*             {
-                Array.from({length: setFips.length}, (_, i) => i + 1).map((step) => )
-            } */}
-            <Button label='Save' />
+            {
+                instructions.map(({ step_no, instruction, id }) => (
+                    <div key={id}>
+                        <h4>{step_no}</h4>
+                        <p>{instruction}</p>
+                    </div>
+                ))
+            }
+            {
+                isEditing.instruction &&
+                <div>
+                    <h4>{instructions.length + 1}</h4>
+                    <InstructionTextarea
+                        addInstruction={addInstruction}
+                        onClose={() => setIsEditing(prev => ({
+                            ...prev,
+                            instruction: false,
+                        }))} />
+                </div>
+            }
+            <Button
+                label='add a new step'
+                onClick={() => setIsEditing(prev => ({
+                    ...prev,
+                    instruction: true,
+                }))} />
+            <Button
+                label='Save'
+                onClick={() => {
+                    if (id) {
+                        //updateRecipe();
+                    } else {
+                        //createRecipe()
+                    }
+                }} />
         </Modal>
     );
 }
