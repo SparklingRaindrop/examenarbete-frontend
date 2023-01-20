@@ -1,2 +1,2 @@
-import ItemInputFields from './ItemInputFIelds';
+import ItemInputFields from './ItemInputFields';
 export { ItemInputFields };
