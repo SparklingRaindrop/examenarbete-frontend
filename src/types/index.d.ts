@@ -27,14 +27,20 @@ interface Unit {
     name: string;
 }
 
+interface Instruction {
+    id: string;
+    step_no: number;
+    instruction: string;
+}
+
 interface Recipe {
     id: string;
     title: string;
     ingredients: {
         amount: number;
-        item: Pick<Item, 'id' | 'name'>
-        unit: Pick<Item, 'id' | 'name'>
-    }[]
+        item: Item;
+    }[];
+    instructions: Instruction[];
 }
 interface User {
     id: string;
