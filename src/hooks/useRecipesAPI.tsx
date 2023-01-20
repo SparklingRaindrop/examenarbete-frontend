@@ -2,13 +2,10 @@ import { Status } from '../types/statusCode';
 import { APIResponse, get, GetResponse, isGetResponse, remove } from '../util/api';
 
 export default function useRecipesAPI() {
+
     async function getRecipes(keyword?: string): Promise<GetResponse<Recipe[]>> {
         const response = await get<Recipe[]>(`/recipes${keyword ? '?keyword=' + keyword : ''}`);
-        if (response && response.status === Status.Succuss && isGetResponse(response)) {
-            const { data } = response;
-            return { status: response.status, data };
-        }
-        return { status: response.status };
+        return response;
     }
 
     async function getRecipe(id: string): Promise<GetResponse<Recipe>> {
@@ -24,9 +21,15 @@ export default function useRecipesAPI() {
         return response;
     }
 
+    async function getItems(keyword?: string): Promise<GetResponse<Item[]>> {
+        const response = await get<Item[]>(`/items${keyword ? '?keyword=' + keyword : ''}`);
+        return response;
+    }
+
     return {
         getRecipes,
         getRecipe,
-        removeRecipe
+        removeRecipe,
+        getItems,
     };
 }
