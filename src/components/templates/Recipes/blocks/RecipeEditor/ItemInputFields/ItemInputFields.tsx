@@ -28,7 +28,7 @@ export default function ItemInputFields({ }: Props) {
         if (userInput.name === '') return;
         getSuggestions();
     }, [getSuggestions, userInput.name]);
-    console.log(suggestions)
+
     return (
         <div>
             <Autocomplete
@@ -53,6 +53,7 @@ export default function ItemInputFields({ }: Props) {
                         }
                     }));
                 }} />
+            {suggestions.find(item => item.name === userInput.name)?.unit.name}
             <IconButton
                 name='plus'
                 /* onClick={addIngredient} */ />
