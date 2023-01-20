@@ -26,10 +26,16 @@ export default function useRecipesAPI() {
         return response;
     }
 
+    async function getUnits(): Promise<GetResponse<Unit[]>> {
+        const response = await get<Unit[]>('/units');
+        return response;
+    }
+
     return {
         getRecipes,
         getRecipe,
         removeRecipe,
         getItems,
+        getUnits,
     };
 }

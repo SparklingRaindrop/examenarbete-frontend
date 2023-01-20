@@ -7,19 +7,21 @@ export interface ContextRecipes {
     getItems: (keyword?: string) => Promise<GetResponse<Item[]>>;
     getRecipe: (id: string) => Promise<GetResponse<Recipe>>;
     removeRecipe: (id: Recipe['id']) => Promise<APIResponse>;
+    getUnits: () => Promise<GetResponse<Unit[]>>;
 }
 
 export const RecipesContext = createContext<ContextRecipes | null>(null);
 
 export function RecipesProvider(props: GeneralProps) {
     const { children } = props;
-    const { getRecipes, removeRecipe, getRecipe, getItems } = useRecipesAPI();
+    const { getRecipes, removeRecipe, getRecipe, getItems, getUnits } = useRecipesAPI();
 
     const value = {
         getRecipes,
         getRecipe,
         removeRecipe,
-        getItems
+        getItems,
+        getUnits
     };
 
     return (
