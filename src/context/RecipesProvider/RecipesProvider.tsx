@@ -11,7 +11,8 @@ export interface ContextRecipes {
     getRecipe: (id: string) => Promise<GetResponse<Recipe>>;
     removeRecipe: (id: Recipe['id']) => Promise<APIResponse>;
     getUnits: () => Promise<GetResponse<Unit[]>>;
-    addRecipe: (newData: RecipeRequestData) => Promise<APIResponse>;
+    createRecipe: (newData: RecipeRequestData) => Promise<APIResponse>;
+    updateRecipe: (id: string, newData: RecipeRequestData) => Promise<APIResponse>;
 }
 
 export const RecipesContext = createContext<ContextRecipes | null>(null);
@@ -26,7 +27,8 @@ export function RecipesProvider(props: GeneralProps) {
         getRecipe,
         getItems,
         getUnits,
-        addRecipe
+        createRecipe,
+        updateRecipe
     } = useRecipesAPI();
 
     const value = {
@@ -37,7 +39,8 @@ export function RecipesProvider(props: GeneralProps) {
         removeRecipe,
         getItems,
         getUnits,
-        addRecipe
+        createRecipe,
+        updateRecipe,
     };
 
     return (

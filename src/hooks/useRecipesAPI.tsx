@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Status } from '../types/statusCode';
-import { APIResponse, get, GetResponse, post, remove } from '../util/api';
+import { APIResponse, get, GetResponse, patch, post, remove } from '../util/api';
 
 export interface RecipeData extends Pick<Recipe, 'title'> {
     ingredients: Array<{
@@ -59,8 +59,13 @@ export default function useRecipesAPI() {
         return response;
     }
 
-    async function addRecipe(newData: RecipeRequestData): Promise<APIResponse> {
+    async function createRecipe(newData: RecipeRequestData): Promise<APIResponse> {
         const response = await post<RecipeRequestData>('/recipes', newData);
+        return response;
+    }
+
+    async function updateRecipe(id: string, newData: RecipeRequestData): Promise<APIResponse> {
+        const response = await patch<RecipeRequestData>(`/recipes/${id}`, newData);
         return response;
     }
 
@@ -78,7 +83,8 @@ export default function useRecipesAPI() {
         removeRecipe,
         getItems,
         getUnits,
-        addRecipe,
+        createRecipe,
         getFilteredItems,
+        updateRecipe,
     };
 }

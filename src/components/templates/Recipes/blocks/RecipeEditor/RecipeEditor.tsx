@@ -62,7 +62,7 @@ export default function RecipeEditor(props: Props) {
         ingredient: false,
         instruction: false
     });
-    const { getRecipe, addRecipe } = useRecipesContext();
+    const { getRecipe, createRecipe, updateRecipe } = useRecipesContext();
     const getData = useCallback(async () => {
         if (!id) return;
         const response = await getRecipe(id);
@@ -168,14 +168,18 @@ export default function RecipeEditor(props: Props) {
             <Button
                 label='Save'
                 onClick={() => {
+                    const ingredientList = ingredients.map(({ item, amount }) => ({
+                        amount,
+                        item_id: item.id
+                    }));
                     if (id) {
-                        //updateRecipe();
+                        updateRecipe(id, {
+                            title,
+                            instructions,
+                            ingredients: ingredientList,
+                        });
                     } else {
-                        const ingredientList = ingredients.map(({ item, amount }) => ({
-                            amount,
-                            item_id: item.id
-                        }));
-                        addRecipe({
+                        createRecipe({
                             title,
                             instructions,
                             ingredients: ingredientList,
