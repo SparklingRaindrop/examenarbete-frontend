@@ -18,4 +18,6 @@ export const Wrapper = styled.div`
     background-color: ${({ theme }) => theme.palette.white};
     border-top-left-radius: ${({ theme }) => theme.borderRadius.lg};
     border-top-right-radius: ${({ theme }) => theme.borderRadius.lg};
+
+    overflow-y: auto;
 `;
