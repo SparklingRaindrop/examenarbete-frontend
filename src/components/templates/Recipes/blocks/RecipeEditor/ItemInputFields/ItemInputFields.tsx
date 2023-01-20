@@ -27,13 +27,11 @@ export default function ItemInputFields(props: Props) {
     });
 
     const [suggestions, setSuggestions] = useState<Item[]>([]);
-    const { getItems } = useRecipesContext();
+    const { filterItems } = useRecipesContext();
     const getSuggestions = useCallback(async () => {
-        const response = await getItems(userInput.item.name);
-        if (response.data) {
-            setSuggestions(response.data);
-        }
-    }, [getItems, userInput.item.name]);
+        const filteredItems = filterItems(userInput.item.name);
+        setSuggestions(filteredItems);
+    }, [filterItems, userInput.item.name]);
 
     useEffect(() => {
         if (userInput.item.name === '') return;
