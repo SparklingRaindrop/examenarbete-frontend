@@ -2,14 +2,18 @@ import { useCallback, useEffect, useState } from 'react';
 import { useRecipesContext } from '../../../../../../hooks';
 import { Autocomplete, IconButton } from '../../../../../elements';
 
-type IngredientInput = {
+export interface IngredientInput {
     name: Item['name'];
-    item_id: Item['id'];
+    item_id?: Item['id'];
     amount: string;
 }
 
-type Props = {}
-export default function ItemInputFields({ }: Props) {
+type Props = {
+    addItem: (newItem: IngredientInput & { unit_id?: Unit['id'] }) => void;
+}
+
+export default function ItemInputFields(props: Props) {
+    const { addItem } = props;
     const [userInput, setUserInput] = useState<IngredientInput>({
         name: '',
         item_id: '',
@@ -56,29 +60,15 @@ export default function ItemInputFields({ }: Props) {
             {suggestions.find(item => item.name === userInput.name)?.unit.name}
             <IconButton
                 name='plus'
-                /* onClick={addIngredient} */ />
+                onClick={() => {
+                    const unit = suggestions.find(item => item.name === userInput.name)?.unit;
+                    addItem({
+                        ...userInput,
+                        unit_id: unit?.id,
+                    });
+                }} />
         </div>
     );
 }
-/* 
 
-function addIngredient() {
-    dispatch({
-        type: 'ingredient_add',
-        value: {
-            item: {
-                id: '',
-                name: userInput.ingredient.name,
-            },
-            unit: {
-                name: '',
-                id: ''
-            },
-            amount: Number(userInput.ingredient.amount),
-        }
-    });
-    setIsEditing(prev => ({
-        ...prev,
-        ingredient: false,
-    }));
-} */
+// if it's a new item, show available unit

@@ -1,8 +1,9 @@
-import { useEffect, useReducer, useRef, useState } from 'react';
+import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import { useRecipesContext } from '../../../../../hooks';
 import { Status } from '../../../../../types/statusCode';
 import { Button, Modal } from '../../../../elements';
 import { ItemInputFields } from './ItemInputFields';
+import { IngredientInput } from './ItemInputFields/ItemInputFields';
 
 type Props = {
     id?: string;
@@ -57,30 +58,29 @@ export default function RecipeEditor(props: Props) {
         ingredient: false,
         step: false
     });
-    /*     const [userInput, setUserInput] = useState<{ ingredient: IngredientInput, step: string }>({
-            ingredient: {
-                name: '',
-                amount: ''
-            },
-            step: ''
-        }); */
-
     const { getRecipe } = useRecipesContext();
+    const getData = useCallback(async () => {
+        if (!id) return;
+        const response = await getRecipe(id);
+        if (response.status === Status.Succuss && response.data) {
+            dispatch({
+                type: 'initial',
+                value: response.data,
+            });
+        }
+    }, [id, getRecipe]);
+
+
     useEffect(() => {
-        async function getData(id: string) {
-            const response = await getRecipe(id);
-            if (response.status === Status.Succuss && response.data) {
-                dispatch({
-                    type: 'initial',
-                    value: response.data,
-                });
-            }
-        }
-        if (id) {
-            getData(id);
-        }
-        // eslint-disable-next-line
-    }, []);
+        getData();
+    }, [getData]);
+
+    function addItem(newItem: IngredientInput & { unit_id?: Unit['id'] }): void {
+        dispatch({
+            type: 'ingredient_add',
+            value: newItem,
+        });
+    }
 
     const { title, ingredients } = state;
     return (
@@ -105,7 +105,7 @@ export default function RecipeEditor(props: Props) {
                 ))
             }
             {
-                isEditing.ingredient && <ItemInputFields />
+                isEditing.ingredient && <ItemInputFields addItem={addItem} />
             }
             <Button
                 label='add an item'

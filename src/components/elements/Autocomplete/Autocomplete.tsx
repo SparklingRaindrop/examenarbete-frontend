@@ -4,18 +4,18 @@ type AutocompleteState = {
     selectedIndex: number;
     filteredSuggestions: Array<string>;
     isShown: boolean;
-    userInput: string;
 }
 
 type Props = {
     suggestions: string[];
+    userInput: string;
+    updateUserInput: (value: string) => void;
 }
 
 const initialValue = {
     selectedIndex: 0,
     filteredSuggestions: [],
     isShown: false,
-    userInput: ''
 };
 
 type Action = 'state_update';
@@ -39,7 +39,7 @@ function reducer(
 }
 
 export default function Autocomplete(props: Props) {
-    const { suggestions } = props;
+    const { suggestions, userInput, updateUserInput } = props;
     const [state, dispatch] = useReducer(reducer, initialValue);
 
     function handleOnChange(event: ChangeEvent<HTMLInputElement>) {
@@ -47,24 +47,25 @@ export default function Autocomplete(props: Props) {
             suggestion =>
                 suggestion.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1
         );
+
         const inputValue = event.target.value;
+        updateUserInput(inputValue);
         dispatch({
             type: 'state_update',
             value: {
                 filteredSuggestions,
                 isShown: inputValue === '' ? false : true,
-                userInput: inputValue,
             }
         });
     }
 
     function onClick(event: MouseEvent<HTMLElement>) {
+        updateUserInput(event.currentTarget.innerText);
         dispatch({
             type: 'state_update',
             value: {
                 filteredSuggestions: [],
                 isShown: false,
-                userInput: event.currentTarget.innerText,
             }
         });
     }
@@ -73,12 +74,12 @@ export default function Autocomplete(props: Props) {
         const { selectedIndex, filteredSuggestions } = state;
 
         if (event.key === 'Enter') {
+            updateUserInput(filteredSuggestions[selectedIndex]);
             dispatch({
                 type: 'state_update',
                 value: {
                     selectedIndex: 0,
                     isShown: false,
-                    userInput: filteredSuggestions[selectedIndex],
                 }
             });
 
@@ -111,7 +112,10 @@ export default function Autocomplete(props: Props) {
                 className = 'suggestion-active';
             }
             return (
-                <li style={{ border: `solid 1px ${index === state.selectedIndex ? 'tomato' : 'transparent'}` }} key={suggestion} onClick={onClick}>
+                <li
+                    key={suggestion}
+                    style={{ border: `solid 1px ${index === state.selectedIndex ? 'tomato' : 'transparent'}` }}
+                    onClick={onClick}>
                     {suggestion}
                 </li>
             );
@@ -125,7 +129,7 @@ export default function Autocomplete(props: Props) {
                 type='text'
                 onChange={handleOnChange}
                 onKeyDown={onKeyDown}
-                value={state.userInput}
+                value={userInput}
             />
             {
                 state.isShown &&
