@@ -1,33 +1,40 @@
-import { useCallback, useEffect, useState } from 'react';
-import { useRecipesContext } from '../../../../../../hooks';
-import { Autocomplete, IconButton } from '../../../../../elements';
+import { useState } from 'react';
+import { useRecipesContext } from '../../../hooks';
+import { Autocomplete } from '../Autocomplete';
+import { IconButton } from '../Button';
+import { Unit, Wrapper } from './styled';
 
-export interface NewIngredient {
-    item: Item,
+export interface NewItem {
+    itemId: Item['id'],
     amount: number;
 }
 
 type Props = {
-    addItem: (newItem: NewIngredient) => void;
+    addItem: (newItem: NewItem) => void;
     onClose: () => void;
 }
 
 export default function ItemInputFields(props: Props) {
     const { addItem, onClose } = props;
+    const [isLocked, setIsLocked] = useState<boolean>(false);
     const [userInput, setUserInput] = useState<{
         name: string;
-        amount: string;
+        amount: number;
     }>({
         name: '',
-        amount: '',
+        amount: 0,
     });
     const { items } = useRecipesContext();
 
+    const item = items.find(item => item.name === userInput.name);
+
     return (
-        <div>
+        <Wrapper>
             <Autocomplete
                 suggestions={items.map(item => item.name)}
                 userInput={userInput.name}
+                isLocked={isLocked}
+                setIsLocked={(value) => setIsLocked(value)}
                 updateUserInput={(value) => {
                     setUserInput(prev => ({
                         ...prev,
@@ -38,29 +45,21 @@ export default function ItemInputFields(props: Props) {
                 type='text'
                 value={userInput.amount}
                 onChange={(event) => {
-                    if (isNaN(Number(event.target.value))) return;
                     setUserInput(prev => ({
                         ...prev,
-                        amount: event.target.value
+                        amount: Number(event.target.value)
                     }));
                 }} />
-            {
-                items.find(item => item.name === userInput.name)?.unit.name // Ignore new Item for now
-            }
+            <Unit>{item?.unit.name}</Unit> {/* Ignore new Item for now */}
             <IconButton
                 name='plus'
                 onClick={() => {
-                    const itemData = items.find(item => item.name === userInput.name);
-                    if (itemData) {
-                        addItem({
-                            item: {
-                                ...itemData
-                            },
-                            amount: Number(userInput.amount),
-                        });
-                        onClose();
-                    }
+                    addItem({
+                        itemId: '123',
+                        amount: userInput.amount,
+                    });
+                    onClose();
                 }} />
-        </div>
+        </Wrapper>
     );
 }

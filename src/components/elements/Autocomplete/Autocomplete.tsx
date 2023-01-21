@@ -1,4 +1,6 @@
-import { ChangeEvent, KeyboardEvent, MouseEvent, useReducer } from 'react';
+import { ChangeEvent, KeyboardEvent, MouseEvent, useReducer, useState } from 'react';
+import { Input } from '../Input';
+import { SuggestionItem, SuggestionList, Wrapper } from './styled';
 
 type AutocompleteState = {
     selectedIndex: number;
@@ -10,6 +12,8 @@ type Props = {
     suggestions: string[];
     userInput: string;
     updateUserInput: (value: string) => void;
+    isLocked: boolean;
+    setIsLocked: (value: boolean) => void;
 }
 
 const initialValue = {
@@ -39,7 +43,7 @@ function reducer(
 }
 
 export default function Autocomplete(props: Props) {
-    const { suggestions, userInput, updateUserInput } = props;
+    const { suggestions, userInput, isLocked, updateUserInput, setIsLocked } = props;
     const [state, dispatch] = useReducer(reducer, initialValue);
 
     function handleOnChange(event: ChangeEvent<HTMLInputElement>) {
@@ -82,6 +86,7 @@ export default function Autocomplete(props: Props) {
                     isShown: false,
                 }
             });
+            setIsLocked(true);
 
         } else if (event.key === 'ArrowUp') {
             dispatch({
@@ -103,47 +108,40 @@ export default function Autocomplete(props: Props) {
         }
     }
 
-    const suggestionItems = (
-        state.filteredSuggestions.map((suggestion, index) => {
-            let className;
-
-            // Flag the active suggestion with a class
-            if (index === state.selectedIndex) {
-                className = 'suggestion-active';
-            }
-            return (
-                <li
-                    key={suggestion}
-                    style={{ border: `solid 1px ${index === state.selectedIndex ? 'tomato' : 'transparent'}` }}
-                    onClick={onClick}>
-                    {suggestion}
-                </li>
-            );
-        })
-    );
-
+    const { filteredSuggestions } = state;
     return (
-        <>
-
-            <input
+        <Wrapper onClick={() => setIsLocked(false)}>
+            <Input
                 type='text'
                 onChange={handleOnChange}
                 onKeyDown={onKeyDown}
                 value={userInput}
+                disabled={isLocked}
+                autoFocus
             />
             {
                 state.isShown &&
                 (
-                    <ul>
-                        {state.filteredSuggestions.length > 0 ?
-                            suggestionItems : (
-                                <div>
-                                    <em>No suggestions available.</em>
-                                </div>
-                            )}
-                    </ul>
+                    <SuggestionList>
+                        {filteredSuggestions.length > 0 ? (
+                            state.filteredSuggestions.map((suggestion, index) => {
+                                return (
+                                    <SuggestionItem
+                                        key={suggestion}
+                                        isSelected={index === state.selectedIndex}
+                                        onClick={onClick}>
+                                        {suggestion}
+                                    </SuggestionItem>
+                                );
+                            })
+                        ) : (
+                            <SuggestionItem>
+                                No item found.
+                            </SuggestionItem>
+                        )}
+                    </SuggestionList>
                 )
             }
-        </>
+        </Wrapper>
     );
 }
