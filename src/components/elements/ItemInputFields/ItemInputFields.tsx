@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useRecipesContext } from '../../../hooks';
 import { Autocomplete } from '../Autocomplete';
 import { IconButton } from '../Button';
@@ -16,7 +16,6 @@ type Props = {
 
 export default function ItemInputFields(props: Props) {
     const { addItem, onClose } = props;
-    const [isLocked, setIsLocked] = useState<boolean>(false);
     const [userInput, setUserInput] = useState<{
         name: string;
         amount: number;
@@ -24,10 +23,10 @@ export default function ItemInputFields(props: Props) {
         name: '',
         amount: 0,
     });
+    const [isLocked, setIsLocked] = useState<boolean>(false);
     const { items } = useRecipesContext();
 
     const item = items.find(item => item.name === userInput.name);
-
     return (
         <Wrapper>
             <Autocomplete
@@ -53,9 +52,11 @@ export default function ItemInputFields(props: Props) {
             <Unit>{item?.unit.name}</Unit> {/* Ignore new Item for now */}
             <IconButton
                 name='plus'
+                disabled={!isLocked || !item}
                 onClick={() => {
+                    if (!item) return;
                     addItem({
-                        itemId: '123',
+                        itemId: item.id,
                         amount: userInput.amount,
                     });
                     onClose();
