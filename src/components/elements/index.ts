@@ -8,6 +8,7 @@ import { Counter } from './Counter';
 import { Input, InputGroup, InputRightElement } from './Input';
 import { Modal } from './Modal';
 import { Autocomplete } from './Autocomplete';
+import { InputTogglingButton } from './InputTogglingButton';
 export {
     List,
     Checkbox,
@@ -21,6 +22,7 @@ export {
     Input,
     Modal,
     Autocomplete,
+    InputTogglingButton,
     InputGroup,
     InputRightElement
 };
