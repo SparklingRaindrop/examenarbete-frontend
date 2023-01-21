@@ -9,6 +9,7 @@ import { Input, InputGroup, InputRightElement } from './Input';
 import { Modal } from './Modal';
 import { Autocomplete } from './Autocomplete';
 import { InputTogglingButton } from './InputTogglingButton';
+import { ItemInputFields } from './ItemInputFields';
 export {
     List,
     Checkbox,
@@ -23,6 +24,7 @@ export {
     Modal,
     Autocomplete,
     InputTogglingButton,
+    ItemInputFields,
     InputGroup,
     InputRightElement
 };
