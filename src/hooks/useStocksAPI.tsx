@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Status } from '../types/statusCode';
-import { APIResponse, get, patch, post } from '../util/api';
+import { APIResponse, get, patch, post, remove } from '../util/api';
 
 export default function useStocksAPI() {
     const [stocks, setStock] = useState<Stock[]>([]);
@@ -29,9 +29,18 @@ export default function useStocksAPI() {
         return response;
     }
 
+    async function removeItemFromStock(id: Stock['id']): Promise<APIResponse> {
+        const response = await remove(`/stocks/${id}`);
+        if (response && response.status === Status.NoContent) {
+            getStocks();
+        }
+        return { status: response.status };
+    }
+
     return {
         stocks,
         updateStock,
-        addNewItemToStocks
+        addNewItemToStocks,
+        removeItemFromStock
     };
 }
