@@ -1,5 +1,5 @@
-import useStocksContext from '../../../hooks/useStocksContext'
-import { Counter } from '../../elements';
+import useStocksContext from '../../../hooks/useStocksContext';
+import { StockItem } from './blocks';
 
 type Props = {}
 export default function StockManager({ }: Props) {
@@ -8,13 +8,13 @@ export default function StockManager({ }: Props) {
         <div>
             <ul>
                 {
-                    stocks.map(({ item, amount }, index) => (
-                        <li key={item.name + index}>
-                            {item.name}<Counter value={amount} />{item.unit.name}
-                        </li>
+                    stocks.map((stock) => (
+                        <StockItem
+                            key={stock.id}
+                            stock={stock} />
                     ))
                 }
             </ul>
         </div>
-    )
+    );
 }
