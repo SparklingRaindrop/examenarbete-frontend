@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import useStocksContext from '../../../../../hooks/useStocksContext';
-import { Counter } from '../../../../elements';
-import { ItemName, RightColumn, Wrapper } from './styled';
+import { Counter, IconButton } from '../../../../elements';
+import { ItemName, Group, Wrapper } from './styled';
 
 type Props = {
     id: Stock['id'];
@@ -9,7 +9,7 @@ type Props = {
 export default function StockItem(props: Props) {
     const { id } = props;
     const [userInput, setUserInput] = useState<number>(0);
-    const { stocks, updateStock } = useStocksContext();
+    const { stocks, updateStock, removeItemFromStock } = useStocksContext();
     const currentItem = useMemo(() => stocks.find(({ id: stockId }) => stockId === id), [id, stocks]);
 
     useEffect(() => {
@@ -25,10 +25,13 @@ export default function StockItem(props: Props) {
     const { item, amount } = currentItem;
     return (
         <Wrapper key={item.name}>
+            <IconButton
+                name='xMark'
+                onClick={() => removeItemFromStock(id)} />
             <ItemName>
                 {item.name}
             </ItemName>
-            <RightColumn>
+            <Group>
                 <Counter
                     value={userInput}
                     onPlus={() => updateStock({
@@ -40,7 +43,7 @@ export default function StockItem(props: Props) {
                         amount: amount - 1,
                     })}
                     onChange={() => { }} />{item.unit.name}
-            </RightColumn>
+            </Group>
         </Wrapper>
     );
 }
