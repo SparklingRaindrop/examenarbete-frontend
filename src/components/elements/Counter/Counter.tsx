@@ -1,35 +1,32 @@
+import { ChangeEvent, FocusEvent, MouseEvent } from 'react';
 import { Icon } from '../Icon';
 import { Input, Wrapper, Button } from './styled';
 
 type Props = {
     value: number;
-    setCounterValue: (value: number) => void;
-    onBlur?: () => void;
+    onPlus: (event: MouseEvent<HTMLButtonElement>) => void;
+    onMinus: (event: MouseEvent<HTMLButtonElement>) => void;
+    onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+    onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
 };
 
 export default function Counter(props: Props) {
-    const { value, setCounterValue, onBlur } = props;
+    const { value, onPlus, onMinus, onChange, onBlur } = props;
 
     return (
         <Wrapper>
             <Button
                 disabled={value === 0}
-                onClick={() => setCounterValue(value - 1)}>
+                onClick={onMinus}>
                 <Icon name='minus' />
             </Button>
             <Input
                 value={value}
-                onChange={(event) => {
-                    if (isNaN(Number(event.target.value))) {
-                        setCounterValue(0);
-                    } else {
-                        setCounterValue(Number(event.target.value));
-                    }
-                }}
+                onChange={onChange}
                 onBlur={onBlur} />
             <Button
                 name='plus'
-                onClick={() => setCounterValue(value + 1)}>
+                onClick={onPlus}>
                 <Icon name='plus' />
             </Button>
         </Wrapper>
