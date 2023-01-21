@@ -94,10 +94,10 @@ type PostResponse<U> = {
     data?: U
 } & APIResponse;
 
-export async function post<U>(endpoint: string, payload: any): Promise<PostResponse<U> | APIResponse> {
+export async function post<U>(endpoint: string, payload: any): Promise<APIResponse> {
     try {
-        const response = await fetch.post<U>(endpoint, payload);
-        return response as unknown as PostResponse<U>;
+        const response = await fetch.post(endpoint, payload);
+        return response;
     } catch (error: Error | AxiosError | unknown) {
 
         const response: { [key: string]: any } = {
