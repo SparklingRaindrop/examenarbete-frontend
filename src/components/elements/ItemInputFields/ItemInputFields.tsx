@@ -5,7 +5,7 @@ import { IconButton } from '../Button';
 import { Unit, Wrapper } from './styled';
 
 export interface NewItem {
-    itemId: Item['id'],
+    item_id: Item['id'],
     amount: number;
 }
 
@@ -56,7 +56,7 @@ export default function ItemInputFields(props: Props) {
                 onClick={() => {
                     if (!item) return;
                     addItem({
-                        itemId: item.id,
+                        item_id: item.id,
                         amount: userInput.amount,
                     });
                     onClose();
