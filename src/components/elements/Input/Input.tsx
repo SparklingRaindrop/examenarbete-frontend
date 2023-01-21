@@ -1,4 +1,4 @@
-import { ChangeEvent, CSSProperties, HTMLInputTypeAttribute } from 'react';
+import { ChangeEvent, CSSProperties, HTMLInputTypeAttribute, KeyboardEvent } from 'react';
 import { Variant } from '../../../types/styled';
 import { ErrorMessage, Wrapper } from './styled';
 
@@ -11,11 +11,12 @@ type Props = {
     isError?: boolean;
     error?: string;
     required?: boolean;
-    onChange?: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+    onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+    onKeyDown?: (event: KeyboardEvent) => void;
 }
 
 export default function Input(props: Props & CSSProperties) {
-    const { value, autoFocus, id, type, isError, required, error, onChange } = props;
+    const { value, autoFocus, id, type, isError, required, error, onChange, onKeyDown } = props;
 
     return (
         <div>
@@ -26,7 +27,8 @@ export default function Input(props: Props & CSSProperties) {
                 autoFocus={autoFocus}
                 isError={isError}
                 required={required}
-                onChange={onChange} />
+                onChange={onChange}
+                onKeyDown={onKeyDown} />
             {isError &&
                 <ErrorMessage>
                     {error}
