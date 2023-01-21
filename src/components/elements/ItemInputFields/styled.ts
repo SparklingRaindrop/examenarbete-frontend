@@ -5,6 +5,7 @@ export const Wrapper = styled.div`
     
     display: grid;
     grid-template-columns: 1fr auto auto auto;
+    grid-template-rows: auto auto;
     align-items: end;
 
     :nth-child(1) {
@@ -26,4 +27,12 @@ export const Unit = styled.div`
         content: '.';
         visibility: hidden;
     }
+`;
+
+export const Row = styled.div`
+    grid-column: 1 / span 4;
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
 `;

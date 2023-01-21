@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
 import { useRecipesContext } from '../../../hooks';
 import { Autocomplete } from '../Autocomplete';
-import { IconButton } from '../Button';
-import { Unit, Wrapper } from './styled';
+import { Button, IconButton } from '../Button';
+import { Row, Unit, Wrapper } from './styled';
 
 export interface NewItem {
     item_id: Item['id'],
@@ -61,6 +61,11 @@ export default function ItemInputFields(props: Props) {
                     });
                     onClose();
                 }} />
+            <Row>
+                <Button
+                    label='cancel'
+                    onClick={onClose} />
+            </Row>
         </Wrapper>
     );
 }
