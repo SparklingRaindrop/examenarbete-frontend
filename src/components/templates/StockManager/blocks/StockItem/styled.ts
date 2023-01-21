@@ -12,7 +12,7 @@ export const Wrapper = styled.li`
     }
 `;
 
-export const RightColumn = styled.div`
+export const Group = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
