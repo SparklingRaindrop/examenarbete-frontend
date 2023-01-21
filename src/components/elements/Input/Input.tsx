@@ -2,7 +2,7 @@ import { ChangeEvent, CSSProperties, HTMLInputTypeAttribute, KeyboardEvent } fro
 import { Variant } from '../../../types/styled';
 import { ErrorMessage, Wrapper } from './styled';
 
-type Props = {
+interface Props {
     value: number | string;
     variant?: Variant;
     autoFocus?: boolean;
@@ -11,12 +11,24 @@ type Props = {
     isError?: boolean;
     error?: string;
     required?: boolean;
+    disabled?: boolean;
     onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
     onKeyDown?: (event: KeyboardEvent) => void;
 }
 
 export default function Input(props: Props & CSSProperties) {
-    const { value, autoFocus, id, type, isError, required, error, onChange, onKeyDown } = props;
+    const {
+        value,
+        autoFocus,
+        id,
+        type,
+        isError,
+        required,
+        error,
+        disabled,
+        onChange,
+        onKeyDown
+    } = props;
 
     return (
         <div>
@@ -27,6 +39,7 @@ export default function Input(props: Props & CSSProperties) {
                 autoFocus={autoFocus}
                 isError={isError}
                 required={required}
+                disabled={disabled}
                 onChange={onChange}
                 onKeyDown={onKeyDown} />
             {isError &&
