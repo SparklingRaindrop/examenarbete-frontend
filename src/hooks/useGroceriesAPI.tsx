@@ -27,8 +27,11 @@ export default function useGroceriesAPI(): ContextGroceries {
         return response;
     }
 
-    async function removeAllGroceries({ isChecked }: Pick<Grocery, 'isChecked'>): Promise<APIResponse> {
-        const query = typeof isChecked === 'undefined' ? '' : `/?isChecked=${isChecked}`;
+    async function removeAllGroceries(filter?: Pick<Grocery, 'isChecked'>): Promise<APIResponse> {
+        let query: string = '';
+        if (filter) {
+            query = (filter && typeof filter.isChecked === 'undefined') ? '' : `/?isChecked=${filter.isChecked}`;
+        }
         const response = await remove(`/groceries${query}`);
         if (response && response.status === Status.NoContent) {
             getGroceries();
