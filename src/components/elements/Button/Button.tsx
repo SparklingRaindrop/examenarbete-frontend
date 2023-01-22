@@ -1,3 +1,4 @@
+import { ButtonHTMLAttributes } from 'react';
 import { Variant } from '../../../types/styled';
 import { Wrapper } from './styled';
 
@@ -8,6 +9,7 @@ export interface ButtonProps extends GeneralProps {
     label?: string;
     variant?: Variant;
     disabled?: boolean;
+    type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
 };
 
 export default function Button(props: ButtonProps) {
