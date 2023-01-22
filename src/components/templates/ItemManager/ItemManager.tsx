@@ -1,9 +1,13 @@
+import { useState } from 'react';
 import { useRecipesContext } from '../../../hooks';
+import { Button } from '../../elements';
 import { SingleItem } from './blocks';
+import ItemEditor from './blocks/ItemEditor';
 
 type Props = {}
 export default function ItemManager({ }: Props) {
     const { items } = useRecipesContext();
+    const [isEditing, setIsEditing] = useState<boolean>(false);
 
     return (
         <div>
@@ -14,6 +18,13 @@ export default function ItemManager({ }: Props) {
                     )
                 }
             </ul>
+            {
+                !isEditing ?
+                    <Button
+                        label='add new item'
+                        onClick={() => setIsEditing(true)} /> :
+                    <ItemEditor onClose={() => setIsEditing(false)} />
+            }
         </div>
     )
 }
