@@ -4,8 +4,6 @@ import { useGroceriesContext } from '../../../hooks';
 import { GroceryList, GroupedButtons } from './blocks';
 
 export default function Groceries() {
-    const { groceries } = useGroceriesContext();
-
     return (
         <>
             <Head>
@@ -15,10 +13,8 @@ export default function Groceries() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <GroupedButtons />
-            <GroceryList groceryList={groceries.filter(item => !item.isChecked)} />
-            <GroceryList
-                groceryList={groceries.filter(item => item.isChecked)}
-                isCheckedList />
+            <GroceryList />
+            <GroceryList isCheckedList />
         </>
     );
 }

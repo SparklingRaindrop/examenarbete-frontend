@@ -1,10 +1,8 @@
-interface Grocery {
+interface User {
     id: string;
-    updated_at: Date;
-    amount: number;
-    isChecked: boolean;
-    item: Pick<Item, 'id' | 'name'>;
-    unit: Pick<Item, 'id' | 'name'>;
+    username: string;
+    email: string;
+    password: string;
 }
 
 type Meal = 'breakfast' | 'lunch' | 'dinner';
@@ -16,16 +14,25 @@ interface Plan {
     type: Meal;
 }
 
+interface Unit {
+    id: string;
+    name: string;
+}
+
 interface Item {
     id: string;
     name: string;
     unit: Unit;
 }
 
-interface Unit {
+interface Grocery {
     id: string;
-    name: string;
+    updated_at: Date;
+    amount: number;
+    isChecked: boolean;
+    item: Item;
 }
+
 interface Stock {
     id: string;
     item: Item;
@@ -47,12 +54,7 @@ interface Recipe {
     }[];
     instructions: Instruction[];
 }
-interface User {
-    id: string;
-    username: string;
-    email: string;
-    password: string;
-}
+
 
 type MediaQuery = 'xs' | 'sm' | 'md' | 'lg';
 type FontSize = 'sm' | 'standard' | 'lg';

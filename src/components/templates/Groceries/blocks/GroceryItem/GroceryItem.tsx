@@ -8,7 +8,7 @@ type Props = {
 } & Grocery;
 
 export default function GroceryItem(props: Props) {
-    const { isChecked, item, unit, amount, id } = props;
+    const { isChecked, item, amount, id } = props;
     const { editItem } = useGroceriesContext();
 
     function handleCheckbox(event: ChangeEvent<HTMLInputElement>, id: string) {
@@ -18,6 +18,7 @@ export default function GroceryItem(props: Props) {
         });
     }
 
+    const { name, unit } = item;
     return (
         <Wrapper>
             <Icon name='sixDots' />
@@ -25,7 +26,7 @@ export default function GroceryItem(props: Props) {
                 checked={isChecked || false}
                 onChange={(event) => handleCheckbox(event, id)} />
             <TextContent isChecked={isChecked || false}>
-                <label>{item.name}</label>
+                <label>{name}</label>
                 <div className='count'>{amount} {unit.name}</div>
             </TextContent>
         </Wrapper>

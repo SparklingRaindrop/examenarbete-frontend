@@ -7,19 +7,12 @@ export default function useGroceriesAPI(): ContextGroceries {
     const [groceries, setGroceries] = useState<Grocery[]>([]);
 
     useEffect(() => {
-        async function init() {
-            const response = await get<Grocery[]>('/groceries');
-            if (response && response.status === Status.Succuss && isGetResponse(response)) {
-                const { data } = response;
-                setGroceries(data);
-            }
-        }
-        init();
+        getItems();
     }, []);
 
     async function getItems(): Promise<APIResponse> {
         const response = await get<Grocery[]>('/groceries');
-        if (response && response.status === Status.Succuss && isGetResponse(response)) {
+        if (response.data && response.status === Status.Succuss && isGetResponse(response)) {
             const { data } = response;
             setGroceries(data);
         }

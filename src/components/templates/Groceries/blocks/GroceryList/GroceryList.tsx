@@ -1,4 +1,4 @@
-import { useDisclosure } from '../../../../../hooks';
+import { useDisclosure, useGroceriesContext } from '../../../../../hooks';
 
 import { Icon, List } from '../../../../elements';
 import { GroceryItem } from '../GroceryItem';
@@ -6,13 +6,14 @@ import { Wrapper } from './styled';
 
 type Props = {
     isCheckedList?: boolean;
-    groceryList: Grocery[];
 }
 
 export default function GroceryList(props: Props) {
-    const { isCheckedList, groceryList } = props;
+    const { isCheckedList } = props;
     const { isOpen, toggleIsOpen } = useDisclosure();
+    const { groceries } = useGroceriesContext();
 
+    const groceryList = groceries.filter(item => isCheckedList ? item.isChecked : !item.isChecked);
     return (
         <List>
             {
