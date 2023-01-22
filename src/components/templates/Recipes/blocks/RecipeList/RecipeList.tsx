@@ -2,12 +2,8 @@ import { useRouter } from 'next/router';
 import { useRecipesContext } from '../../../../../hooks';
 import { IconButton } from '../../../../elements';
 
-type Props = {
-    recipes: Recipe[];
-    updateRecipes: () => Promise<void>
-}
-export default function RecipeList(props: Props) {
-    const { recipes, updateRecipes } = props;
+export default function RecipeList() {
+    const { recipes } = useRecipesContext();
     const { removeRecipe } = useRecipesContext();
     const router = useRouter();
 
@@ -26,10 +22,7 @@ export default function RecipeList(props: Props) {
                         <IconButton
                             variant='ghost'
                             name='delete'
-                            onClick={() => (
-                                removeRecipe(id)
-                                    .then(() => updateRecipes())
-                            )} />
+                            onClick={() => removeRecipe(id)} />
                     </div>
                 ))
             }

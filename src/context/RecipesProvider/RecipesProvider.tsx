@@ -5,6 +5,7 @@ import { APIResponse, GetResponse } from '../../util/api';
 
 export interface ContextRecipes {
     items: Item[];
+    recipes: Recipe[];
     getFilteredItems: (keyword?: string) => Item[];
     getRecipes: (keyword?: string) => Promise<GetResponse<Recipe[]>>;
     getItems: (keyword?: string) => Promise<GetResponse<Item[]>>;
@@ -19,29 +20,7 @@ export const RecipesContext = createContext<ContextRecipes | null>(null);
 
 export function RecipesProvider(props: GeneralProps) {
     const { children } = props;
-    const {
-        items,
-        getFilteredItems,
-        getRecipes,
-        removeRecipe,
-        getRecipe,
-        getItems,
-        getUnits,
-        createRecipe,
-        updateRecipe
-    } = useRecipesAPI();
-
-    const value = {
-        items,
-        getFilteredItems,
-        getRecipes,
-        getRecipe,
-        removeRecipe,
-        getItems,
-        getUnits,
-        createRecipe,
-        updateRecipe,
-    };
+    const value = useRecipesAPI();
 
     return (
         <RecipesContext.Provider value={value}>

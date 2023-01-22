@@ -20,6 +20,7 @@ export interface RecipeRequestData extends Pick<Recipe, 'title'> {
 
 export default function useRecipesAPI() {
     const [items, setItems] = useState<Item[]>([]);
+    const [recipes, setRecipes] = useState<Recipe[]>([]);
 
     useEffect(() => {
         async function init() {
@@ -29,10 +30,14 @@ export default function useRecipesAPI() {
             }
         }
         init();
+        getRecipes();
     }, []);
 
     async function getRecipes(keyword?: string): Promise<GetResponse<Recipe[]>> {
         const response = await get<Recipe[]>(`/recipes${keyword ? '?keyword=' + keyword : ''}`);
+        if (response.status === Status.Succuss && response.data) {
+            setRecipes(response.data);
+        }
         return response;
     }
 
@@ -46,6 +51,9 @@ export default function useRecipesAPI() {
 
     async function removeRecipe(id: Recipe['id']): Promise<APIResponse> {
         const response = await remove(`/recipes/${id}`);
+        if (response.status === Status.NoContent) {
+            getRecipes();
+        }
         return response;
     }
 
@@ -61,11 +69,17 @@ export default function useRecipesAPI() {
 
     async function createRecipe(newData: RecipeRequestData): Promise<APIResponse> {
         const response = await post<RecipeRequestData>('/recipes', newData);
+        if (response.status === Status.Created) {
+            getRecipes();
+        }
         return response;
     }
 
     async function updateRecipe(id: string, newData: RecipeRequestData): Promise<APIResponse> {
         const response = await patch<RecipeRequestData>(`/recipes/${id}`, newData);
+        if (response.status === Status.Succuss) {
+            getRecipes();
+        }
         return response;
     }
 
@@ -78,6 +92,7 @@ export default function useRecipesAPI() {
 
     return {
         items,
+        recipes,
         getRecipes,
         getRecipe,
         removeRecipe,
