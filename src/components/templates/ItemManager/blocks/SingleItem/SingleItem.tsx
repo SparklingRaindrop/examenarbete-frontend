@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useRecipesContext } from '../../../../../hooks';
 import { IconButton } from '../../../../elements';
 import ItemEditor from '../ItemEditor';
+import { Wrapper } from './styled';
 
 export default function SingleItem(props: Item) {
     const { unit, name, id } = props;
@@ -9,7 +10,7 @@ export default function SingleItem(props: Item) {
     const [isEditing, setIsEditing] = useState<boolean>();
 
     return (
-        <li key={id}>
+        <Wrapper key={id}>
             {isEditing ?
                 <ItemEditor
                     {...props}
@@ -26,6 +27,6 @@ export default function SingleItem(props: Item) {
                             onClick={() => removeItem(id)} />
                     </>
                 )}
-        </li>
+        </Wrapper>
     );
 }
