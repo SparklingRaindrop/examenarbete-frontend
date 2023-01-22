@@ -23,6 +23,7 @@ interface Item {
     id: string;
     name: string;
     unit: Unit;
+    isDefault: boolean;
 }
 
 interface Grocery {
