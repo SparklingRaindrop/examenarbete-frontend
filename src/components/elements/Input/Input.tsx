@@ -1,6 +1,6 @@
 import { ChangeEvent, CSSProperties, HTMLInputTypeAttribute, KeyboardEvent } from 'react';
 import { Variant } from '../../../types/styled';
-import { ErrorMessage, Wrapper } from './styled';
+import { ErrorMessage, Label, Wrapper } from './styled';
 
 interface Props {
     value: number | string;
@@ -12,6 +12,7 @@ interface Props {
     error?: string;
     required?: boolean;
     disabled?: boolean;
+    label?: string;
     onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
     onKeyDown?: (event: KeyboardEvent) => void;
 }
@@ -26,12 +27,14 @@ export default function Input(props: Props & CSSProperties) {
         required,
         error,
         disabled,
+        label,
         onChange,
         onKeyDown
     } = props;
 
     return (
         <div>
+            {label && <Label htmlFor={id}>{label}</Label>}
             <Wrapper
                 id={id}
                 value={value}
