@@ -62,6 +62,11 @@ export default function useRecipesAPI() {
         return response;
     }
 
+    async function removeItem(id: Item['id']): Promise<APIResponse> {
+        const response = await remove(`/items${id}`);
+        return response;
+    }
+
     async function getUnits(): Promise<GetResponse<Unit[]>> {
         const response = await get<Unit[]>('/units');
         return response;
@@ -96,6 +101,7 @@ export default function useRecipesAPI() {
         getRecipes,
         getRecipe,
         removeRecipe,
+        removeItem,
         getItems,
         getUnits,
         createRecipe,

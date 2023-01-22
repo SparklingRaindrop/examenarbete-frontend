@@ -11,6 +11,7 @@ export interface ContextRecipes {
     getItems: (keyword?: string) => Promise<GetResponse<Item[]>>;
     getRecipe: (id: string) => Promise<GetResponse<Recipe>>;
     removeRecipe: (id: Recipe['id']) => Promise<APIResponse>;
+    removeItem: (id: Item['id']) => Promise<APIResponse>
     getUnits: () => Promise<GetResponse<Unit[]>>;
     createRecipe: (newData: RecipeRequestData) => Promise<APIResponse>;
     updateRecipe: (id: string, newData: RecipeRequestData) => Promise<APIResponse>;
