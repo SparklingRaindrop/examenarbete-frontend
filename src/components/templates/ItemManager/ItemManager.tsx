@@ -1,6 +1,19 @@
+import { useRecipesContext } from '../../../hooks';
+import { IconButton } from '../../elements';
+import { SingleItem } from './blocks';
+
 type Props = {}
 export default function ItemManager({ }: Props) {
+    const { items } = useRecipesContext();
     return (
-        <div>ItemManager</div>
+        <div>
+            <ul>
+                {
+                    items.map(item =>
+                        <SingleItem key={item.id} {...item} />
+                    )
+                }
+            </ul>
+        </div>
     )
 }
