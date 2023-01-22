@@ -16,7 +16,7 @@ export default function useGroceriesAPI(): ContextGroceries {
             const { data } = response;
             setGroceries(data);
         }
-        return { status: response.status };
+        return response;
     }
 
     async function removeGrocery(id: Grocery['id']): Promise<APIResponse> {
@@ -24,7 +24,16 @@ export default function useGroceriesAPI(): ContextGroceries {
         if (response && response.status === Status.NoContent) {
             getGroceries();
         }
-        return { status: response.status };
+        return response;
+    }
+
+    async function removeAllGroceries({ isChecked }: Pick<Grocery, 'isChecked'>): Promise<APIResponse> {
+        const query = typeof isChecked === 'undefined' ? '' : `/?isChecked=${isChecked}`;
+        const response = await remove(`/groceries${query}`);
+        if (response && response.status === Status.NoContent) {
+            getGroceries();
+        }
+        return response;
     }
 
     async function addGrocery(newData: Omit<Grocery, 'id'>): Promise<APIResponse> {
@@ -55,6 +64,7 @@ export default function useGroceriesAPI(): ContextGroceries {
         groceries,
         getGroceries,
         removeGrocery,
+        removeAllGroceries,
         addGrocery,
         updateGrocery,
         generateGroceries,

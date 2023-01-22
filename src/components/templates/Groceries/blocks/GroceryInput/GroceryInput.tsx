@@ -10,7 +10,7 @@ type Props = {
 export default function GroceryInput(props: Props) {
     const { toggle } = props;
     const [userInput, setUserInput] = useState<string>('');
-    const { addItem } = useGroceriesContext();
+    const { addGrocery } = useGroceriesContext();
 
     return (
         <Wrapper>

@@ -9,11 +9,11 @@ type Props = {
 
 export default function GroceryItem(props: Props) {
     const { isChecked, item, amount, id } = props;
-    const { editItem } = useGroceriesContext();
+    const { updateGrocery } = useGroceriesContext();
 
     function handleCheckbox(event: ChangeEvent<HTMLInputElement>, id: string) {
         const { checked } = event.target;
-        editItem(id, {
+        updateGrocery(id, {
             isChecked: checked
         });
     }
