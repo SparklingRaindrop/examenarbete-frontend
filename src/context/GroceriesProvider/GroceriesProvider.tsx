@@ -3,25 +3,18 @@ import { useGroceriesAPI } from '../../hooks';
 import { APIResponse } from '../../util/api';
 export interface ContextGroceries {
     groceries: Grocery[];
-    getItems: () => Promise<APIResponse>;
-    addItem: (newData: Omit<Grocery, 'id'>) => Promise<APIResponse>;
-    removeItem: (id: Grocery['id']) => Promise<APIResponse>,
-    editItem: (id: Grocery['id'], newData: Partial<Pick<Grocery, 'amount' | 'isChecked'>>) => Promise<APIResponse>,
+    getGroceries: () => Promise<APIResponse>;
+    addGrocery: (newData: Omit<Grocery, 'id'>) => Promise<APIResponse>;
+    removeGrocery: (id: Grocery['id']) => Promise<APIResponse>,
+    updateGrocery: (id: Grocery['id'], newData: Partial<Pick<Grocery, 'amount' | 'isChecked'>>) => Promise<APIResponse>,
+    generateGroceries: (range?: { from: Date, to: Date }) => Promise<APIResponse>,
 }
 
 export const GroceriesContext = createContext<ContextGroceries | null>(null);
 
 export function GroceriesProvider(props: GeneralProps) {
     const { children } = props;
-    const { groceries, addItem, getItems, removeItem, editItem } = useGroceriesAPI();
-
-    const value = {
-        groceries,
-        getItems,
-        addItem,
-        removeItem,
-        editItem,
-    };
+    const value = useGroceriesAPI();
 
     return (
         <GroceriesContext.Provider value={value}>

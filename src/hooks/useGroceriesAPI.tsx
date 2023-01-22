@@ -7,10 +7,10 @@ export default function useGroceriesAPI(): ContextGroceries {
     const [groceries, setGroceries] = useState<Grocery[]>([]);
 
     useEffect(() => {
-        getItems();
+        getGroceries();
     }, []);
 
-    async function getItems(): Promise<APIResponse> {
+    async function getGroceries(): Promise<APIResponse> {
         const response = await get<Grocery[]>('/groceries');
         if (response.data && response.status === Status.Succuss && isGetResponse(response)) {
             const { data } = response;
@@ -19,35 +19,44 @@ export default function useGroceriesAPI(): ContextGroceries {
         return { status: response.status };
     }
 
-    async function removeItem(id: Grocery['id']): Promise<APIResponse> {
+    async function removeGrocery(id: Grocery['id']): Promise<APIResponse> {
         const response = await remove(`/groceries/${id}`);
         if (response && response.status === Status.NoContent) {
-            getItems();
+            getGroceries();
         }
         return { status: response.status };
     }
 
-    async function addItem(newData: Omit<Grocery, 'id'>): Promise<APIResponse> {
+    async function addGrocery(newData: Omit<Grocery, 'id'>): Promise<APIResponse> {
         const response = await post<Grocery>('/groceries', newData);
-        return { status: response.status };
+        return response;
     }
 
-    async function editItem(
+    async function updateGrocery(
         id: Grocery['id'],
         newData: Partial<Pick<Grocery, 'amount' | 'isChecked'>>
     ): Promise<APIResponse> {
         const response = await patch<Grocery>(`/groceries/${id}`, newData);
         if (response && response.status === Status.Succuss) {
-            getItems();
+            getGroceries();
         }
-        return { status: response.status };
+        return response;
+    }
+
+    async function generateGroceries(range?: { from: Date, to: Date }): Promise<APIResponse> {
+        const response = await post<Grocery>('/groceries/generate', range);
+        if (response.status === Status.Created) {
+            getGroceries();
+        }
+        return response;
     }
 
     return {
         groceries,
-        getItems,
-        removeItem,
-        addItem,
-        editItem,
+        getGroceries,
+        removeGrocery,
+        addGrocery,
+        updateGrocery,
+        generateGroceries,
     };
 }
