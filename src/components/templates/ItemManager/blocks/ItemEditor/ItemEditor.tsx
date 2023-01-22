@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useRecipesContext } from '../../../../../hooks';
-import { Button } from '../../../../elements';
+import { Button, Icon } from '../../../../elements';
 
 type Props = {
     onClose: () => void;
@@ -31,7 +31,8 @@ export default function ItemEditor(props: Partial<Item> & Props) {
     }
 
     return (
-        <div>
+        <>
+            {isDefault && <Icon name='warnBudge' />}
             <input
                 value={userInput.name}
                 onChange={(event) => setUserInput(prev => ({
@@ -70,6 +71,6 @@ export default function ItemEditor(props: Partial<Item> & Props) {
                 onClick={() => {
                     onClose();
                 }} />
-        </div>
+        </>
     );
 }
