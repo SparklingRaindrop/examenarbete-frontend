@@ -21,16 +21,12 @@ export interface RecipeRequestData extends Pick<Recipe, 'title'> {
 export default function useRecipesAPI() {
     const [items, setItems] = useState<Item[]>([]);
     const [recipes, setRecipes] = useState<Recipe[]>([]);
+    const [units, setUnits] = useState<Unit[]>([]);
 
     useEffect(() => {
-        async function init() {
-            const response = await get<Item[]>('/items');
-            if (response.status === Status.Succuss && response.data) {
-                setItems(response.data);
-            }
-        }
-        init();
+        getItems();
         getRecipes();
+        getUnits();
     }, []);
 
     async function getRecipes(keyword?: string): Promise<GetResponse<Recipe[]>> {
@@ -59,6 +55,9 @@ export default function useRecipesAPI() {
 
     async function getItems(keyword?: string): Promise<GetResponse<Item[]>> {
         const response = await get<Item[]>(`/items${keyword ? '?keyword=' + keyword : ''}`);
+        if (response.status === Status.Succuss && response.data) {
+            setItems(response.data);
+        }
         return response;
     }
 
@@ -69,6 +68,9 @@ export default function useRecipesAPI() {
 
     async function getUnits(): Promise<GetResponse<Unit[]>> {
         const response = await get<Unit[]>('/units');
+        if (response.status === Status.Succuss && response.data) {
+            setUnits(response.data);
+        }
         return response;
     }
 
@@ -80,10 +82,26 @@ export default function useRecipesAPI() {
         return response;
     }
 
+    async function createItem(newData: { name: Item['name']; unit_id: Unit['id'] }): Promise<APIResponse> {
+        const response = await post<{ name: Item['name']; unit_id: Unit['id'] }>('/items', newData);
+        if (response.status === Status.Created) {
+            getItems();
+        }
+        return response;
+    }
+
     async function updateRecipe(id: string, newData: RecipeRequestData): Promise<APIResponse> {
         const response = await patch<RecipeRequestData>(`/recipes/${id}`, newData);
         if (response.status === Status.Succuss) {
             getRecipes();
+        }
+        return response;
+    }
+
+    async function updateItem(id: string, newData: { name: Item['name'], unit_id: Unit['id'] }): Promise<APIResponse> {
+        const response = await patch<{ name: Item['name'], unit_id: Unit['id'] }>(`/items/${id}`, newData);
+        if (response.status === Status.Succuss) {
+            getItems();
         }
         return response;
     }
@@ -98,6 +116,7 @@ export default function useRecipesAPI() {
     return {
         items,
         recipes,
+        units,
         getRecipes,
         getRecipe,
         removeRecipe,
@@ -105,7 +124,9 @@ export default function useRecipesAPI() {
         getItems,
         getUnits,
         createRecipe,
+        createItem,
         getFilteredItems,
         updateRecipe,
+        updateItem,
     };
 }
