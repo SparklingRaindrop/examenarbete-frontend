@@ -1,6 +1,8 @@
 import axios, { AxiosError } from 'axios';
+import Cookies from 'js-cookie';
 import { Status } from '../types/statusCode';
 
+const publicRoutes = ['/login', '/logout'];
 export interface GetResponse<T> {
     data?: T;
     status: number;
@@ -11,19 +13,24 @@ export interface APIResponse {
     error?: string;
 }
 
-export function isGetResponse(response: Partial<GetResponse<any>>): response is GetResponse<any> {
-    return typeof response?.data !== 'undefined';
-}
-
-export function isPostResponse(response: Partial<PostResponse<any>>): response is PostResponse<any> {
-    return typeof response?.data !== 'undefined';
-}
-
 const fetch = axios.create({
-    baseURL: process.env.SERVER_URL || 'http://localhost:4500',
+    baseURL: process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:4500',
     timeout: 30000,
-    timeoutErrorMessage: 'Time out!'
+    timeoutErrorMessage: 'Time out!',
+    withCredentials: true,
 });
+
+function authHeader(endpoint: string) {
+    // return auth header with jwt if user is logged in and request is to the api url
+    const user = Cookies.get('access_token');
+    const isLoggedIn = user;
+    const isProtected = !publicRoutes.some(routes => endpoint.includes(routes));
+    if (isLoggedIn && isProtected) {
+        return { Authorization: `Bearer ${user}` };
+    } else {
+        return {};
+    }
+}
 
 const controller = new AbortController();
 export async function get<T>(endpoint: string): Promise<GetResponse<T>> {
@@ -31,10 +38,8 @@ export async function get<T>(endpoint: string): Promise<GetResponse<T>> {
         const { data, status } = await fetch.get<T>(
             endpoint,
             {
-                headers: {
-                    Accept: 'application/json',
-                },
-                signal: controller.signal
+                signal: controller.signal,
+                headers: { ...authHeader(endpoint) },
             },
         );
 
@@ -56,7 +61,13 @@ export async function get<T>(endpoint: string): Promise<GetResponse<T>> {
 
 export async function patch<T>(endpoint: string, data: Partial<T>): Promise<APIResponse> {
     try {
-        const { status } = await fetch.patch(endpoint, data);
+        const { status } = await fetch.patch(endpoint, data, {
+            signal: controller.signal,
+            headers: {
+                Accept: 'application/json',
+                ...authHeader(endpoint),
+            },
+        });
         return {
             status
         };
@@ -74,7 +85,10 @@ export async function patch<T>(endpoint: string, data: Partial<T>): Promise<APIR
 
 export async function remove(endpoint: string): Promise<APIResponse> {
     try {
-        const { status } = await fetch.delete(endpoint);
+        const { status } = await fetch.delete(endpoint, {
+            signal: controller.signal,
+            headers: authHeader(endpoint)
+        });
         return {
             status
         };
@@ -90,26 +104,21 @@ export async function remove(endpoint: string): Promise<APIResponse> {
     }
 }
 
-type PostResponse<U> = {
-    data?: U
-} & APIResponse;
+export async function post<T>(endpoint: string, payload: any): Promise<APIResponse & { data: T }> {
 
-export async function post<U>(endpoint: string, payload: any): Promise<APIResponse> {
-    try {
-        const response = await fetch.post(endpoint, payload);
-        return response;
-    } catch (error: Error | AxiosError | unknown) {
-
-        const response: { [key: string]: any } = {
-            status: Status.BadRequest,
-        };
-
-        if (axios.isAxiosError(error)) {
-            console.error(error.message);
-            response.error = error.response?.data.error;
-        } else {
-            console.error(error);
-        }
-        return response as APIResponse;
-    }
+    const response = await fetch.post<T, any>(endpoint, payload, {
+        signal: controller.signal,
+        headers: {
+            Accept: 'application/json',
+            ...authHeader(endpoint),
+        },
+    })
+        .catch((error) => {
+            if (axios.isAxiosError(error)) {
+                console.error(error.message);
+            } else {
+                console.error(error);
+            }
+        });
+    return response;
 }
