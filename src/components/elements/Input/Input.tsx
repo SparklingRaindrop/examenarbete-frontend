@@ -12,6 +12,7 @@ interface Props {
     error?: string;
     required?: boolean;
     disabled?: boolean;
+    placeholder?: string;
     label?: string;
     onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
     onKeyDown?: (event: KeyboardEvent) => void;
@@ -28,6 +29,7 @@ export default function Input(props: Props & CSSProperties) {
         error,
         disabled,
         label,
+        placeholder,
         onChange,
         onKeyDown
     } = props;
@@ -43,6 +45,7 @@ export default function Input(props: Props & CSSProperties) {
                 isError={isError}
                 required={required}
                 disabled={disabled}
+                placeholder={placeholder}
                 onChange={onChange}
                 onKeyDown={onKeyDown} />
             {isError &&
@@ -53,18 +56,3 @@ export default function Input(props: Props & CSSProperties) {
         </div>
     );
 }
-
-/* export function SPInput(props: Props & CSSProperties) {
-    const { value, variant, autoFocus, id, type, onChange, onBlur } = props;
-
-    return (
-        <Wrapper
-            id={id}
-            value={value}
-            variant={variant}
-            onChange={onChange}
-            onBlur={onBlur}
-            type={type}
-            autoFocus={autoFocus} />
-    );
-} */

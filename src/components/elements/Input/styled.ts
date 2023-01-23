@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Variant } from '../../../types/styled';
 
 export const Wrapper = styled.input.attrs(({ type }) => ({
     type: type || 'text',
@@ -11,6 +10,10 @@ export const Wrapper = styled.input.attrs(({ type }) => ({
     background: ${({ theme }) => theme.palette.white}80;
     border: ${({ theme, isError }) =>
         `${theme.border.bold} ${isError ? theme.palette.accent.original : theme.palette.black + '80'}`} solid;
+    
+    &::placeholder {
+        text-transform: capitalize;
+    }
 
     &:focus {
         border: ${({ theme }) =>
@@ -56,4 +59,8 @@ export const ErrorMessage = styled.div`
     color: ${({ theme }) => theme.palette.accent.original};
     font-size: ${({ theme }) => theme.font.size.sm};
     padding: 0.5em 0 ${({ theme }) => theme.padding.sm};
+`;
+
+export const Label = styled.label`
+
 `;
