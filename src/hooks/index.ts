@@ -8,6 +8,7 @@ import useTheme from './useTheme';
 import { useLogin } from './useLogin';
 import useDisclosure from './useDisclosure';
 import { useCalendar } from './useCalendar';
+import useUserContext from './useUserContext';
 
 export {
     useGroceriesContext,
@@ -19,5 +20,6 @@ export {
     useMealPlansContext,
     useMealPlansAPI,
     useRecipesAPI,
-    useRecipesContext
+    useRecipesContext,
+    useUserContext
 };
