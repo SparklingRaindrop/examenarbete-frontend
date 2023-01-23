@@ -2,7 +2,6 @@ import axios, { AxiosError } from 'axios';
 import Cookies from 'js-cookie';
 import { Status } from '../types/statusCode';
 
-const publicRoutes = ['/login', '/logout'];
 export interface GetResponse<T> {
     data?: T;
     status: number;
@@ -20,17 +19,38 @@ const fetch = axios.create({
     withCredentials: true,
 });
 
-function authHeader(endpoint: string) {
-    // return auth header with jwt if user is logged in and request is to the api url
-    const user = Cookies.get('access_token');
-    const isLoggedIn = user;
-    const isProtected = !publicRoutes.some(routes => endpoint.includes(routes));
-    if (isLoggedIn && isProtected) {
-        return { Authorization: `Bearer ${user}` };
-    } else {
-        return {};
+axios.interceptors.response.use(
+    (response) => {
+        return response;
+    },
+    async (error) => {
+        const originalRequest = error.config;
+        if (
+            error.response.status === 401 &&
+            originalRequest.url === `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/refresh`
+        ) {
+            return Promise.reject(error);
+        }
+
+        if (error.response.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
+            const refreshToken = Cookies.get('refresh_token');
+            const user = Cookies.get('user');
+            return axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/refresh`, {
+                user,
+                refreshToken
+            }).then(response => {
+                if (response.status === Status.Created) {
+                    const { accessToken, expires } = response.data;
+                    Cookies.set('access_token', accessToken, { expires: new Date(expires) });
+                    return axios(originalRequest);
+                }
+                return Promise.reject(error);
+            });
+        }
+        return Promise.reject(error);
     }
-}
+);
 
 const controller = new AbortController();
 export async function get<T>(endpoint: string): Promise<GetResponse<T>> {
@@ -39,7 +59,6 @@ export async function get<T>(endpoint: string): Promise<GetResponse<T>> {
             endpoint,
             {
                 signal: controller.signal,
-                headers: { ...authHeader(endpoint) },
             },
         );
 
@@ -65,7 +84,6 @@ export async function patch<T>(endpoint: string, data: Partial<T>): Promise<APIR
             signal: controller.signal,
             headers: {
                 Accept: 'application/json',
-                ...authHeader(endpoint),
             },
         });
         return {
@@ -87,7 +105,6 @@ export async function remove(endpoint: string): Promise<APIResponse> {
     try {
         const { status } = await fetch.delete(endpoint, {
             signal: controller.signal,
-            headers: authHeader(endpoint)
         });
         return {
             status
@@ -110,7 +127,6 @@ export async function post<T>(endpoint: string, payload: any): Promise<APIRespon
         signal: controller.signal,
         headers: {
             Accept: 'application/json',
-            ...authHeader(endpoint),
         },
     })
         .catch((error) => {
