@@ -24,12 +24,12 @@ export function useLogin() {
         identifier: '',
         password: ''
     });
-    const [loginState, setLoginState] = useState<IsError>({ isError: false, message: '' });
+    const [isError, setIsError] = useState<IsError>({ isError: false, message: '' });
 
     function handleOnChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
         const { value, id } = event.target;
-        if (loginState.isError) {
-            setLoginState({ isError: false, message: '' });
+        if (isError.isError) {
+            setIsError({ isError: false, message: '' });
         }
         setUserInput(prev => ({
             ...prev,
@@ -48,7 +48,7 @@ export function useLogin() {
         }
         const { status, error } = await handleLogin(data as LoginData);
         if (status !== Status.Created) {
-            setLoginState(({
+            setIsError(({
                 message: error ? error : '',
                 isError: true,
             }));
@@ -87,10 +87,31 @@ export function useLogin() {
         };
     }
 
+    async function logout() {
+        try {
+            const response = await axios.post<Token>(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/logout`);
+
+            if (response && response.status === Status.Succuss) {
+                Cookies.remove('access_token');
+                Cookies.remove('user');
+                Cookies.remove('refresh_token');
+            }
+            return {
+                status: response.status
+            };
+        } catch (error: unknown) {
+            console.error(error);
+        };
+        return {
+            status: Status.BadRequest,
+        };
+    }
+
     return {
         userInput,
-        loginState,
+        isError,
+        login,
+        logout,
         handleOnChange,
-        login
     };
 }
