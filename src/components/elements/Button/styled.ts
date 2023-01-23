@@ -7,9 +7,9 @@ interface ButtonProps {
 }
 
 export const Wrapper = styled.button<ButtonProps>`
-    padding: 1rem 1.5rem;
+    padding: ${({ variant }) => variant === 'ghost' ? '0.5rem 1rem' : '1rem 1.5rem'};
 
-    font-size: 1rem;
+    font-size:${({ variant }) => variant === 'ghost' ? '0.8rem' : '1rem'};
     color: ${({ variant, theme }) => {
         switch (variant) {
             case 'ghost':
@@ -25,7 +25,6 @@ export const Wrapper = styled.button<ButtonProps>`
     }};
     text-transform: capitalize;
 
-    
     display: flex;
     align-items: center;
     justify-content: center;
