@@ -5,10 +5,6 @@ import { APIResponse, get, patch, post, remove } from '../util/api';
 export default function useStocksAPI() {
     const [stocks, setStock] = useState<Stock[]>([]);
 
-    useEffect(() => {
-        getStocks();
-    }, []);
-
     async function getStocks(): Promise<APIResponse> {
         const response = await get<Stock[]>('/stocks');
         if (response.status === Status.Succuss && response.data) {
@@ -39,6 +35,7 @@ export default function useStocksAPI() {
 
     return {
         stocks,
+        getStocks,
         updateStock,
         addNewItemToStocks,
         removeItemFromStock

@@ -4,6 +4,7 @@ import { APIResponse } from '../../util/api';
 
 export interface ContextStocks {
     stocks: Stock[];
+    getStocks: () => Promise<APIResponse>
     updateStock: ({ id, amount }: Pick<Stock, 'id' | 'amount'>) => void;
     addNewItemToStocks: (newData: Pick<Stock, 'amount'> & { item_id: string }) => void;
     removeItemFromStock: (id: Stock['id']) => Promise<APIResponse>;
@@ -13,19 +14,7 @@ export const StocksContext = createContext<ContextStocks | null>(null);
 
 export function StocksProvider(props: GeneralProps) {
     const { children } = props;
-    const {
-        stocks,
-        updateStock,
-        addNewItemToStocks,
-        removeItemFromStock,
-    } = useStocksAPI();
-
-    const value = {
-        stocks,
-        updateStock,
-        addNewItemToStocks,
-        removeItemFromStock,
-    };
+    const value = useStocksAPI();
 
     return (
         <StocksContext.Provider value={value}>

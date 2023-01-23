@@ -23,12 +23,6 @@ export default function useRecipesAPI() {
     const [recipes, setRecipes] = useState<Recipe[]>([]);
     const [units, setUnits] = useState<Unit[]>([]);
 
-    useEffect(() => {
-        getItems();
-        getRecipes();
-        getUnits();
-    }, []);
-
     async function getRecipes(keyword?: string): Promise<GetResponse<Recipe[]>> {
         const response = await get<Recipe[]>(`/recipes${keyword ? '?keyword=' + keyword : ''}`);
         if (response.status === Status.Succuss && response.data) {

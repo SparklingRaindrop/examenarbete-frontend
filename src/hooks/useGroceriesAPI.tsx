@@ -6,10 +6,6 @@ import { APIResponse, get, patch, post, remove } from '../util/api';
 export default function useGroceriesAPI(): ContextGroceries {
     const [groceries, setGroceries] = useState<Grocery[]>([]);
 
-    useEffect(() => {
-        getGroceries();
-    }, []);
-
     async function getGroceries(): Promise<APIResponse> {
         const response = await get<Grocery[]>('/groceries');
         if (response.data && response.status === Status.Succuss) {

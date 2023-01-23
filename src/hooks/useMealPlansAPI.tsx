@@ -43,17 +43,6 @@ export default function useMealPlansAPI() {
         return { status: response.status };
     }, [fetchedPlansRange]);
 
-    useEffect(() => {
-        async function init() {
-            getPlans();
-        }
-        init();
-    }, [getPlans]);
-
-    useEffect(() => {
-        getPlans();
-    }, [fetchedPlansRange, getPlans]);
-
     function updateRange(range: PlanRange) {
         const { start, end } = range;
         // PlanRange's month isn't "index month"
@@ -95,6 +84,7 @@ export default function useMealPlansAPI() {
         fetchedPlansRange,
         removePlan,
         addPlan,
-        updateRange
+        updateRange,
+        getPlans,
     };
 }

@@ -1,10 +1,15 @@
+import { useEffect } from 'react';
 import { MealPlans } from '../../../components/templates';
-import { MealPlansProvider } from '../../../context';
+import { useMealPlansContext } from '../../../hooks';
 
 export default function MealPlanPage() {
+    const { getPlans } = useMealPlansContext();
+
+    useEffect(() => {
+        getPlans();
+    }, [getPlans]);
+
     return (
-        <MealPlansProvider>
-            <MealPlans />
-        </MealPlansProvider>
+        <MealPlans />
     );
 }
