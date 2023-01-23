@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.input.attrs(({ type }) => ({
+export const InputField = styled.input.attrs(({ type }) => ({
     type: type || 'text',
 })) <{ isError?: boolean }>`
+    width: 100%;
     padding: ${({ theme }) => theme.padding.md};
     
     outline: none;
@@ -64,5 +65,9 @@ export const ErrorMessage = styled.div`
 `;
 
 export const Label = styled.label`
+    width: 100%;
+`;
 
+export const Wrapper = styled.div`
+    width: 100%;
 `;

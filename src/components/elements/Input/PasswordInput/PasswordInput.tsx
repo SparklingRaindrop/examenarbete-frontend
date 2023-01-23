@@ -1,4 +1,3 @@
-import { eventNames } from 'process';
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { IconButton } from '../../Button';
 import Input from '../Input';

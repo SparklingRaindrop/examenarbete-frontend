@@ -1,6 +1,6 @@
 import { ChangeEvent, CSSProperties, HTMLInputTypeAttribute, KeyboardEvent } from 'react';
 import { Variant } from '../../../types/styled';
-import { ErrorMessage, Label, Wrapper } from './styled';
+import { ErrorMessage, Label, Wrapper, InputField } from './styled';
 
 interface Props {
     value: number | string;
@@ -35,9 +35,9 @@ export default function Input(props: Props & CSSProperties) {
     } = props;
 
     return (
-        <div>
+        <Wrapper>
             {label && <Label htmlFor={id}>{label}</Label>}
-            <Wrapper
+            <InputField
                 id={id}
                 value={value}
                 type={type}
@@ -53,6 +53,6 @@ export default function Input(props: Props & CSSProperties) {
                     {error}
                 </ErrorMessage>
             }
-        </div>
+        </Wrapper>
     );
 }
