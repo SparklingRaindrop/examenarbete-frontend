@@ -6,7 +6,7 @@ import { useLogin } from '../../../../hooks';
 import useUserContext from '../../../../hooks/useUserContext';
 import { Status } from '../../../../types/statusCode';
 import { Button, Input, PasswordInput } from '../../../elements';
-import { Wrapper } from './styled';
+import { Container, Div, Text, Wrapper } from './styled';
 
 type Props = {
     isOpen: boolean;
@@ -39,29 +39,37 @@ export default function UserMenu(props: Props) {
 
     if (!isOpen) return null;
     return (
-        <Wrapper>
-            <Input
-                value={userInput.identifier}
-                id='identifier'
-                onChange={handleOnChange} />
-            <PasswordInput
-                value={userInput.password}
-                onChange={handleOnChange} />
-            {
-                isLoggedIn ? (
+        <Container>
+            <Wrapper>
+                {
+                    isLoggedIn ? (
+                        <Button
+                            label='LoginOut'
+                            onClick={handleOnLogOut} />
+                    ) : (
+                        <>
+                            <Input
+                                value={userInput.identifier}
+                                id='identifier'
+                                onChange={handleOnChange} />
+                            <PasswordInput
+                                value={userInput.password}
+                                handleSubmit={handleOnLogin}
+                                onChange={handleOnChange} />
+                            <Button
+                                label='Login'
+                                onClick={handleOnLogin} /></>
+                    )
+                }
+                <Div>
+                    <Text>Don&#39;t have an account?</Text>
                     <Button
-                        label='LoginOut'
-                        onClick={handleOnLogOut} />
-                ) : (
-                    <Button
-                        label='Login'
-                        onClick={handleOnLogin} />
-                )
-            }
-            <div>
-                <p>Don&#39;t have an account?</p>
-                <Link href='/user/new'>Create account</Link>
-            </div>
-        </Wrapper>
+                        variant='ghost'
+                        label='Create account'
+                        onClick={() => router.push('/user/new')}>
+                    </Button>
+                </Div>
+            </Wrapper>
+        </Container>
     )
 }
