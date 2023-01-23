@@ -5,7 +5,7 @@ import { APIResponse } from '../util/api';
 
 export interface Token {
     accessToken: string;
-    sessionToken: string;
+    refreshToken: string;
     expires: Date;
 }
 
@@ -23,9 +23,9 @@ export function useLogin(): {
             });
 
             if (response && response.data && response.status === Status.Created) {
-                const { accessToken, sessionToken, expires } = response.data;
+                const { accessToken, refreshToken, expires } = response.data;
                 Cookie.set('access_token', accessToken, { expires: new Date(expires) });
-                Cookie.set('session_token', sessionToken);
+                Cookie.set('refresh_token', refreshToken);
             }
             return {
                 status: response.status
