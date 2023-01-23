@@ -4,8 +4,8 @@ import { Status } from '../types/statusCode';
 import { APIResponse } from '../util/api';
 
 export interface Token {
-    accessToken: string | null;
-    sessionToken: string | null;
+    accessToken: string;
+    sessionToken: string;
     expires: Date;
 }
 
@@ -24,8 +24,8 @@ export function useLogin(): {
 
             if (response && response.data && response.status === Status.Created) {
                 const { accessToken, sessionToken, expires } = response.data;
-                Cookie.set('access_token', JSON.stringify(accessToken), { expires });
-                Cookie.set('session_token', JSON.stringify(sessionToken));
+                Cookie.set('access_token', accessToken, { expires: new Date(expires) });
+                Cookie.set('session_token', sessionToken);
             }
             return {
                 status: response.status
