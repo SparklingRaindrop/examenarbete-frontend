@@ -6,7 +6,7 @@ import { APIResponse } from '../util/api';
 export interface Token {
     accessToken: string;
     refreshToken: string;
-    expires: Date;
+    expires: string;
 }
 
 export type LoginData = { password: string; } & Partial<Pick<User, 'username' | 'email'>>
@@ -23,9 +23,8 @@ export function useLogin(): {
             });
 
             if (response && response.data && response.status === Status.Created) {
-                const { accessToken, refreshToken, expires } = response.data;
+                const { accessToken, expires } = response.data;
                 Cookie.set('access_token', accessToken, { expires: new Date(expires) });
-                Cookie.set('refresh_token', refreshToken);
             }
             return {
                 status: response.status
