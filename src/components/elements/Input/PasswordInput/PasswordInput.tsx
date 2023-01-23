@@ -37,5 +37,5 @@ export default function PasswordInput(props: Props) {
                     onMouseUp={() => setIsShown(false)} />
             </InputRightElement>
         </InputGroup>
-    )
+    );
 }
