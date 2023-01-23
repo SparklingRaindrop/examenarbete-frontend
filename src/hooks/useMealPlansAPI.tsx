@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Status } from '../types/statusCode';
-import { APIResponse, get, GetResponse, isGetResponse, post, remove } from '../util/api';
+import { APIResponse, get, GetResponse, post, remove } from '../util/api';
 
 type DateData = {
     year: number,
@@ -37,7 +37,7 @@ export default function useMealPlansAPI() {
     const [fetchedPlansRange, setFetchedPlansRange] = useState<[Date, Date]>(getInitialFetchedRange());
     const getPlans = useCallback(async (): Promise<GetResponse<Plan[]>> => {
         const response = await get<Plan[]>(`/plans${generateQuery(fetchedPlansRange)}`);
-        if (response.data && response.status === Status.Succuss && isGetResponse(response)) {
+        if (response.data && response.status === Status.Succuss) {
             setPlans(response.data);
         }
         return { status: response.status };

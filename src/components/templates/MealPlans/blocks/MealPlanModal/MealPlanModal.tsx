@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useMealPlansContext, useRecipesContext } from '../../../../../hooks';
 import { Status } from '../../../../../types/statusCode';
-import { isGetResponse } from '../../../../../util/api';
 import { IconButton, Input, Modal } from '../../../../elements';
 import { FlexRow, Result } from './styled';
 

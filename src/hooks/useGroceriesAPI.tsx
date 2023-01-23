@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ContextGroceries } from '../context/GroceriesProvider/GroceriesProvider';
 import { Status } from '../types/statusCode';
-import { APIResponse, get, isGetResponse, patch, post, remove } from '../util/api';
+import { APIResponse, get, patch, post, remove } from '../util/api';
 
 export default function useGroceriesAPI(): ContextGroceries {
     const [groceries, setGroceries] = useState<Grocery[]>([]);
@@ -12,7 +12,7 @@ export default function useGroceriesAPI(): ContextGroceries {
 
     async function getGroceries(): Promise<APIResponse> {
         const response = await get<Grocery[]>('/groceries');
-        if (response.data && response.status === Status.Succuss && isGetResponse(response)) {
+        if (response.data && response.status === Status.Succuss) {
             const { data } = response;
             setGroceries(data);
         }
