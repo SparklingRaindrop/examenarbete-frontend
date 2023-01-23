@@ -5,7 +5,7 @@ import { Main } from './Main';
 import { Button, IconButton } from './Button';
 import { Loading } from './Loading';
 import { Counter } from './Counter';
-import { Input, InputGroup, InputRightElement } from './Input';
+import { Input, InputGroup, InputRightElement, PasswordInput } from './Input';
 import { Modal } from './Modal';
 import { Autocomplete } from './Autocomplete';
 import { InputTogglingButton } from './InputTogglingButton';
@@ -25,6 +25,7 @@ export {
     Autocomplete,
     InputTogglingButton,
     ItemInputFields,
+    PasswordInput,
     InputGroup,
     InputRightElement
 };

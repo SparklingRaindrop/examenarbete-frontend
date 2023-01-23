@@ -10,7 +10,8 @@ import {
     InputRightElement,
     InputGroup,
     Autocomplete,
-    Counter
+    Counter,
+    PasswordInput
 } from './elements';
 import {
     Layout
@@ -27,6 +28,7 @@ export {
     Layout,
     Counter,
     Autocomplete,
+    PasswordInput,
     InputGroup,
     InputRightElement,
 };
