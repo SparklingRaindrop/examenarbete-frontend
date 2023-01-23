@@ -34,6 +34,8 @@ export const Wrapper = styled.input.attrs(({ type }) => ({
 export const InputGroup = styled.div`
     display:flex;
     flex-direction:row;
+    justify-content: center;
+    align-items: center;
 
     border:1px solid ${({ theme }) => theme.palette.primary};
 
