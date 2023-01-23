@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Cookie from 'js-cookie';
+import Cookies from 'js-cookie';
 import { Status } from '../types/statusCode';
 import { APIResponse } from '../util/api';
 
@@ -23,8 +23,16 @@ export function useLogin(): {
             });
 
             if (response && response.data && response.status === Status.Created) {
-                const { accessToken, expires } = response.data;
-                Cookie.set('access_token', accessToken, { expires: new Date(expires) });
+                const { accessToken, refreshToken, expires } = response.data;
+                const user = { ...data } as Partial<User>;
+                delete user.password;
+
+                Cookies.set('access_token', accessToken, { expires: new Date(expires) });
+                Cookies.set('user', JSON.stringify(user));
+                Cookies.set('refresh_token', refreshToken, {
+                    secure: true,
+                    expires: 1
+                });
             }
             return {
                 status: response.status
