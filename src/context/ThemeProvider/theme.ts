@@ -21,15 +21,9 @@ const font: Font = {
 };
 
 export const padding: Record<MediaQuery, Padding> = {
-    xs: {
-        sm: '1rem',
-        md: '',
-        lg: '',
-        none: '0',
-    },
     sm: {
-        sm: '1rem',
-        md: '0.8rem',
+        sm: '0.4rem',
+        md: '0.6rem',
         lg: '1rem',
         none: '0',
     },
