@@ -18,7 +18,7 @@ export function middleware(request: NextRequest) {
     }
 
     if (['/login'].includes(request.nextUrl.pathname) && accessToken) {
-        return NextResponse.redirect(new URL('/user', request.url));
+        return NextResponse.redirect(new URL('/user/groceries', request.url));
     }
 }
 
