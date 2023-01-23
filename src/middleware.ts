@@ -1,10 +1,15 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+const publicPages = ['/user/new'];
+
 export function middleware(request: NextRequest) {
     const accessToken = request.cookies.get('access_token')?.value;
 
-    if (request.nextUrl.pathname.startsWith('/user') && !accessToken) {
+    if (
+        !publicPages.some(page => page === request.nextUrl.pathname) &&
+        (request.nextUrl.pathname.startsWith('/user') && !accessToken)
+    ) {
         request.cookies.delete('access_token');
         const response = NextResponse.redirect(new URL('/login', request.url));
         response.cookies.delete('access_token');
