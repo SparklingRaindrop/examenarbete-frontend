@@ -2,10 +2,15 @@ import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import { useRecipesContext } from '../../../../../hooks';
 import { RecipeData } from '../../../../../hooks/useRecipesAPI';
 import { Status } from '../../../../../types/statusCode';
-import { Button, Modal } from '../../../../elements';
-import { InstructionTextarea } from './InstructionTextarea';
-import { ItemInputFields } from './ItemInputFields';
-import { NewIngredient } from './ItemInputFields/ItemInputFields';
+import { Button, Input } from '../../../../elements';
+import Ingredients from './Ingredients/Ingredients';
+import { InstructionTextarea } from './Instructions/InstructionTextarea';
+import { ItemInputFields } from './Ingredients/ItemInputFields';
+import { NewIngredient } from './Ingredients/ItemInputFields/ItemInputFields';
+import { Heading, Wrapper } from './styled';
+import { NewItem } from '../../../../elements/ItemInputFields/ItemInputFields';
+import Instructions from './Instructions';
+import Title from './Title';
 
 type Props = {
     id?: string;
@@ -63,7 +68,7 @@ export default function RecipeEditor(props: Props) {
         instruction: false
     });
     const { getRecipe, createRecipe, updateRecipe } = useRecipesContext();
-    const getData = useCallback(async () => {
+    const getData = useCallback(async (): Promise<void> => {
         if (!id) return;
         const response = await getRecipe(id);
         if (response.status === Status.Succuss && response.data) {
@@ -79,8 +84,9 @@ export default function RecipeEditor(props: Props) {
         getData();
     }, [getData]);
 
-    function addItem(newItem: NewIngredient): void {
-        if (newItem.item.id === '') return;
+
+    function addItem(newItem: NewItem): void {
+        if (newItem.item_id/* newItem.item.id === '' */) return;
         dispatch({
             type: 'ingredient_add',
             value: newItem,
@@ -98,95 +104,58 @@ export default function RecipeEditor(props: Props) {
         });
     }
 
-    const { title, ingredients, instructions } = state;
+    function updateIsEditing(target: string, value: boolean) {
+        setIsEditing(prev => ({
+            ...prev,
+            [target]: value,
+        }));
+    }
 
+    function handleSave() {
+        const ingredientList = ingredients.map(({ item, amount }) => ({
+            amount,
+            item_id: item.id
+        }));
+        if (id) {
+            updateRecipe(id, {
+                title,
+                instructions,
+                ingredients: ingredientList,
+            });
+        } else {
+            createRecipe({
+                title,
+                instructions,
+                ingredients: ingredientList,
+            });
+        }
+    }
+
+    const { title, ingredients, instructions } = state;
     return (
-        <Modal>
-            <input
+        <Wrapper>
+            <Title
                 value={title}
-                placeholder='Recipe title'
                 onChange={(event) => dispatch({
                     type: 'title_edit',
                     value: event.target.value
                 })} />
-            <h3>
-                ingredients
-            </h3>
-            {
-                ingredients.length > 0 && ingredients.map(({ item, amount }, index) => (
-                    <li key={item.id + index}>
-                        {item.name}
-                        {amount}
-                        {item.unit.name}
-                    </li>
-                ))
-            }
-            {
-                isEditing.ingredient &&
-                <ItemInputFields
-                    addItem={addItem}
-                    onClose={() => setIsEditing(prev => ({
-                        ...prev,
-                        ingredient: false,
-                    }))} />
-            }
-            <Button
-                label='add an item'
-                onClick={() => setIsEditing(prev => ({
-                    ...prev,
-                    ingredient: true,
-                }))} />
-            <h3>
-                How to cook
-            </h3>
-            {
-                instructions.map(({ step_no, instruction, id }) => (
-                    <div key={id}>
-                        <h4>{step_no}</h4>
-                        <p>{instruction}</p>
-                    </div>
-                ))
-            }
-            {
-                isEditing.instruction &&
-                <div>
-                    <h4>{instructions.length + 1}</h4>
-                    <InstructionTextarea
-                        addInstruction={addInstruction}
-                        onClose={() => setIsEditing(prev => ({
-                            ...prev,
-                            instruction: false,
-                        }))} />
-                </div>
-            }
-            <Button
-                label='add a new step'
-                onClick={() => setIsEditing(prev => ({
-                    ...prev,
-                    instruction: true,
-                }))} />
+            <Ingredients
+                isEditing={isEditing.ingredient}
+                addItem={addItem}
+                ingredients={ingredients}
+                openItemEditor={() => updateIsEditing('ingredient', true)}
+                closeItemEditor={() => updateIsEditing('ingredient', false)} />
+            <Instructions
+                isEditing={isEditing.instruction}
+                addInstruction={addInstruction}
+                instructions={instructions}
+                openInstructionEditor={() => updateIsEditing('instructions', true)}
+                closeInstructionEditor={() => updateIsEditing('instructions', false)} />
             <Button
                 label='Save'
-                onClick={() => {
-                    const ingredientList = ingredients.map(({ item, amount }) => ({
-                        amount,
-                        item_id: item.id
-                    }));
-                    if (id) {
-                        updateRecipe(id, {
-                            title,
-                            instructions,
-                            ingredients: ingredientList,
-                        });
-                    } else {
-                        createRecipe({
-                            title,
-                            instructions,
-                            ingredients: ingredientList,
-                        });
-                    }
-                }} />
-        </Modal>
+                onClick={handleSave} />
+        </Wrapper>
     );
 }
 
