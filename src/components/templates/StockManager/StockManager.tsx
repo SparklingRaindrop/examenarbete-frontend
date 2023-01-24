@@ -2,6 +2,7 @@ import { useState } from 'react';
 import useStocksContext from '../../../hooks/useStocksContext';
 import { InputTogglingButton, ItemInputFields, List } from '../../elements';
 import { StockList } from './blocks';
+import { Container } from './styled';
 
 type Props = {}
 export default function StockManager({ }: Props) {
@@ -9,7 +10,7 @@ export default function StockManager({ }: Props) {
     const { addNewItemToStocks } = useStocksContext();
 
     return (
-        <div>
+        <Container>
             <StockList />
             <InputTogglingButton
                 isEditing={isEditing}
@@ -20,6 +21,6 @@ export default function StockManager({ }: Props) {
                 }
                 onOpen={() => setIsEditing(true)}
             />
-        </div>
+        </Container>
     );
 }
