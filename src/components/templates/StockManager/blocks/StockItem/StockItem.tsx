@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import useStocksContext from '../../../../../hooks/useStocksContext';
 import { Counter, IconButton } from '../../../../elements';
-import { ItemName, Group, Wrapper } from './styled';
+import { ItemName, Group } from './styled';
 
 type Props = {
     id: Stock['id'];
@@ -24,7 +24,7 @@ export default function StockItem(props: Props) {
     if (!currentItem) return null;
     const { item, amount } = currentItem;
     return (
-        <Wrapper key={item.name}>
+        <>
             <IconButton
                 name='xMark'
                 onClick={() => removeItemFromStock(id)} />
@@ -42,8 +42,9 @@ export default function StockItem(props: Props) {
                         id,
                         amount: amount - 1,
                     })}
-                    onChange={() => { }} />{item.unit.name}
+                    onChange={() => { }} />
+                {item.unit.name}
             </Group>
-        </Wrapper>
+        </>
     );
 }

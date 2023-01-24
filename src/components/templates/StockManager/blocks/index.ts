@@ -1,2 +1,2 @@
-import { StockItem } from './StockItem';
-export { StockItem };
+import { StockList } from './StockList';
+export { StockList };
