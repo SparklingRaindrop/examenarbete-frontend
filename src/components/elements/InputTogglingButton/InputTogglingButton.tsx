@@ -15,7 +15,7 @@ export default function InputTogglingButton(props: Props) {
         return (
             <Button
                 onClick={onOpen}
-                label={label || 'add an item'} />
+                label={label || 'add item'} />
         );
     } else {
         return cloneElement(inputElement);
