@@ -5,7 +5,7 @@ import { Autocomplete } from '../Autocomplete';
 import { Button, IconButton } from '../Button';
 import { Counter } from '../Counter';
 import { Input } from '../Input';
-import { Row, Unit, Wrapper } from './styled';
+import { Name, Row, Unit, Wrapper } from './styled';
 
 export interface NewItem {
     item_id: Item['id'],
@@ -20,10 +20,11 @@ type userInput = {
 type Props = {
     addItem: (newItem: NewItem) => void;
     onClose: () => void;
+    suggestions: string[];
 }
 
 export default function ItemInputFields(props: Props) {
-    const { addItem, onClose } = props;
+    const { addItem, onClose, suggestions } = props;
     const [userInput, setUserInput] = useState<userInput>({
         name: '',
         amount: 0,
@@ -32,15 +33,14 @@ export default function ItemInputFields(props: Props) {
     const { items } = useRecipesContext();
 
     const item = items.find(item => item.name === userInput.name);
-
     return (
         <Wrapper>
             {
                 isLocked ? (
-                    <div>{item && item?.name}</div>
+                    <Name>{item && item?.name}</Name>
                 ) : (
                     <Autocomplete
-                        suggestions={items.map(item => item.name)}
+                        suggestions={suggestions}
                         userInput={userInput.name}
                         isLocked={isLocked}
                         setIsLocked={(value) => setIsLocked(value)}
