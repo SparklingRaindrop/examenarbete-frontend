@@ -4,9 +4,10 @@ export const Wrapper = styled.div`
     width: 100%;
     
     display: grid;
-    grid-template-columns: 1fr auto auto auto;
+    grid-template-columns: 1fr 5rem auto max-content;
     grid-template-rows: auto auto;
-    align-items: end;
+    align-items: center;
+    gap: 2rem 1rem;
 
     :nth-child(1) {
         grid-column: 1 / span 1;
@@ -23,6 +24,7 @@ export const Wrapper = styled.div`
 `;
 
 export const Unit = styled.div`
+    width: 3rem;
     ::after {
         content: '.';
         visibility: hidden;
@@ -35,4 +37,5 @@ export const Row = styled.div`
 
     display: flex;
     justify-content: center;
+    gap: 1rem;
 `;
