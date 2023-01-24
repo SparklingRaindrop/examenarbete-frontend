@@ -1,20 +1,37 @@
 import styled from 'styled-components';
-import { ScreenSize } from '../../../../types/mediaQuery';
+import { FlexColumn } from '../../../elements/Flex';
 
-export const Wrapper = styled.menu`
-    max-width: 50vw;
+export const Container = styled.div`
+    width: 100%;
+    height: 100vh;
     padding: ${({ theme }) => theme.padding.lg};
-    overflow-x: auto;
-
-    display: flex;
-    flex-direction: column;
-
-    list-style: none;
-
-    background-color: ${({ theme }) => theme.palette.main}80;
-    backdrop-filter: blur(10px);
 
     position: absolute;
-    top: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
     right: 0;
+
+    overflow: overlay;
+
+    display: grid;
+    place-content: center;
+
+    background-color: ${({ theme }) => theme.palette.white}80;
+    backdrop-filter: blur(10px);
+`;
+
+export const Wrapper = styled(FlexColumn)`
+    justify-content: center;
+`;
+
+export const Text = styled.p`
+    text-align: center;
+`;
+
+export const Div = styled(FlexColumn)`
+    padding: ${({ theme }) => `${theme.padding.lg} 0`};
+
+    justify-content: center;
+    align-items: center;
 `;
