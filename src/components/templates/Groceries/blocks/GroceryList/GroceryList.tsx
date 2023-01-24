@@ -2,7 +2,7 @@ import { useDisclosure, useGroceriesContext } from '../../../../../hooks';
 
 import { Icon, List } from '../../../../elements';
 import { GroceryItem } from '../GroceryItem';
-import { Wrapper } from './styled';
+import { LabelButton, Wrapper } from './styled';
 
 export default function GroceryList() {
     const { isOpen, toggleIsOpen } = useDisclosure();
@@ -12,7 +12,7 @@ export default function GroceryList() {
     const groceryList = groceries.filter(item => !item.isChecked);
     return (
         <>
-            <List>
+            <Wrapper>
                 {
                     groceryList.length > 0 ? (
                         groceryList.map((grocery) => (
@@ -23,17 +23,17 @@ export default function GroceryList() {
                         <Wrapper>No item</Wrapper>
                     )
                 }
-            </List>
+            </Wrapper>
             {
                 checkedGroceryList.length > 0 && (
                     <>
-                        <Wrapper onClick={toggleIsOpen}>
+                        <LabelButton onClick={toggleIsOpen}>
                             Marked Items
                             <Icon name={isOpen ? 'chevronUp' : 'chevronDown'} />
-                        </Wrapper>
+                        </LabelButton>
                         {
                             isOpen && (
-                                <List>
+                                <Wrapper>
                                     {
                                         checkedGroceryList.map((grocery) => (
                                             <GroceryItem
@@ -41,7 +41,7 @@ export default function GroceryList() {
                                                 {...grocery} />
                                         ))
                                     }
-                                </List>
+                                </Wrapper>
                             )
                         }
                     </>
