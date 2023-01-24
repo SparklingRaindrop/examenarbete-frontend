@@ -1,6 +1,6 @@
 import Head from 'next/head';
+import { Container } from '../../elements';
 import { GroceryList, GroupedButtons } from './blocks';
-import { Container } from './styled';
 
 export default function Groceries() {
     return (

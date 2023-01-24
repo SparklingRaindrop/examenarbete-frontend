@@ -15,6 +15,7 @@ export const TextContent = styled.div<{ isChecked: boolean; }>`
         white-space: pre-line;
         min-width: min-content;
         text-decoration: ${({ isChecked }) => isChecked ? 'line-through' : 'none'};
+        font-size: 1.5rem;
     }
 
     & > div.count {
