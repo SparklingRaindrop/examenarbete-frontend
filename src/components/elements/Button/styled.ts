@@ -16,7 +16,7 @@ export const Wrapper = styled.button<ButtonProps>`
                 return theme.palette.secondary.shade;
                 break;
             case 'secondary':
-                return theme.palette.black;
+                return theme.palette.secondary.original;
                 break;
             default:
                 return theme.palette.white;
@@ -83,6 +83,7 @@ export const Wrapper = styled.button<ButtonProps>`
     }
 
     &:disabled {
+        ${({ variant }) => !variant && 'box-shadow: none'};
         background-color: ${({ variant, theme }) => {
         switch (variant) {
             case 'ghost':
@@ -92,7 +93,7 @@ export const Wrapper = styled.button<ButtonProps>`
                 return 'rgba(229, 230, 83, 0.5)';
                 break;
             default:
-                return 'rgba(79, 66, 120, 0.44)';
+                return `${theme.palette.grey}80`;
                 break;
         }
     }};
