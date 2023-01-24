@@ -1,3 +1,4 @@
+import { MouseEvent } from 'react';
 import { useDisclosure } from '../../../hooks';
 import useOutsideDetector from '../../../hooks/useOutsideDetector';
 import { IconButton } from '../Button';
@@ -5,7 +6,7 @@ import { Menu, MenuItem, Wrapper } from './styled';
 
 export interface MenuItem {
     label: string;
-    onClick: () => void;
+    onClick: (event: MouseEvent<HTMLElement>) => void;
     isDisabled?: boolean,
 }
 
