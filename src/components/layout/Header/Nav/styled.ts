@@ -42,6 +42,7 @@ export const MenuItem = styled.li`
 
     :hover {
         background-color: ${({ theme }) => theme.palette.primary.shade};
+        cursor: pointer;
     }
 
     transition: background-color .1s ease-in;
