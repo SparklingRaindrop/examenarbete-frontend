@@ -11,6 +11,7 @@ import { Autocomplete } from './Autocomplete';
 import { InputTogglingButton } from './InputTogglingButton';
 import { ItemInputFields } from './ItemInputFields';
 import { Overlay } from './Overlay';
+import { DropdownMenu } from './DropdownMenu';
 export {
     List,
     Checkbox,
@@ -28,6 +29,7 @@ export {
     ItemInputFields,
     PasswordInput,
     Overlay,
+    DropdownMenu,
     InputGroup,
     InputRightElement
 };

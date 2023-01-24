@@ -13,6 +13,7 @@ import {
     Counter,
     PasswordInput,
     Overlay,
+    DropdownMenu,
 } from './elements';
 import {
     Layout
@@ -31,6 +32,7 @@ export {
     Autocomplete,
     PasswordInput,
     Overlay,
+    DropdownMenu,
     InputGroup,
     InputRightElement,
 };
