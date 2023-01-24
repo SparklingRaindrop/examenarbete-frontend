@@ -31,6 +31,7 @@ export default function Input(props: Props & CSSProperties) {
         disabled,
         label,
         placeholder,
+        textAlign,
         onChange,
         onKeyDown
     } = props;
@@ -42,6 +43,7 @@ export default function Input(props: Props & CSSProperties) {
                 id={id}
                 value={value}
                 type={type}
+                textAlign={textAlign}
                 autoFocus={autoFocus}
                 isError={isError?.isError}
                 required={required}

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const InputField = styled.input.attrs(({ type }) => ({
     type: type || 'text',
-})) <{ isError?: boolean }>`
+})) <{ isError?: boolean, textAlign?: string }>`
     width: 100%;
     padding: ${({ theme }) => theme.padding.md};
     
@@ -11,6 +11,8 @@ export const InputField = styled.input.attrs(({ type }) => ({
     background: ${({ theme }) => theme.palette.white}80;
     border: ${({ theme, isError }) =>
         `${theme.border.bold} ${isError ? theme.palette.accent.original : theme.palette.black + '80'}`} solid;
+    
+    text-align: ${({ textAlign }) => textAlign};
     
     &::placeholder {
         text-transform: capitalize;
