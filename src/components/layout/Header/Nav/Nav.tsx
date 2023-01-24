@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import { Wrapper } from './styled';
-import { MenuItem } from '../styled';
+import { Menu, MenuItem, Wrapper } from './styled';
 
 
 const LINKS = [{
@@ -27,21 +26,19 @@ type Props = {
 export default function Nav(props: Props) {
     const { isOpen } = props;
 
-    if (!isOpen) return null;
     return (
-        <Wrapper>
-
-            {
-                LINKS.map(({ url, label }) => (
-                    <MenuItem key={label}>
-                        <Link href={url}>
-                            {label}
-                        </Link>
-                    </MenuItem>
-                ))
-            }
-
-
+        <Wrapper isOpen={isOpen}>
+            <Menu>
+                {
+                    LINKS.map(({ url, label }) => (
+                        <MenuItem key={label}>
+                            <Link href={url}>
+                                {label}
+                            </Link>
+                        </MenuItem>
+                    ))
+                }
+            </Menu>
         </Wrapper>
     );
 }
