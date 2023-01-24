@@ -7,13 +7,17 @@
 html,
 body,
 body>div {
-  width: 100vw;
+  max-width: 100vw;
   height: 100vh;
-  overflow: overlay;
   /* This is for horizontal scrollbar */
-
   font-size: 100%;
   text-size-adjust: none;
+}
+
+body {
+  background-color: #f9faf9;
+  overflow-y: scroll;
+  overflow-x: overlay;
 }
 
 a {
