@@ -12,7 +12,6 @@ export default function Groceries() {
             </Head>
             <GroupedButtons />
             <GroceryList />
-            <GroceryList isCheckedList />
         </>
     );
 }
