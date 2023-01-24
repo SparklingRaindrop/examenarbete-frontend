@@ -19,13 +19,13 @@ export default function DropdownMenu(props: Props) {
     const { containerRef } = useOutsideDetector(onClose);
 
     return (
-        <Wrapper>
+        <Wrapper ref={containerRef as React.RefObject<HTMLDivElement>}>
             <IconButton
                 name='threeDots'
                 variant='ghost'
                 onClick={toggleIsOpen} />
             {isOpen && (
-                <Menu ref={containerRef as React.RefObject<HTMLDivElement>}>
+                <Menu>
                     {
                         contents.map(({ label, onClick, isDisabled }) => (
                             <MenuItem
