@@ -13,7 +13,7 @@ export const Wrapper = styled.nav<{ isOpen: boolean }>`
     left: 0;
 
     transition: transform .2s ease-in;
-    ${({ isOpen }) => isOpen && 'transform: translateX(-100%);'}
+    ${({ isOpen }) => !isOpen && 'transform: translateX(-100%);'}
 
     @media ${ScreenSize.MD} {
         min-width: 25vw;
