@@ -1,44 +1,60 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import useOutsideDetector from '../../../../hooks/useOutsideDetector';
+import { Overlay } from '../../../elements';
 import { Menu, MenuItem, Wrapper } from './styled';
 
 
 const LINKS = [{
     label: 'groceries',
-    url: '/user/groceries',
+    path: '/user/groceries',
 }, {
     label: 'stocks',
-    url: '/user/stocks',
+    path: '/user/stocks',
 }, {
     label: 'recipes',
-    url: '/user/recipes',
+    path: '/user/recipes',
 }, {
     label: 'plans',
-    url: '/user/plans',
+    path: '/user/plans',
 }, {
     label: 'items',
-    url: '/user/items',
+    path: '/user/items',
 }];
 
 type Props = {
     isOpen: boolean;
+    onClose: () => void;
 }
 
 export default function Nav(props: Props) {
-    const { isOpen } = props;
+    const { isOpen, onClose } = props;
+    const router = useRouter();
+    const { containerRef } = useOutsideDetector(onClose);
+
+    function handleOnClick(path: string): void {
+        onClose();
+        router.push(path);
+    }
 
     return (
-        <Wrapper isOpen={isOpen}>
-            <Menu>
-                {
-                    LINKS.map(({ url, label }) => (
-                        <MenuItem key={label}>
-                            <Link href={url}>
+        <>
+            <Wrapper
+                isOpen={isOpen}
+                ref={containerRef}>
+                <Menu>
+                    {
+                        LINKS.map(({ path, label }) => (
+                            <MenuItem
+                                key={label}
+                                onClick={() => handleOnClick(path)}>
                                 {label}
-                            </Link>
-                        </MenuItem>
-                    ))
-                }
-            </Menu>
-        </Wrapper>
+                            </MenuItem>
+                        ))
+                    }
+                </Menu>
+            </Wrapper>
+            {isOpen && <Overlay />}
+        </>
     );
 }
