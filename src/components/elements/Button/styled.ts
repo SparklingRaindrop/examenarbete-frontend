@@ -38,7 +38,7 @@ export const Wrapper = styled.button<ButtonProps>`
                 return theme.palette.white;
                 break;
             default:
-                return theme.palette.primary.original;
+                return theme.palette.primary.shade;
                 break;
         }
     }};
