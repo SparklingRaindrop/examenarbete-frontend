@@ -1,4 +1,6 @@
-import { ChangeEvent, KeyboardEvent, MouseEvent, useReducer, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, MouseEvent, useReducer, useRef } from 'react';
+import { useDisclosure } from '../../../hooks';
+import useOutsideDetector from '../../../hooks/useOutsideDetector';
 import { Input } from '../Input';
 import { SuggestionItem, SuggestionList, Wrapper } from './styled';
 
@@ -45,6 +47,25 @@ function reducer(
 export default function Autocomplete(props: Props) {
     const { suggestions, userInput, isLocked, updateUserInput, setIsLocked } = props;
     const [state, dispatch] = useReducer(reducer, initialValue);
+    const { containerRef } = useOutsideDetector(() => dispatch({
+        type: 'state_update',
+        value: {
+            isShown: false,
+        }
+    }));
+    const suggestionRefs = useRef<HTMLElement[]>([]);
+    suggestionRefs.current = [];
+    console.log(isLocked)
+    function addToRefs(element: any): void {
+        if (element && !suggestionRefs.current.includes(element)) {
+            suggestionRefs.current.push(element);
+        }
+    };
+
+    function trackSelectedItem() {
+        suggestionRefs.current[state.selectedIndex]
+            .scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'start' });
+    }
 
     function handleOnChange(event: ChangeEvent<HTMLInputElement>) {
         const filteredSuggestions = suggestions.filter(
@@ -64,7 +85,8 @@ export default function Autocomplete(props: Props) {
     }
 
     function onClick(event: MouseEvent<HTMLElement>) {
-        updateUserInput(event.currentTarget.innerText);
+        updateUserInput(event.currentTarget.innerText.toLowerCase());
+        setIsLocked(true);
         dispatch({
             type: 'state_update',
             value: {
@@ -89,6 +111,8 @@ export default function Autocomplete(props: Props) {
             setIsLocked(true);
 
         } else if (event.key === 'ArrowUp') {
+            if (selectedIndex === 0) return;
+            trackSelectedItem();
             dispatch({
                 type: 'state_update',
                 value: {
@@ -98,7 +122,7 @@ export default function Autocomplete(props: Props) {
 
         } else if (event.key === 'ArrowDown') {
             if (selectedIndex === filteredSuggestions.length - 1) return;
-
+            trackSelectedItem();
             dispatch({
                 type: 'state_update',
                 value: {
@@ -108,9 +132,10 @@ export default function Autocomplete(props: Props) {
         }
     }
 
-    const { filteredSuggestions } = state;
+    const { filteredSuggestions, isShown } = state;
     return (
-        <Wrapper onClick={() => setIsLocked(false)}>
+        <Wrapper
+            ref={containerRef as React.RefObject<HTMLDivElement>}>
             <Input
                 type='text'
                 onChange={handleOnChange}
@@ -120,25 +145,27 @@ export default function Autocomplete(props: Props) {
                 autoFocus
             />
             {
-                state.isShown &&
-                (
+                isShown && (
                     <SuggestionList>
-                        {filteredSuggestions.length > 0 ? (
-                            state.filteredSuggestions.map((suggestion, index) => {
-                                return (
-                                    <SuggestionItem
-                                        key={suggestion}
-                                        isSelected={index === state.selectedIndex}
-                                        onClick={onClick}>
-                                        {suggestion}
-                                    </SuggestionItem>
-                                );
-                            })
-                        ) : (
-                            <SuggestionItem>
-                                No item found.
-                            </SuggestionItem>
-                        )}
+                        {
+                            filteredSuggestions.length > 0 ? (
+                                filteredSuggestions.map((suggestion, index) => {
+                                    return (
+                                        <SuggestionItem
+                                            key={suggestion}
+                                            isSelected={index === state.selectedIndex}
+                                            onClick={onClick}
+                                            ref={addToRefs}>
+                                            {suggestion}
+                                        </SuggestionItem>
+                                    );
+                                })
+                            ) : (
+                                <SuggestionItem>
+                                    No item found.
+                                </SuggestionItem>
+                            )
+                        }
                     </SuggestionList>
                 )
             }
