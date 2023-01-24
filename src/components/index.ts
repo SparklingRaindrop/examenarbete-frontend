@@ -14,6 +14,7 @@ import {
     PasswordInput,
     Overlay,
     DropdownMenu,
+    Container,
 } from './elements';
 import {
     Layout
@@ -33,6 +34,7 @@ export {
     PasswordInput,
     Overlay,
     DropdownMenu,
+    Container,
     InputGroup,
     InputRightElement,
 };
