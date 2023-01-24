@@ -9,8 +9,7 @@ export const Wrapper = styled.nav`
 
     list-style: none;
 
-    background-color: ${({ theme }) => theme.palette.main}80;
-    backdrop-filter: blur(10px);
+    background-color: inherit;
 
     position: absolute;
     top: 100%;
