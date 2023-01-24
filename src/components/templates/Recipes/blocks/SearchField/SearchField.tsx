@@ -11,12 +11,10 @@ export default function SearchField(props: Props) {
     const { value, onChange } = props;
     return (
         <Wrapper>
-            <h3>
-                Search
-            </h3>
             <Input
                 value={value}
-                onChange={onChange} />
+                onChange={onChange}
+                placeholder='Write keyword...' />
         </Wrapper>
     );
 }

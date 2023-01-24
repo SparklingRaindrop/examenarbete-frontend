@@ -1,18 +1,22 @@
 import { useRouter } from 'next/router';
 import { useRecipesContext } from '../../../../../hooks';
 import { IconButton } from '../../../../elements';
+import { List, ListItem, Title } from './styled';
 
-export default function RecipeList() {
-    const { recipes } = useRecipesContext();
+type Props = {
+    filteredRecipes: Recipe[];
+}
+export default function RecipeList(props: Props) {
+    const { filteredRecipes } = props;
     const { removeRecipe } = useRecipesContext();
     const router = useRouter();
 
     return (
-        <ul>
+        <List>
             {
-                recipes.map(({ id, title }) => (
-                    <div key={id}>
-                        <h3>{title}</h3>
+                filteredRecipes.map(({ id, title }) => (
+                    <ListItem key={id}>
+                        <Title>{title}</Title>
                         <IconButton
                             variant='ghost'
                             name='pencil'
@@ -23,9 +27,9 @@ export default function RecipeList() {
                             variant='ghost'
                             name='delete'
                             onClick={() => removeRecipe(id)} />
-                    </div>
+                    </ListItem>
                 ))
             }
-        </ul>
+        </List>
     );
 }
