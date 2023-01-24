@@ -3,26 +3,13 @@ import useStocksContext from '../../../../../hooks/useStocksContext';
 import { Counter, IconButton } from '../../../../elements';
 import { ItemName, Group } from './styled';
 
-type Props = {
-    id: Stock['id'];
-}
+type Props = Stock;
+
 export default function StockItem(props: Props) {
-    const { id } = props;
-    const [userInput, setUserInput] = useState<number>(0);
-    const { stocks, updateStock, removeItemFromStock } = useStocksContext();
-    const currentItem = useMemo(() => stocks.find(({ id: stockId }) => stockId === id), [id, stocks]);
+    const { id, item, amount } = props;
+    const [userInput, setUserInput] = useState<number>(amount);
+    const { updateStock, removeItemFromStock } = useStocksContext();
 
-    useEffect(() => {
-        setUserInput(currentItem ? currentItem.amount : 0);
-        // eslint-disable-next-line
-    }, []);
-
-    useEffect(() => {
-        setUserInput(currentItem ? currentItem.amount : 0);
-    }, [currentItem]);
-
-    if (!currentItem) return null;
-    const { item, amount } = currentItem;
     return (
         <>
             <IconButton
@@ -42,7 +29,13 @@ export default function StockItem(props: Props) {
                         id,
                         amount: amount - 1,
                     })}
-                    onChange={() => { }} />
+                    onChange={(event) =>
+                        setUserInput(Number(event.target.value))
+                    }
+                    onBlur={() => updateStock({
+                        id,
+                        amount: userInput,
+                    })} />
                 {item.unit.name}
             </Group>
         </>
