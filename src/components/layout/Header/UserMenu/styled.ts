@@ -12,8 +12,6 @@ export const Container = styled.div`
     left: 0;
     right: 0;
 
-    overflow: overlay;
-
     display: grid;
     place-content: center;
 
@@ -34,4 +32,11 @@ export const Div = styled(FlexColumn)`
 
     justify-content: center;
     align-items: center;
+`;
+
+export const CloseButtonContainer = styled.div`
+    justify-self: center;
+
+    position: relative;
+    bottom: -100%;
 `;

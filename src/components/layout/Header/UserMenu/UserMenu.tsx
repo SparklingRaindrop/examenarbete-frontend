@@ -1,18 +1,18 @@
-import Cookies from 'js-cookie';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useMemo, useState } from 'react';
+
 import { useLogin } from '../../../../hooks';
 import useUserContext from '../../../../hooks/useUserContext';
 import { Status } from '../../../../types/statusCode';
-import { Button, Input, PasswordInput } from '../../../elements';
-import { Container, Div, Text, Wrapper } from './styled';
+
+import { Button, IconButton, Input, PasswordInput } from '../../../elements';
+import { CloseButtonContainer, Container, Div, Text, Wrapper } from './styled';
 
 type Props = {
     isOpen: boolean;
+    onClose: () => void;
 }
 export default function UserMenu(props: Props) {
-    const { isOpen } = props;
+    const { isOpen, onClose } = props;
     const {
         userInput,
         isError,
@@ -27,6 +27,7 @@ export default function UserMenu(props: Props) {
         const { status } = await login();
         if (status === Status.Created) {
             router.push('/user');
+            onClose();
         }
     }
 
@@ -34,6 +35,7 @@ export default function UserMenu(props: Props) {
         const { status } = await logout();
         if (status === Status.Succuss) {
             router.push('/');
+            onClose();
         }
     }
 
@@ -50,6 +52,7 @@ export default function UserMenu(props: Props) {
                         <>
                             <Input
                                 value={userInput.identifier}
+                                placeholder='email or username'
                                 id='identifier'
                                 onChange={handleOnChange} />
                             <PasswordInput
@@ -70,6 +73,11 @@ export default function UserMenu(props: Props) {
                     </Button>
                 </Div>
             </Wrapper>
+            <CloseButtonContainer>
+                <IconButton
+                    name='xMark'
+                    onClick={onClose} />
+            </CloseButtonContainer>
         </Container>
     )
 }
