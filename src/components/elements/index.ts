@@ -12,7 +12,6 @@ import { InputTogglingButton } from './InputTogglingButton';
 import { ItemInputFields } from './ItemInputFields';
 import { Overlay } from './Overlay';
 import { DropdownMenu } from './DropdownMenu';
-import { Container } from './Container';
 export {
     List,
     Checkbox,
@@ -31,7 +30,6 @@ export {
     PasswordInput,
     Overlay,
     DropdownMenu,
-    Container,
     InputGroup,
     InputRightElement
 };

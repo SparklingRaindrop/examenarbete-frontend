@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { GroceryList, GroupedButtons } from './blocks';
+import { Container } from './styled';
 
 export default function Groceries() {
     return (
@@ -10,8 +11,10 @@ export default function Groceries() {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <GroupedButtons />
-            <GroceryList />
+            <Container>
+                <GroupedButtons />
+                <GroceryList />
+            </Container>
         </>
     );
 }
