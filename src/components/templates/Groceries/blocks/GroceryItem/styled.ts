@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { StyledListItem } from '../../../../elements/List/styled';
 
 export const TextContent = styled.div<{ isChecked: boolean; }>`
     width: 100%;

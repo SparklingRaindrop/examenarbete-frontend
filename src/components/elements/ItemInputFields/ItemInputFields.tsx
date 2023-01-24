@@ -52,16 +52,6 @@ export default function ItemInputFields(props: Props) {
                         }} />
                 )
             }
-            <Input
-                type='text'
-                textAlign='right'
-                value={userInput.amount}
-                onChange={(event) => {
-                    setUserInput(prev => ({
-                        ...prev,
-                        amount: Number(event.target.value)
-                    }));
-                }} />
             <Group>
                 <Counter
                     value={userInput.amount}
@@ -80,8 +70,8 @@ export default function ItemInputFields(props: Props) {
                         }));
                     }}
                     onBlur={() => { }} />
+                <Unit>{item?.unit.name}</Unit> {/* Ignore new Item for now */}
             </Group>
-            <Unit>{item?.unit.name}</Unit> {/* Ignore new Item for now */}
             <Row>
                 <Button
                     label='Add'
