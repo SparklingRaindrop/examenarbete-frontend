@@ -20,7 +20,7 @@ export const Wrapper = styled.nav<{ isOpen: boolean }>`
     }
 `;
 
-export const Menu = styled.ul`
+export const Menu = styled.menu`
     width: 100%;
 
     display: flex;
