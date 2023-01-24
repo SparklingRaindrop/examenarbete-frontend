@@ -42,15 +42,14 @@ export const padding: Record<MediaQuery, Padding> = {
 };
 
 export const palette = {
-    black: '#090D03',
-    white: '#F6F7F5',
+    black: '#1F2E21',
+    white: '#f9faf9',
 };
 
 export const light = {
-    main: '#ABF731',
     primary: {
-        original: '#6B3EF7',
-        shade: '#5631C4',
+        original: '#89e219',
+        shade: '#79C916',
         light: '#A589F9',
         dull: '#CCC5E0',
         disabled: ''
@@ -72,7 +71,6 @@ export const light = {
 };
 
 export const dark = {
-    main: '#ABF731',
     primary: {
         original: '#6B3EF7',
         shade: '#5631C4',
@@ -96,8 +94,11 @@ export const dark = {
     },
 };
 
+const boxShadow = '0rem 0.25rem 0rem #becfc2';
+
 export const theme: Omit<DefaultTheme, 'palette' | 'toggleTheme' | 'padding'> = {
     border,
     font,
     borderRadius,
+    boxShadow,
 };

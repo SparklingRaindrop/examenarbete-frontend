@@ -17,7 +17,6 @@ interface Palette {
     primary: ColorVariations;
     secondary: ColorVariations;
     accent: ColorVariations;
-    main: string;
 }
 
 type BorderSize = 'thin' | 'bold';
@@ -41,6 +40,7 @@ declare module 'styled-components' {
         font: Font;
         palette: Palette;
         padding: Padding;
+        boxShadow: string;
         toggleTheme: () => void;
     }
 }
