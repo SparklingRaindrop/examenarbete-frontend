@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Wrapper = styled.main`
     min-height: 100vh;
     max-width: 100vw;
-    margin-top: 2rem;
+    margin: 2rem 0;
     padding: ${({ theme }) => theme.padding.md};
 
     display: flex;
