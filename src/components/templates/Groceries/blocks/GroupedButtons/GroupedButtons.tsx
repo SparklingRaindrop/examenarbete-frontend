@@ -1,19 +1,31 @@
+import { useMemo } from 'react';
 import { useGroceriesContext } from '../../../../../hooks';
-import { Button, IconButton } from '../../../../elements';
+import { Button, DropdownMenu } from '../../../../elements';
+import { MenuItem } from '../../../../elements/DropdownMenu/DropdownMenu';
 import { Flex } from '../styled';
 
-type Props = {}
-export default function GroupedButtons({ }: Props) {
-    const { generateGroceries, removeAllGroceries } = useGroceriesContext();
+export default function GroupedButtons() {
+    const { generateGroceries, removeAllGroceries, groceries } = useGroceriesContext();
+    const hasMarkedItems = useMemo(() =>
+        groceries.filter(({ isChecked }) => isChecked).length > 0
+        , [groceries]
+    );
+
+    const menuContent: MenuItem[] = [{
+        label: 'Remove marked',
+        onClick: () => removeAllGroceries({ isChecked: true }),
+        isDisabled: !hasMarkedItems,
+    }, {
+        label: 'clear all',
+        onClick: removeAllGroceries,
+    }];
 
     return (
         <Flex>
             <Button
                 label='Generate from meal plan'
                 onClick={() => generateGroceries()} />
-            <IconButton name='threeDots' variant='ghost' />
-            <Button label='clear' onClick={removeAllGroceries} />
-            <Button label='Remove marked' onClick={() => removeAllGroceries({ isChecked: true })} />
+            <DropdownMenu contents={menuContent} />
         </Flex>
     );
 }
