@@ -54,6 +54,7 @@ export default function ItemInputFields(props: Props) {
             }
             <Input
                 type='text'
+                textAlign='right'
                 value={userInput.amount}
                 onChange={(event) => {
                     setUserInput(prev => ({
