@@ -4,6 +4,7 @@ import { ScreenSize } from '../../../../types/mediaQuery';
 export const Wrapper = styled.nav<{ isOpen: boolean }>`
     min-width: 50vw;
     height: 100vh;
+    padding: 0.5rem 0;
 
     background-color: inherit;
 
@@ -24,6 +25,7 @@ export const Menu = styled.ul`
 
     display: flex;
     flex-direction: column;
+    gap: 0.5rem;
 
     list-style: none;
     background-color: inherit;
@@ -31,4 +33,16 @@ export const Menu = styled.ul`
 
 export const MenuItem = styled.li`
     padding: ${({ theme }) => `${theme.padding.lg} ${theme.padding.md}`};
+
+    text-align: center;
+    text-transform: capitalize;
+    & a {
+        color: ${({ theme }) => theme.palette.black};
+    }
+
+    :hover {
+        background-color: ${({ theme }) => theme.palette.primary.shade};
+    }
+
+    transition: background-color .1s ease-in;
 `;
