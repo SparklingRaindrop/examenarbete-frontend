@@ -47,12 +47,7 @@ export const Wrapper = styled.button<ButtonProps>`
     border: ${({ variant, theme }) => variant === 'secondary' ?
         theme.palette.secondary.original :
         'transparent'} 2px solid;
-    ${({ variant, theme }) => !variant && (
-        `
-        box-shadow: -4px -4px 8px 0px #ffffff80;
-        box-shadow: 4px 4px 8px 0px ${theme.palette.primary.dull}80;
-        `
-    )};
+    ${({ variant, theme }) => !variant && `box-shadow:${theme.boxShadow}`};
 
     &:hover {
         cursor: pointer;
