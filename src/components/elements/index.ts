@@ -10,6 +10,7 @@ import { Modal } from './Modal';
 import { Autocomplete } from './Autocomplete';
 import { InputTogglingButton } from './InputTogglingButton';
 import { ItemInputFields } from './ItemInputFields';
+import { Overlay } from './Overlay';
 export {
     List,
     Checkbox,
@@ -26,6 +27,7 @@ export {
     InputTogglingButton,
     ItemInputFields,
     PasswordInput,
+    Overlay,
     InputGroup,
     InputRightElement
 };

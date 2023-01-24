@@ -11,7 +11,8 @@ import {
     InputGroup,
     Autocomplete,
     Counter,
-    PasswordInput
+    PasswordInput,
+    Overlay,
 } from './elements';
 import {
     Layout
@@ -29,6 +30,7 @@ export {
     Counter,
     Autocomplete,
     PasswordInput,
+    Overlay,
     InputGroup,
     InputRightElement,
 };
