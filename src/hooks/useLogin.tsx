@@ -1,6 +1,7 @@
 import axios, { HttpStatusCode } from 'axios';
 import Cookies from 'js-cookie';
 import { ChangeEvent, useState } from 'react';
+import { IsError } from '../types/error';
 import { Status } from '../types/statusCode';
 import { APIResponse } from '../util/api';
 
@@ -15,8 +16,6 @@ type UserInput = {
     password: string;
 }
 
-type IsError = { isError: Boolean; message: string }
-
 export type LoginData = { password: string; } & Partial<Pick<User, 'username' | 'email'>>
 
 export function useLogin() {
@@ -24,12 +23,12 @@ export function useLogin() {
         identifier: '',
         password: ''
     });
-    const [isError, setIsError] = useState<IsError>({ isError: false, message: '' });
+    const [isError, setIsError] = useState<IsError>({ isError: false, error: '' });
 
     function handleOnChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
         const { value, id } = event.target;
         if (isError.isError) {
-            setIsError({ isError: false, message: '' });
+            setIsError({ isError: false, error: '' });
         }
         setUserInput(prev => ({
             ...prev,
@@ -49,7 +48,7 @@ export function useLogin() {
         const { status, error } = await handleLogin(data as LoginData);
         if (status !== Status.Created) {
             setIsError(({
-                message: error ? error : '',
+                error: error ? error : '',
                 isError: true,
             }));
         }

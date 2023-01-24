@@ -27,11 +27,14 @@ export const Text = styled.p`
     text-align: center;
 `;
 
-export const Div = styled(FlexColumn)`
+export const Div = styled(FlexColumn) <{ isHidden?: boolean }>`
     padding: ${({ theme }) => `${theme.padding.lg} 0`};
 
     justify-content: center;
     align-items: center;
+
+    visibility: ${({ isHidden }) => isHidden ? 'hidden' : 'visible'};
+    ${({ isHidden, theme }) => typeof isHidden !== 'undefined' && `color: ${theme.palette.accent.original}`};
 `;
 
 export const CloseButtonContainer = styled.div`

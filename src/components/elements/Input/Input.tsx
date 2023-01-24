@@ -1,4 +1,5 @@
 import { ChangeEvent, CSSProperties, HTMLInputTypeAttribute, KeyboardEvent } from 'react';
+import { IsError } from '../../../types/error';
 import { Variant } from '../../../types/styled';
 import { ErrorMessage, Label, Wrapper, InputField } from './styled';
 
@@ -8,7 +9,7 @@ interface Props {
     autoFocus?: boolean;
     type?: HTMLInputTypeAttribute;
     id?: string;
-    isError?: boolean;
+    isError?: IsError;
     error?: string;
     required?: boolean;
     disabled?: boolean;
@@ -42,15 +43,15 @@ export default function Input(props: Props & CSSProperties) {
                 value={value}
                 type={type}
                 autoFocus={autoFocus}
-                isError={isError}
+                isError={isError?.isError}
                 required={required}
                 disabled={disabled}
                 placeholder={placeholder}
                 onChange={onChange}
                 onKeyDown={onKeyDown} />
-            {isError &&
+            {isError?.isError &&
                 <ErrorMessage>
-                    {error}
+                    {isError?.error}
                 </ErrorMessage>
             }
         </Wrapper>

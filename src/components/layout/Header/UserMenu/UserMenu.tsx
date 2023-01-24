@@ -23,7 +23,7 @@ export default function UserMenu(props: Props) {
     const router = useRouter();
     const { isLoggedIn } = useUserContext();
 
-    async function handleOnLogin() {
+    async function handleOnLogin(): Promise<void> {
         const { status } = await login();
         if (status === Status.Created) {
             router.push('/user');
@@ -31,7 +31,7 @@ export default function UserMenu(props: Props) {
         }
     }
 
-    async function handleOnLogOut() {
+    async function handleOnLogOut(): Promise<void> {
         const { status } = await logout();
         if (status === Status.Succuss) {
             router.push('/');
@@ -43,6 +43,7 @@ export default function UserMenu(props: Props) {
     return (
         <Container>
             <Wrapper>
+
                 {
                     isLoggedIn ? (
                         <Button
@@ -50,6 +51,9 @@ export default function UserMenu(props: Props) {
                             onClick={handleOnLogOut} />
                     ) : (
                         <>
+                            <Div isHidden={!isError.isError}>
+                                Incorrect username/email or password
+                            </Div>
                             <Input
                                 value={userInput.identifier}
                                 placeholder='email or username'
@@ -79,5 +83,5 @@ export default function UserMenu(props: Props) {
                     onClick={onClose} />
             </CloseButtonContainer>
         </Container>
-    )
+    );
 }

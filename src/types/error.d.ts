@@ -1,3 +1,4 @@
-export const enum ErrorMsg {
-    MissingProp = 'Missing required property.',
+export interface IsError {
+    isError: boolean;
+    error?: string
 }
