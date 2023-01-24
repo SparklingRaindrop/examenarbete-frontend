@@ -44,14 +44,15 @@ export const padding: Record<MediaQuery, Padding> = {
 export const palette = {
     black: '#1F2E21',
     white: '#f9faf9',
+    grey: '#818C83',
 };
 
 export const light = {
     primary: {
         original: '#89e219',
         shade: '#79C916',
-        light: '#A589F9',
-        dull: '#CCC5E0',
+        light: '#89e21914',
+        dull: '#69B013',
         disabled: ''
     },
     secondary: {
