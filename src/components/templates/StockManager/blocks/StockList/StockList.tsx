@@ -8,11 +8,7 @@ export default function StockList({ }: Props) {
     return (
         <Wrapper>
             {
-                stocks.map(({ id }) => (
-                    <StockItem
-                        key={id}
-                        id={id} />
-                ))
+                stocks.map(stock => <StockItem key={stock.id} {...stock} />)
             }
         </Wrapper>
     )
