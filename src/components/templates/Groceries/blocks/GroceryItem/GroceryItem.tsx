@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react';
 import { useGroceriesContext } from '../../../../../hooks';
-import { Checkbox, Icon } from '../../../../elements';
-import { TextContent, Wrapper } from './styled';
+import { Checkbox, Icon, ListItem } from '../../../../elements';
+import { TextContent } from './styled';
 
 type Props = {
     id: string;
@@ -20,7 +20,7 @@ export default function GroceryItem(props: Props) {
 
     const { name, unit } = item;
     return (
-        <Wrapper>
+        <ListItem>
             <Icon name='sixDots' />
             <Checkbox
                 checked={isChecked || false}
@@ -29,6 +29,6 @@ export default function GroceryItem(props: Props) {
                 <label>{name}</label>
                 <div className='count'>{amount} {unit.name}</div>
             </TextContent>
-        </Wrapper>
+        </ListItem>
     );
 }

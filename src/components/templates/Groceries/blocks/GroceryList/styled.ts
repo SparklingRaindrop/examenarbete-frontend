@@ -1,12 +1,4 @@
 import styled from 'styled-components';
-import { UnorderedList } from '../../../../elements/List/styled';
-
-export const Wrapper = styled(UnorderedList)`
-    width: 100%;
-
-    padding: ${({ theme }) => `${theme.padding.sm} 0`};
-    justify-content: center;
-`;
 
 export const LabelButton = styled.button`
     width: 100%;
