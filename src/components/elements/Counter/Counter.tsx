@@ -1,4 +1,4 @@
-import { ChangeEvent, FocusEvent, MouseEvent } from 'react';
+import { ChangeEvent, FocusEvent, KeyboardEvent, MouseEvent } from 'react';
 import { Icon } from '../Icon';
 import { Input, Wrapper, Button } from './styled';
 
@@ -7,11 +7,17 @@ type Props = {
     onPlus: (event: MouseEvent<HTMLButtonElement>) => void;
     onMinus: (event: MouseEvent<HTMLButtonElement>) => void;
     onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-    onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
+    onBlur: () => void;
 };
 
 export default function Counter(props: Props) {
     const { value, onPlus, onMinus, onChange, onBlur } = props;
+
+    function handleOnKeyDown(event: KeyboardEvent) {
+        if (event.key === 'Enter') {
+            onBlur();
+        }
+    }
 
     return (
         <Wrapper>
@@ -23,6 +29,7 @@ export default function Counter(props: Props) {
             <Input
                 value={value}
                 onChange={onChange}
+                onKeyDown={handleOnKeyDown}
                 onBlur={onBlur} />
             <Button
                 name='plus'
@@ -32,38 +39,3 @@ export default function Counter(props: Props) {
         </Wrapper>
     );
 }
-
-
-/* export default function Counter(props: Props) {
-    const { value, setCounterValue } = props;
-    // Keeping inputValue string allows users to hold empty input field
-    const [inputValue, setInputValue] = useState<string>(value.toString());
-
-    useEffect(() => {
-        setInputValue(value.toString());
-    }, [value]);
-
-    return (
-        <Wrapper>
-            <IconButton
-                name='minus'
-                disabled={value === 0}
-                onClick={() => setCounterValue(-1)} />
-            <Input
-                value={inputValue}
-                onChange={(event) => {
-                    if (isNaN(Number(event.target.value))) return;
-                    setInputValue(event.target.value);
-                }}
-                onBlur={() => {
-                    if (inputValue === '') {
-                        setInputValue('0');
-                    }
-                    setCounterValue(Number(inputValue === '' ? 0 : inputValue), 'replace');
-                }} />
-            <IconButton
-                name='plus'
-                onClick={() => setCounterValue(1)} />
-        </Wrapper>
-    );
-} */
