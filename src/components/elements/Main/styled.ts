@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ScreenSize } from '../../../types/mediaQuery';
+import { screenSize } from '../../../util/mediaQuery';
 
 export const Wrapper = styled.main`
     min-height: 100vh;
@@ -11,7 +11,7 @@ export const Wrapper = styled.main`
     align-items: center;
     gap: 2rem;
 
-    @media ${ScreenSize.MD} {
+    @media ${screenSize.md} {
         max-width: 62.5rem;
     }
 `;

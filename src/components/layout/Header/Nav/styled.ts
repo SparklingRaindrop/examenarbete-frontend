@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ScreenSize } from '../../../../types/mediaQuery';
+import { screenSize } from '../../../../util/mediaQuery';
 
 export const Wrapper = styled.nav<{ isOpen: boolean }>`
     min-width: 50vw;
@@ -15,7 +15,7 @@ export const Wrapper = styled.nav<{ isOpen: boolean }>`
     transition: transform .2s ease-in;
     ${({ isOpen }) => !isOpen && 'transform: translateX(-100%);'}
 
-    @media ${ScreenSize.MD} {
+    @media ${screenSize.md} {
         min-width: 25vw;
     }
 `;
