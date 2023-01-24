@@ -1,11 +1,6 @@
 import { MouseEvent, useCallback, useEffect, useRef } from 'react';
 
-type Props = {
-    callback: () => void;
-}
-
-export default function useOutsideDetector(props: Props) {
-    const { callback } = props;
+export default function useOutsideDetector(callback: () => void) {
     const containerRef = useRef<HTMLElement>(null);
     const handleClickOutside = useCallback((event: any): void => {
         if (containerRef.current &&
