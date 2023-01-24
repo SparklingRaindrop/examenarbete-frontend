@@ -11,7 +11,7 @@ import { Status } from '../types/statusCode';
 export default function Login() {
     const {
         userInput,
-        loginState,
+        isError,
         handleOnChange,
         login
     } = useLogin();
@@ -34,7 +34,7 @@ export default function Login() {
                 value={userInput.password}
                 onChange={handleOnChange}
             />
-            <div>{loginState.isError && loginState.message}</div>
+            <div>{isError.isError && isError.message}</div>
             <Button
                 label='Login'
                 onClick={handleOnClick}
