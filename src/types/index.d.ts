@@ -56,8 +56,7 @@ interface Recipe {
     instructions: Instruction[];
 }
 
-
-type MediaQuery = 'xs' | 'sm' | 'md' | 'lg';
+type MediaQuery = 'sm' | 'md' | 'lg';
 type FontSize = 'sm' | 'standard' | 'lg';
 type PaddingVariation = 'sm' | 'md' | 'lg' | 'none';
 interface GapVariation extends PaddingVariation { };
