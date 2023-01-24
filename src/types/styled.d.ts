@@ -14,6 +14,7 @@ type ColorVariations = {
 interface Palette {
     black: string;
     white: string;
+    grey: string;
     primary: ColorVariations;
     secondary: ColorVariations;
     accent: ColorVariations;
