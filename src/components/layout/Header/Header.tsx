@@ -1,29 +1,50 @@
-import { useEffect, useRef, useState } from 'react';
 import { useDisclosure } from '../../../hooks';
 import { IconButton } from '../../elements';
-import { Wrapper, Nav, NavItem } from './styled';
+import Nav from './Nav';
+import { RightAlignBox, Wrapper } from './styled';
+import UserMenu from './UserMenu';
 
-// TODO close on outside click
 export default function Header() {
-    const { isOpen, toggleIsOpen } = useDisclosure();
-    const ref = useRef<HTMLElement>(null);
+    const {
+        isOpen: isNavOpen,
+        toggleIsOpen: toggleNav,
+        onClose: onCloseNav } = useDisclosure();
+    const {
+        isOpen: isUserMenuOpen,
+        toggleIsOpen: toggleUserMenu,
+        onClose: onCloseUserMenu } = useDisclosure();
 
     return (
         <Wrapper>
-            <IconButton
-                name='hamburger'
-                variant='ghost'
-                onClick={toggleIsOpen} />
             {
-                isOpen && <Nav ref={ref}>
-                    <ul>
-                        <NavItem>Test1</NavItem>
-                        <NavItem>Test2</NavItem>
-                        <NavItem>Test3</NavItem>
-                    </ul>
-                </Nav>
+                !isNavOpen &&
+                <IconButton
+                    name='hamburger'
+                    variant='ghost'
+                    onClick={() => {
+                        toggleNav();
+                        if (isUserMenuOpen) {
+                            toggleUserMenu();
+                        }
+                    }} />
             }
-            <div>Smapp</div>
+            <Nav
+                isOpen={isNavOpen}
+                onClose={onCloseNav} />
+            <RightAlignBox>
+                <IconButton
+                    name='userCircle'
+                    variant='ghost'
+                    onClick={() => {
+                        toggleUserMenu();
+                        if (isNavOpen) {
+                            toggleNav();
+                        }
+                    }} />
+                <UserMenu
+                    isOpen={isUserMenuOpen}
+                    onClose={onCloseUserMenu} />
+            </RightAlignBox>
         </Wrapper>
     );
 }

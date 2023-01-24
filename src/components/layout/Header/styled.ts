@@ -1,46 +1,24 @@
 import styled from 'styled-components';
-import { StyledListItem } from '../../elements/List/styled';
 
 export const Wrapper = styled.header`
-    width: 100vw;
+    max-width: 100vw;
     height: 3.5rem;
-    padding: ${({ theme }) => theme.padding.sm};
-    background-color: ${({ theme }) => theme.palette.main};
+    padding: ${({ theme }) => `0 ${theme.padding.md}`};
 
-    position: fixed;
+    position: sticky;
     top: 0;
     left: 0;
     right: 0;
 
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     align-items: center;
 
-    & > div {
-        margin: 0 auto;
-        font-size: 2rem;
-    }
+    background-color: ${({ theme }) => theme.palette.primary.original};
+    z-index: 150;
 `;
 
-export const Nav = styled.nav`
-    min-width: 50vw;
-
-    position: absolute;
-    top: 3.5rem;
-    bottom: 0;
-    left: 0;
-
-    z-index: 100;
-
-    & > ul {
-        list-style: none;
-    }
-`;
-
-export const NavItem = styled(StyledListItem)`
-    background-color: ${({ theme }) => theme.palette.main};
-    
-    &:not(:first-child) {
-        border-top: 1px solid ${({ theme }) => theme.palette.white};
-    }
+export const RightAlignBox = styled.span`
+    margin-left: auto;
 `;
