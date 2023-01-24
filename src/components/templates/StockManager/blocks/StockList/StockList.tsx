@@ -11,5 +11,5 @@ export default function StockList({ }: Props) {
                 stocks.map(stock => <StockItem key={stock.id} {...stock} />)
             }
         </Wrapper>
-    )
+    );
 }
