@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { Container, IconButton } from '../../../../elements';
 import { NewPlan } from '../../MealPlans';
 import DailyPlan from '../DailyPlan/DailyPlan';
-import { Wrapper, H3, MealName, Meal } from './styled';
+import { Wrapper, H3, MealName, Meal, Text } from './styled';
 
 type Props = {
     filteredPlans: Plan[];
@@ -26,7 +26,7 @@ export default function Plans(props: Props) {
     return (
         <Container>
             {
-                days.length > 0 && days.map((date, index) => (
+                days.length > 0 ? days.map((date, index) => (
                     <Wrapper key={date.toString() + index}>
                         {
                             days.length !== 1 && // don't display if selected days is only one day
@@ -70,8 +70,11 @@ export default function Plans(props: Props) {
 
                         }
                     </Wrapper>
-                ))
-
+                )) : (
+                    <Text>
+                        No date is selected
+                    </Text>
+                )
             }
         </Container>
     );

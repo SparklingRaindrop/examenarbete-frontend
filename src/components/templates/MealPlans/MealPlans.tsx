@@ -21,7 +21,7 @@ export default function MealPlans() {
     const { plans } = useMealPlansContext();
     const { isOpen, toggleIsOpen, onClose } = useDisclosure();
 
-    function addSelectedDate(newDate: Date | Date[]) {
+    function addSelectedDate(newDate: Date | Date[]): void {
         if (Array.isArray(newDate)) {
             setSelectedDates(newDate);
             return;
@@ -66,7 +66,7 @@ export default function MealPlans() {
         });
     }
 
-    function openModal(newData: NewPlan) {
+    function openModal(newData: NewPlan): void {
         setNewPlan(newData);
         toggleIsOpen();
     }

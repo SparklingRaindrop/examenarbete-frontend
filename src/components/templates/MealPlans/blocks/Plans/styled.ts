@@ -34,3 +34,8 @@ export const MealName = styled(Flex)`
     justify-content: space-between;
     text-transform: capitalize;
 `;
+
+export const Text = styled.p`
+    padding: 3rem;
+    text-align: center;
+`;
