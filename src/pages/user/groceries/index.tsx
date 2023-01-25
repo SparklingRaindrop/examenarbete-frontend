@@ -1,7 +1,9 @@
-import axios from 'axios';
+import { GetServerSidePropsContext } from 'next';
 import { useEffect } from 'react';
 import { Groceries } from '../../../components/templates';
 import { useGroceriesContext } from '../../../hooks';
+import { fetch } from '../../../util/api';
+import { refreshAccessToken } from '../../../util/token';
 
 type Props = {
     groceries: Grocery[];
@@ -20,10 +22,17 @@ export default function Grocery({ groceries }: Props) {
     );
 }
 
-export async function getServerSideProps(context: any) {
-    const { access_token } = context.req.cookies;
-    const { data: groceries } = await axios.get<Grocery[]>(`${process.env.NEXT_PUBLIC_SERVER_URL}/groceries`, {
-        headers: { Cookie: `access_token=${access_token};` },
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+    let { access_token, refresh_token } = context.req.cookies;
+    if (!access_token && refresh_token) {
+        access_token = await refreshAccessToken();
+    }
+
+    const { data: groceries } = await fetch.get<Grocery[]>(`${process.env.NEXT_PUBLIC_SERVER_URL}/groceries`, {
+        withCredentials: true,
+        headers: {
+            Cookie: context.req.headers.cookie
+        }
     });
     return { props: { groceries } };
 }

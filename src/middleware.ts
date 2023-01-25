@@ -1,20 +1,25 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { refreshAccessToken } from './util/token';
 
 const publicPages = ['/user/new'];
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
     const accessToken = request.cookies.get('access_token')?.value;
+    const user = request.cookies.get('user')?.value;
+    const isProtectedRoute = request.nextUrl.pathname.startsWith('/user') &&
+        !publicPages.some(page => page === request.nextUrl.pathname);
 
-    if (
-        !publicPages.some(page => page === request.nextUrl.pathname) &&
-        (request.nextUrl.pathname.startsWith('/user') && !accessToken)
-    ) {
-        request.cookies.delete('access_token');
-        const response = NextResponse.redirect(new URL('/login', request.url));
-        response.cookies.delete('access_token');
+    if (isProtectedRoute && !accessToken) {
 
-        return response;
+        if (!user) {
+            request.cookies.delete('access_token');
+            const response = NextResponse.redirect(new URL('/login', request.url));
+            response.cookies.delete('access_token');
+            return response;
+        } else {
+            await refreshAccessToken();
+        }
     }
 
     if (['/login'].includes(request.nextUrl.pathname) && accessToken) {

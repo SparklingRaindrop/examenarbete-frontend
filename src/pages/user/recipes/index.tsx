@@ -1,8 +1,11 @@
 import axios from 'axios';
+import { GetServerSidePropsContext } from 'next';
 import { useEffect } from 'react';
 import { Recipes } from '../../../components/templates';
 
 import { useRecipesContext } from '../../../hooks';
+import { fetch } from '../../../util/api';
+import { refreshAccessToken } from '../../../util/token';
 
 type Props = {
     items: Item[];
@@ -24,16 +27,29 @@ export default function RecipePage({ items, recipes, units }: Props) {
     );
 }
 
-export async function getServerSideProps(context: any) {
-    const { access_token } = context.req.cookies;
-    const { data: items } = await axios.get<Stock[]>(`${process.env.NEXT_PUBLIC_SERVER_URL}/items`, {
-        headers: { Cookie: `access_token=${access_token};` },
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+    let { access_token, refresh_token } = context.req.cookies;
+    if (!access_token && refresh_token) {
+        access_token = await refreshAccessToken();
+    }
+
+    const { data: items } = await fetch.get<Stock[]>(`${process.env.NEXT_PUBLIC_SERVER_URL}/items`, {
+        withCredentials: true,
+        headers: {
+            Cookie: context.req.headers.cookie
+        }
     });
-    const { data: recipes } = await axios.get<Recipe[]>(`${process.env.NEXT_PUBLIC_SERVER_URL}/recipes`, {
-        headers: { Cookie: `access_token=${access_token};` },
+    const { data: recipes } = await fetch.get<Recipe[]>(`${process.env.NEXT_PUBLIC_SERVER_URL}/recipes`, {
+        withCredentials: true,
+        headers: {
+            Cookie: context.req.headers.cookie
+        }
     });
-    const { data: units } = await axios.get<Unit[]>(`${process.env.NEXT_PUBLIC_SERVER_URL}/units`, {
-        headers: { Cookie: `access_token=${access_token};` },
+    const { data: units } = await fetch.get<Unit[]>(`${process.env.NEXT_PUBLIC_SERVER_URL}/units`, {
+        withCredentials: true,
+        headers: {
+            Cookie: context.req.headers.cookie
+        }
     });
     return { props: { items, units, recipes } };
 }

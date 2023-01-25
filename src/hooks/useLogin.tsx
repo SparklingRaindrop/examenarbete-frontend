@@ -4,12 +4,7 @@ import { ChangeEvent, useState } from 'react';
 import { IsError } from '../types/error';
 import { Status } from '../types/statusCode';
 import { APIResponse } from '../util/api';
-
-export interface Token {
-    accessToken: string;
-    refreshToken: string;
-    expires: string;
-}
+import { setToken, Token } from '../util/token';
 
 type UserInput = {
     identifier: string;
@@ -55,25 +50,19 @@ export function useLogin() {
         return { status };
     }
 
-    async function handleLogin(data: LoginData): Promise<APIResponse> {
+    async function handleLogin(loginData: LoginData): Promise<APIResponse> {
         try {
-            const response = await axios.post<Token>(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/login`, data, {
+            const response = await axios.post<Token>(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/login`, loginData, {
                 headers: {
                     Accept: 'application/json',
                 },
             });
 
             if (response && response.data && response.status === Status.Created) {
-                const { accessToken, refreshToken, expires } = response.data;
-                const user = { ...data } as Partial<User>;
+                setToken(response.data);
+                const user = { ...loginData } as Partial<User>;
                 delete user.password;
-
-                Cookies.set('access_token', accessToken, { expires: new Date(expires) });
                 Cookies.set('user', JSON.stringify(user));
-                Cookies.set('refresh_token', refreshToken, {
-                    secure: true,
-                    expires: 1
-                });
             }
             return {
                 status: response.status
