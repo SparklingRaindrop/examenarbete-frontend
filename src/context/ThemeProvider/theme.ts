@@ -58,7 +58,7 @@ export const light = {
     secondary: {
         original: '#5D24E3',
         shade: '#432096',
-        light: '#E1E667',
+        light: '#C4B3EC',
         dull: '#E9EACE',
         disabled: ''
     },
