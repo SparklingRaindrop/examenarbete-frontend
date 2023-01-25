@@ -1,12 +1,7 @@
 import { useRouter } from 'next/router';
-import { ChangeEvent, useState } from 'react';
 import { Button, Input, PasswordInput, Main } from '../components';
 import { useLogin } from '../hooks';
-import { LoginData } from '../hooks/useLogin';
 import { Status } from '../types/statusCode';
-
-
-
 
 export default function Login() {
     const {
@@ -33,8 +28,9 @@ export default function Login() {
             <PasswordInput
                 value={userInput.password}
                 onChange={handleOnChange}
+                handleSubmit={handleOnClick}
             />
-            <div>{isError.isError && isError.message}</div>
+            <div>{isError.isError && isError.error}</div>
             <Button
                 label='Login'
                 onClick={handleOnClick}
