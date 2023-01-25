@@ -3,7 +3,7 @@ import { RecipeData } from '../../../../../hooks/useRecipesAPI';
 import { Button, IconButton, ItemInputFields, ListItem } from '../../../../elements';
 import { NewItem } from '../../../../elements/ItemInputFields/ItemInputFields';
 import { Heading } from '../styled';
-import { ItemName, IngredientList, IngredientListItem } from './styled';
+import { ItemName, IngredientList, IngredientListItem, Amount } from './styled';
 
 type Props = {
     isEditing: boolean;
@@ -38,7 +38,7 @@ export default function Ingredients(props: Props) {
                 <IngredientList>{ingredients.map(({ item, amount }, index) => (
                     <IngredientListItem key={item.id + index}>
                         <ItemName>{item.name}</ItemName>
-                        <span>{amount}{item.unit.name}</span>
+                        <Amount>{amount}{item.unit.name}</Amount>
                         <IconButton
                             name='xMark'
                             variant='ghost'

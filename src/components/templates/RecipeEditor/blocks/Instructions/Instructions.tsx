@@ -3,6 +3,7 @@ import { Button, Text } from '../../../../elements';
 import InstructionTextarea from './InstructionTextarea';
 import { Heading, Section } from '../styled';
 import { FlexColumn } from '../../../../elements/Flex';
+import { InstructionWrapper } from './styled';
 
 type Props = {
     isEditing: boolean;
@@ -27,10 +28,10 @@ export default function Instructions(props: Props) {
             </Heading>
             {
                 instructions.map(({ step_no, instruction, id }) => (
-                    <FlexColumn key={id}>
+                    <InstructionWrapper key={id}>
                         <h4>Step {step_no}:</h4>
                         <Text>{instruction}</Text>
-                    </FlexColumn>
+                    </InstructionWrapper>
                 ))
             }
             {

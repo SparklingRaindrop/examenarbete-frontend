@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const IngredientList = styled.ul`
-    padding: 0 3rem;
+    padding: 0 2rem;
 
     display: flex;
     flex-direction: column;
@@ -14,16 +14,16 @@ export const IngredientListItem = styled.li`
 
     display: flex;
     flex-direction: row;
-    gap: 2rem;
+    gap: 1.5rem;
     align-items: center;
-
-    & :nth-child(3) {
-        margin-left: auto;
-    }
 `;
 
 export const ItemName = styled.span`
     font-weight: bold;
     text-transform: capitalize;
     font-size: 1.1em;
+`;
+
+export const Amount = styled.span`
+    margin-left: auto;
 `;
