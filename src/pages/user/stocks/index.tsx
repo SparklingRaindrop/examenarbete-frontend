@@ -27,22 +27,28 @@ export default function StocksPage({ items, stocks }: Props) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-    let { access_token, refresh_token } = context.req.cookies;
-    if (!access_token && refresh_token) {
-        access_token = await refreshAccessToken();
+    try {
+        const { data: stocks } = await fetch.get<Stock[]>(`${process.env.NEXT_PUBLIC_SERVER_URL}/stocks`, {
+            withCredentials: true,
+            headers: {
+                Cookie: context.req.headers.cookie,
+            }
+        });
+        const { data: items } = await fetch.get<Stock[]>(`${process.env.NEXT_PUBLIC_SERVER_URL}/items`, {
+            withCredentials: true,
+            headers: {
+                Cookie: context.req.headers.cookie
+            }
+        });
+        return { props: { items, stocks } };
+    } catch (error) {
+        if (error instanceof Error && error.message === 'No token. Redirecting...') {
+            return {
+                redirect: {
+                    destination: '/login'
+                }
+            };
+        }
     }
-
-    const { data: stocks } = await fetch.get<Stock[]>(`${process.env.NEXT_PUBLIC_SERVER_URL}/stocks`, {
-        withCredentials: true,
-        headers: {
-            Cookie: context.req.headers.cookie,
-        }
-    });
-    const { data: items } = await fetch.get<Stock[]>(`${process.env.NEXT_PUBLIC_SERVER_URL}/items`, {
-        withCredentials: true,
-        headers: {
-            Cookie: context.req.headers.cookie
-        }
-    });
-    return { props: { items, stocks } };
+    return;
 }

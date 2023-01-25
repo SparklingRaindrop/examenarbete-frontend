@@ -28,28 +28,34 @@ export default function RecipePage({ items, recipes, units }: Props) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-    let { access_token, refresh_token } = context.req.cookies;
-    if (!access_token && refresh_token) {
-        access_token = await refreshAccessToken();
+    try {
+        const { data: items } = await fetch.get<Stock[]>(`${process.env.NEXT_PUBLIC_SERVER_URL}/items`, {
+            withCredentials: true,
+            headers: {
+                Cookie: context.req.headers.cookie
+            }
+        });
+        const { data: recipes } = await fetch.get<Recipe[]>(`${process.env.NEXT_PUBLIC_SERVER_URL}/recipes`, {
+            withCredentials: true,
+            headers: {
+                Cookie: context.req.headers.cookie
+            }
+        });
+        const { data: units } = await fetch.get<Unit[]>(`${process.env.NEXT_PUBLIC_SERVER_URL}/units`, {
+            withCredentials: true,
+            headers: {
+                Cookie: context.req.headers.cookie
+            }
+        });
+        return { props: { items, units, recipes } };
+    } catch (error) {
+        if (error instanceof Error && error.message === 'No token. Redirecting...') {
+            return {
+                redirect: {
+                    destination: '/login'
+                }
+            };
+        }
     }
-
-    const { data: items } = await fetch.get<Stock[]>(`${process.env.NEXT_PUBLIC_SERVER_URL}/items`, {
-        withCredentials: true,
-        headers: {
-            Cookie: context.req.headers.cookie
-        }
-    });
-    const { data: recipes } = await fetch.get<Recipe[]>(`${process.env.NEXT_PUBLIC_SERVER_URL}/recipes`, {
-        withCredentials: true,
-        headers: {
-            Cookie: context.req.headers.cookie
-        }
-    });
-    const { data: units } = await fetch.get<Unit[]>(`${process.env.NEXT_PUBLIC_SERVER_URL}/units`, {
-        withCredentials: true,
-        headers: {
-            Cookie: context.req.headers.cookie
-        }
-    });
-    return { props: { items, units, recipes } };
+    return;
 }

@@ -1,13 +1,11 @@
-import { useState } from 'react';
-
 import { useRecipesContext } from '../../../hooks';
 
-import { Button, Container } from '../../elements';
+import { Container } from '../../elements';
 import { ItemEditor, ItemRow } from './blocks';
 import { ItemList } from './styled';
 
 export default function ItemManager() {
-    const { items, units } = useRecipesContext();
+    const { items } = useRecipesContext();
 
     return (
         <Container>

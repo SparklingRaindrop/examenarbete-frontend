@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 import Cookies from 'js-cookie';
 import { Status } from '../types/statusCode';
 import { refreshAccessToken } from './token';
@@ -19,7 +19,7 @@ export const fetch = axios.create({
     timeoutErrorMessage: 'Time out!',
 });
 
-fetch.interceptors.request.use(async (config) => {
+/* fetch.interceptors.request.use(async (config) => {
     const accessToken = Cookies.get('access_token');
     const refreshToken = Cookies.get('refresh_token');
     if (!config.url?.includes('login') && !accessToken && refreshToken && config.url?.includes('user')) {
@@ -27,30 +27,37 @@ fetch.interceptors.request.use(async (config) => {
         await refreshAccessToken();
     }
     return config;
-}, function (error) {
-    // Do something with request error
+}, (error) => {
     return Promise.reject(error);
-});
+}); */
+let isRefreshing = false;
 
 fetch.interceptors.response.use(
     response => response,
-    async (error) => {
-        const { config } = error;
+    async (error: AxiosError): Promise<AxiosError> => {
+        const status = error.response ? error.response.status : null;
+        const originalRequest = error.config as Pick<AxiosError, 'config'> & { _retry: boolean };
 
-        if (error.response.status === 403) {
-            const user = Cookies.get('user');
-            if (user) {
-                await refreshAccessToken();
-                const retryRequest = new Promise<void>((resolve) => {
-                    setTimeout(() => {
-                        resolve();
-                    }, config.retryDelay || 1000);
-                });
-                return retryRequest.then(() => axios(config));
+        if (error.response) {
+            if (status === 403 && originalRequest && !originalRequest._retry) {
+                originalRequest._retry = true;
+
+                const user = Cookies.get('user');
+                if (user) {
+                    const accessToken = await refreshAccessToken();
+                    if (accessToken) {
+                        fetch.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
+                        return fetch(originalRequest as AxiosRequestConfig<any>);
+                    }
+                }
+            }
+            if (typeof window === 'undefined') {
+                throw new Error('No token. Redirecting...'); //Throw custom error here
+            } else {
+                window.location.href = '/';
             }
         }
-        window.location.href = 'http://localhost:3000/login';
-        return;
+        return Promise.reject(error);
     }
 );
 
@@ -63,7 +70,6 @@ export async function get<T>(endpoint: string): Promise<GetResponse<T>> {
                 signal: controller.signal,
             },
         );
-
         return response;
     } catch (error) {
         console.error(error);

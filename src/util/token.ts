@@ -10,12 +10,19 @@ export interface Token {
 }
 
 export async function refreshAccessToken(): Promise<Token['accessToken']> {
-    const response = await fetch.post<Token>(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/refresh`);
-    const { data } = response;
-    if (response.status === Status.Created) {
-        setToken(data);
+    try {
+        const response = await fetch.post<Token>(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/refresh`);
+        const { data } = response;
+        if (response.status === Status.Created) {
+            setToken(data);
+        }
+        return data.accessToken;
+    } catch (_error) {
+        if (typeof window !== 'undefined') {
+            window.location.href = window.location.origin;
+        }
+        return Promise.reject(_error);
     }
-    return data.accessToken;
 }
 
 export function setToken(data: Token): void {

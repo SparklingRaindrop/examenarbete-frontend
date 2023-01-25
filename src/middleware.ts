@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { refreshAccessToken } from './util/token';
 
 const publicPages = ['/user/new'];
 
@@ -17,8 +16,6 @@ export async function middleware(request: NextRequest) {
             const response = NextResponse.redirect(new URL('/login', request.url));
             response.cookies.delete('access_token');
             return response;
-        } else {
-            await refreshAccessToken();
         }
     }
 

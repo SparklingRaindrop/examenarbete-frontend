@@ -23,16 +23,22 @@ export default function Grocery({ groceries }: Props) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-    let { access_token, refresh_token } = context.req.cookies;
-    if (!access_token && refresh_token) {
-        access_token = await refreshAccessToken();
-    }
-
-    const { data: groceries } = await fetch.get<Grocery[]>(`${process.env.NEXT_PUBLIC_SERVER_URL}/groceries`, {
-        withCredentials: true,
-        headers: {
-            Cookie: context.req.headers.cookie
+    try {
+        const { data: groceries } = await fetch.get<Grocery[]>(`${process.env.NEXT_PUBLIC_SERVER_URL}/groceries`, {
+            withCredentials: true,
+            headers: {
+                Cookie: context.req.headers.cookie
+            }
+        });
+        return { props: { groceries } };
+    } catch (error) {
+        if (error instanceof Error && error.message === 'No token. Redirecting...') {
+            return {
+                redirect: {
+                    destination: '/login'
+                }
+            };
         }
-    });
-    return { props: { groceries } };
+    }
+    return;
 }

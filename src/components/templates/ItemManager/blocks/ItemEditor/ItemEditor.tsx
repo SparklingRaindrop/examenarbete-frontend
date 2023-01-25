@@ -4,7 +4,11 @@ import { Status } from '../../../../../types/statusCode';
 import { Button, Icon, Input } from '../../../../elements';
 import { Box, Name, Option, UnitSelector, Wrapper } from './styled';
 
-export default function ItemEditor(props: Partial<Item>) {
+type Props = {
+    onClose?: () => void;
+}
+
+export default function ItemEditor(props: Props & Partial<Item>) {
     const { name, unit, id, isDefault } = props;
     const [userInput, setUserInput] = useState({
         name: name ? name : '',
@@ -13,7 +17,7 @@ export default function ItemEditor(props: Partial<Item>) {
     const { units, updateItem, createItem } = useRecipesContext();
 
     useEffect(() => {
-        if (userInput.unit_id === '') {
+        if (userInput.unit_id === '' && units.length > 0) {
             setUserInput(prev => ({
                 ...prev,
                 unit_id: units[0].id,
@@ -55,7 +59,7 @@ export default function ItemEditor(props: Partial<Item>) {
                 <UnitSelector
                     name='units'
                     id='units-select'
-                    value={userInput.unit_id ? userInput.unit_id : units[0].id}
+                    value={userInput.unit_id ? userInput.unit_id : units[0]?.id}
                     onChange={handleSelectOnChange}>
                     {
                         units.map(({ id: unitId, name: unitName }) => (
