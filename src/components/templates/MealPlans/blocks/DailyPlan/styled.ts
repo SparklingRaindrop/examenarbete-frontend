@@ -10,15 +10,18 @@ const Flex = styled.div`
 
 export const Wrapper = styled(Flex)`
     flex-direction: column;
-    padding: 0 0 1.5rem 1.5rem;
+    padding-left: 2rem;
 `;
 
 export const Plan = styled(Flex)`
-    padding: 0 ${({ theme }) => theme.padding.sm};
+    padding-left: ${({ theme }) => theme.padding.md};
 
     justify-content: space-between;
 
-    background-color: ${({ theme }) => theme.palette.primary.dull};
+    background-color: ${({ theme }) => theme.palette.white};
     border: ${({ theme }) => theme.palette.primary.light} 1px solid;
     border-radius: ${({ theme }) => theme.borderRadius.md};
+    box-shadow: ${({ theme }) => theme.boxShadow};
+
+    text-transform: capitalize;
 `;
