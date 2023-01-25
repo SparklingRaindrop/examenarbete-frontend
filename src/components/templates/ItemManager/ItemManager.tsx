@@ -10,12 +10,6 @@ type Props = {}
 export default function ItemManager({ }: Props) {
     const { items } = useRecipesContext();
     const [isEditing, setIsEditing] = useState<boolean>(false);
-    const { getItems } = useRecipesContext();
-
-    useEffect(() => {
-        getItems();
-        // eslint-disable-next-line
-    }, []);
 
     return (
         <Container>

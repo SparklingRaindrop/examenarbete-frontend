@@ -1,6 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useRecipesContext } from '../../../../../hooks';
-import { Button, Icon } from '../../../../elements';
+import { Button, Icon, Input } from '../../../../elements';
+import { Box, Name, Option, UnitSelector, Wrapper } from './styled';
 
 type Props = {
     onClose: () => void;
@@ -31,46 +32,58 @@ export default function ItemEditor(props: Partial<Item> & Props) {
     }
 
     return (
-        <>
-            {isDefault && <Icon name='warnBudge' />}
-            <input
-                value={userInput.name}
-                onChange={(event) => setUserInput(prev => ({
-                    ...prev,
-                    name: event.target.value,
-                }))}
-                disabled={isDefault} />
-            <select
-                name='units'
-                id='units-select'
-                value={userInput.unit_id ? userInput.unit_id : units[0].id}
-                onChange={handleSelectOnChange}>
+        <Wrapper>
+            <Box>
+                {isDefault && <Icon name='warnBudge' title='default item' />}
                 {
-                    units.map(({ id: unitId, name: unitName }) => (
-                        <option key={unitId} value={unitId}>
-                            {unitName}
-                        </option>
-                    ))
+                    isDefault ? (
+                        <Name title='default item'>{userInput.name}</Name>
+                    ) : (
+                        <Input
+                            value={userInput.name}
+                            onChange={(event) => setUserInput(prev => ({
+                                ...prev,
+                                name: event.target.value,
+                            }))}
+                            disabled={isDefault} />
+                    )
                 }
-            </select>
-            <Button
-                label='save'
-                onClick={() => {
-                    if (id) {
-                        updateItem(id, userInput);
-                        onClose();
-                    } else if (!id && userInput.name) {
-                        createItem(userInput);
-                        onClose();
+                <UnitSelector
+                    name='units'
+                    id='units-select'
+                    value={userInput.unit_id ? userInput.unit_id : units[0].id}
+                    onChange={handleSelectOnChange}>
+                    {
+                        units.map(({ id: unitId, name: unitName }) => (
+                            <Option
+                                key={unitId}
+                                value={unitId}>
+                                {unitName}
+                            </Option>
+                        ))
                     }
-                }}
-                disabled={!id && !userInput.name} />
-            <Button
-                label='cancel'
-                variant='secondary'
-                onClick={() => {
-                    onClose();
-                }} />
-        </>
+                </UnitSelector>
+            </Box>
+            <Box>
+                <Button
+                    label='save'
+                    onClick={() => {
+                        if (id) {
+                            updateItem(id, userInput);
+                            onClose();
+                        } else if (!id && userInput.name) {
+                            createItem(userInput);
+                            onClose();
+                        }
+                    }}
+                    disabled={!id && !userInput.name} />
+                <Button
+                    label='cancel'
+                    variant='secondary'
+                    onClick={() => {
+                        onClose();
+                    }} />
+            </Box>
+        </Wrapper>
     );
 }

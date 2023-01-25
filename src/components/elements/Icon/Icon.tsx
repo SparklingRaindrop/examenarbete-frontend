@@ -5,13 +5,14 @@ import { Svg, Wrapper } from './styled';
 type Props = {
     name: Path;
     size?: FontSize;
+    title?: string;
 } & CustomCSSProperties & CSSProperties;
 
 export default function Icon(props: Props) {
-    const { name, size } = props;
+    const { name, size, title } = props;
 
     return (
-        <Wrapper>
+        <Wrapper title={title}>
             <Svg size={size}>
                 {
                     path[name].map((stroke, index) => (
