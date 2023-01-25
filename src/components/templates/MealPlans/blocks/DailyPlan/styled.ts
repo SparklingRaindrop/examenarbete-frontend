@@ -25,3 +25,7 @@ export const Plan = styled(Flex)`
 
     text-transform: capitalize;
 `;
+
+export const Heading = styled.h4`
+    font-weight: bold;
+`;

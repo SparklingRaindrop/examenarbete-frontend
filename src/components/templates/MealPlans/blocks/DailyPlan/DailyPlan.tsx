@@ -1,7 +1,7 @@
 import useMealPlansContext from '../../../../../hooks/useMealPlansContext';
 import { Status } from '../../../../../types/statusCode';
 import { IconButton } from '../../../../elements';
-import { Plan, Wrapper } from './styled';
+import { Heading, Plan, Wrapper } from './styled';
 
 type Props = {
     plans: Plan[];
@@ -17,7 +17,9 @@ export default function DailyPlan(props: Props) {
             {
                 plans.map(({ id, recipe }, index) => (
                     <Plan key={id + index}>
-                        {recipe.title}
+                        <Heading>
+                            {recipe.title}
+                        </Heading>
                         <IconButton
                             name='xMark'
                             variant='ghost'
