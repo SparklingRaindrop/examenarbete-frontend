@@ -13,6 +13,7 @@ import { ItemInputFields } from './ItemInputFields';
 import { Overlay } from './Overlay';
 import { DropdownMenu } from './DropdownMenu';
 import { Container } from './Container';
+import { Textarea } from './Textarea';
 export {
     List,
     Checkbox,
@@ -31,6 +32,7 @@ export {
     PasswordInput,
     Overlay,
     DropdownMenu,
+    Textarea,
     Container,
     InputGroup,
     InputRightElement

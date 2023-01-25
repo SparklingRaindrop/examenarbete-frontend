@@ -15,6 +15,7 @@ import {
     Overlay,
     DropdownMenu,
     Container,
+    Textarea,
 } from './elements';
 import {
     Layout
@@ -34,6 +35,7 @@ export {
     PasswordInput,
     Overlay,
     DropdownMenu,
+    Textarea,
     Container,
     InputGroup,
     InputRightElement,
