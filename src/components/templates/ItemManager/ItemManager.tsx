@@ -7,18 +7,11 @@ import { ItemEditor, ItemRow } from './blocks';
 import { ItemList } from './styled';
 
 export default function ItemManager() {
-    const { items } = useRecipesContext();
-    const [isEditing, setIsEditing] = useState<boolean>(false);
+    const { items, units } = useRecipesContext();
 
     return (
         <Container>
-            {
-                !isEditing ?
-                    <Button
-                        label='add new item'
-                        onClick={() => setIsEditing(true)} /> :
-                    <ItemEditor onClose={() => setIsEditing(false)} />
-            }
+            <ItemEditor />
             <ItemList>
                 {
                     items.map(item =>

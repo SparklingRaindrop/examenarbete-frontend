@@ -1,15 +1,11 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useRecipesContext } from '../../../../../hooks';
+import { Status } from '../../../../../types/statusCode';
 import { Button, Icon, Input } from '../../../../elements';
 import { Box, Name, Option, UnitSelector, Wrapper } from './styled';
 
-type Props = {
-    onClose: () => void;
-    label?: string;
-}
-
-export default function ItemEditor(props: Partial<Item> & Props) {
-    const { name, unit, id, isDefault, label, onClose } = props;
+export default function ItemEditor(props: Partial<Item>) {
+    const { name, unit, id, isDefault } = props;
     const [userInput, setUserInput] = useState({
         name: name ? name : '',
         unit_id: unit ? unit.id : '',
@@ -30,6 +26,13 @@ export default function ItemEditor(props: Partial<Item> & Props) {
             ...prev,
             unit_id: event.target.value,
         }));
+    }
+
+    function resetUserInput(): void {
+        setUserInput({
+            name: '',
+            unit_id: '',
+        });
     }
 
     return (
@@ -67,23 +70,21 @@ export default function ItemEditor(props: Partial<Item> & Props) {
             </Box>
             <Box>
                 <Button
-                    label={label ? label : 'save'}
-                    onClick={() => {
+                    label='add new item'
+                    onClick={async () => {
                         if (id) {
-                            updateItem(id, userInput);
-                            onClose();
+                            const response = await updateItem(id, userInput);
+                            if (response.status !== Status.BadRequest) {
+                                resetUserInput();
+                            }
                         } else if (!id && userInput.name) {
-                            createItem(userInput);
-                            onClose();
+                            const response = await createItem(userInput);
+                            if (response.status !== Status.BadRequest) {
+                                resetUserInput();
+                            }
                         }
                     }}
                     disabled={!id && !userInput.name} />
-                <Button
-                    label='cancel'
-                    variant='secondary'
-                    onClick={() => {
-                        onClose();
-                    }} />
             </Box>
         </Wrapper>
     );

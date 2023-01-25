@@ -10,7 +10,7 @@ export default function ItemsPage({ }: Props) {
         getItems();
         getUnits();
         // eslint-disable-next-line
-    }, []);
+    }, [getItems, getUnits]);
 
     return <ItemManager />;
 }
