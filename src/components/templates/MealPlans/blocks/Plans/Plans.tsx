@@ -45,6 +45,7 @@ export default function Plans(props: Props) {
                                 const dailyPlans = filteredPlans.filter(plan =>
                                     new Date(plan.date).getDate() === new Date(date).getDate()
                                 );
+                                const plans = dailyPlans.filter(plan => plan.type === meal);
                                 return (
                                     <Meal key={date + meal}>
                                         <MealName>
@@ -56,9 +57,13 @@ export default function Plans(props: Props) {
                                                     date: new Date(date),
                                                 })} />
                                         </MealName>
-                                        <DailyPlan
-                                            plans={dailyPlans.filter(plan => plan.type === meal)}
-                                            date={date} />
+                                        {
+                                            plans.length > 0 && (
+                                                <DailyPlan
+                                                    plans={plans}
+                                                    date={date} />
+                                            )
+                                        }
                                     </Meal>
                                 );
                             })
