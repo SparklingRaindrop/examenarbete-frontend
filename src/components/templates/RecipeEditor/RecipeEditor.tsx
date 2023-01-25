@@ -13,10 +13,6 @@ type Props = {
     id?: string;
 }
 
-type isEditing = {
-    ingredient: boolean, instruction: boolean
-}
-
 const initial: RecipeData = {
     title: '',
     ingredients: [],

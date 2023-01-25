@@ -23,6 +23,18 @@ export default function useRecipesAPI() {
     const [recipes, setRecipes] = useState<Recipe[]>([]);
     const [units, setUnits] = useState<Unit[]>([]);
 
+    function updateItems(items: Item[]) {
+        setItems(items ? items : []);
+    }
+
+    function updateRecipes(recipes: Recipe[]) {
+        setRecipes(recipes ? recipes : []);
+    }
+
+    function updateUnits(units: Unit[]) {
+        setUnits(units ? units : []);
+    }
+
     async function getRecipes(keyword?: string): Promise<GetResponse<Recipe[]>> {
         const response = await get<Recipe[]>(`/recipes${keyword ? '?keyword=' + keyword : ''}`);
         if (response.status === Status.Succuss && response.data) {
@@ -122,5 +134,8 @@ export default function useRecipesAPI() {
         getFilteredItems,
         updateRecipe,
         updateItem,
+        updateItems,
+        updateRecipes,
+        updateUnits
     };
 }

@@ -8,6 +8,7 @@ export interface ContextStocks {
     updateStock: ({ id, amount }: Pick<Stock, 'id' | 'amount'>) => void;
     addNewItemToStocks: (newData: Pick<Stock, 'amount'> & { item_id: string }) => void;
     removeItemFromStock: (id: Stock['id']) => Promise<APIResponse>;
+    updateStocks: (stock: Stock[]) => void;
 }
 
 export const StocksContext = createContext<ContextStocks | null>(null);

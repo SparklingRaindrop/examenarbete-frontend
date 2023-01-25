@@ -18,6 +18,9 @@ export interface ContextRecipes {
     createItem: (newData: { name: Item['name']; unit_id: Unit['id'] }) => Promise<APIResponse>;
     updateRecipe: (id: string, newData: RecipeRequestData) => Promise<APIResponse>;
     updateItem: (id: string, newData: { name: Item['name'], unit_id: Unit['id'] }) => Promise<APIResponse>;
+    updateItems: (items: Item[]) => void;
+    updateRecipes: (recipes: Recipe[]) => void;
+    updateUnits: (recipes: Unit[]) => void;
 }
 
 export const RecipesContext = createContext<ContextRecipes | null>(null);

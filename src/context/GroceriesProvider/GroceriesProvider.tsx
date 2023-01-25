@@ -9,6 +9,7 @@ export interface ContextGroceries {
     removeAllGroceries: (filter?: Pick<Grocery, 'isChecked'>) => Promise<APIResponse>;
     updateGrocery: (id: Grocery['id'], newData: Partial<Pick<Grocery, 'amount' | 'isChecked'>>) => Promise<APIResponse>;
     generateGroceries: (range?: { from: Date, to: Date }) => Promise<APIResponse>;
+    updateGroceries: (groceries: Grocery[]) => void;
 }
 
 export const GroceriesContext = createContext<ContextGroceries | null>(null);

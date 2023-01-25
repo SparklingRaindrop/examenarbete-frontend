@@ -5,6 +5,10 @@ import { APIResponse, get, patch, post, remove } from '../util/api';
 export default function useStocksAPI() {
     const [stocks, setStock] = useState<Stock[]>([]);
 
+    function updateStocks(stocks: Stock[]) {
+        setStock(stocks ? stocks : []);
+    }
+
     async function getStocks(): Promise<APIResponse> {
         const response = await get<Stock[]>('/stocks');
         if (response.status === Status.Succuss && response.data) {
@@ -38,6 +42,7 @@ export default function useStocksAPI() {
         getStocks,
         updateStock,
         addNewItemToStocks,
-        removeItemFromStock
+        removeItemFromStock,
+        updateStocks
     };
 }
