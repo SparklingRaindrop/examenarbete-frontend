@@ -1,23 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecipesContext } from '../../../hooks';
-import { Button } from '../../elements';
+import { Button, Container } from '../../elements';
 import { SingleItem } from './blocks';
 import ItemEditor from './blocks/ItemEditor';
+import ItemRow from './blocks/ItemRow';
+import { ItemList } from './styled';
 
 type Props = {}
 export default function ItemManager({ }: Props) {
     const { items } = useRecipesContext();
     const [isEditing, setIsEditing] = useState<boolean>(false);
+    const { getItems } = useRecipesContext();
+
+    useEffect(() => {
+        getItems();
+        // eslint-disable-next-line
+    }, []);
 
     return (
-        <div>
-            <ul>
-                {
-                    items.map(item =>
-                        <SingleItem key={item.id} {...item} />
-                    )
-                }
-            </ul>
+        <Container>
             {
                 !isEditing ?
                     <Button
@@ -25,6 +26,16 @@ export default function ItemManager({ }: Props) {
                         onClick={() => setIsEditing(true)} /> :
                     <ItemEditor onClose={() => setIsEditing(false)} />
             }
-        </div>
-    )
+            <ItemList>
+                <div>item</div>
+                <div>unit</div>
+                <div></div>
+                {
+                    items.map(item =>
+                        <ItemRow key={item.id} {...item} />
+                    )
+                }
+            </ItemList>
+        </Container>
+    );
 }
