@@ -1,7 +1,8 @@
 import { RecipeData } from '../../../../../hooks/useRecipesAPI';
-import { Button } from '../../../../elements';
+import { Button, Text } from '../../../../elements';
 import InstructionTextarea from './InstructionTextarea';
-import { Heading } from '../styled';
+import { Heading, Section } from '../styled';
+import { FlexColumn } from '../../../../elements/Flex';
 
 type Props = {
     isEditing: boolean;
@@ -20,30 +21,34 @@ export default function Instructions(props: Props) {
         addInstruction } = props;
 
     return (
-        <>
+        <Section>
             <Heading>
-                How to cook
+                Instructions
             </Heading>
             {
                 instructions.map(({ step_no, instruction, id }) => (
-                    <div key={id}>
-                        <h4>{step_no}</h4>
-                        <p>{instruction}</p>
-                    </div>
+                    <FlexColumn key={id}>
+                        <h4>Step {step_no}:</h4>
+                        <Text>{instruction}</Text>
+                    </FlexColumn>
                 ))
             }
             {
                 isEditing &&
-                <div>
+                <FlexColumn>
                     <h4>{instructions.length + 1}</h4>
                     <InstructionTextarea
                         addInstruction={addInstruction}
                         onClose={closeInstructionEditor} />
-                </div>
+                </FlexColumn>
             }
-            <Button
-                label='add a new step'
-                onClick={openInstructionEditor} />
-        </>
-    )
+            {
+                !isEditing && (
+                    <Button
+                        label='add a new step'
+                        onClick={openInstructionEditor} />
+                )
+            }
+        </Section>
+    );
 }

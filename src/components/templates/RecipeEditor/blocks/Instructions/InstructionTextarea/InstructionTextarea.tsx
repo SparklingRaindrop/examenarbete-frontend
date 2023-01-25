@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { IconButton, Textarea } from '../../../../../elements';
+import { Button, Textarea } from '../../../../../elements';
+import { Wrapper, FlexRow } from './styled';
 
 type Props = {
     addInstruction: (newInstruction: string) => void;
@@ -10,17 +11,23 @@ export default function InstructionTextarea(props: Props) {
     const [userInput, setUserInput] = useState<string>('');
 
     return (
-        <div>
+        <Wrapper>
             <Textarea
                 value={userInput}
                 onChange={(event) => setUserInput(event.target.value)} />
-            <IconButton
-                name='plus'
-                onClick={() => {
-                    addInstruction(userInput);
-                    onClose();
-                    setUserInput('');
-                }} />
-        </div>
+            <FlexRow>
+                <Button
+                    label='Add new instruction'
+                    disabled={!userInput}
+                    onClick={() => {
+                        addInstruction(userInput);
+                        onClose();
+                        setUserInput('');
+                    }} />
+                <Button
+                    label='Cancel'
+                    onClick={onClose} />
+            </FlexRow>
+        </Wrapper>
     );
 }
