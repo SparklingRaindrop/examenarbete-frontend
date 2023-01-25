@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useCalendar, useMealPlansContext } from '../../../../../hooks';
 import { PlanRange } from '../../../../../hooks/useMealPlansAPI';
 import { IconButton } from '../../../../elements';
@@ -55,15 +55,8 @@ export default function Calendar(props: Props) {
         activeWeek,
         activeSevenDates,
         currentMonthName,
-        moveToAdjacentWeek,
-        resetActiveWeek
+        moveToAdjacentWeek
     } = useCalendar();
-    const router = useRouter();
-
-    useEffect(() => {
-        resetActiveWeek();
-    }, [router.pathname]);
-
     function handleMoveWeek(direction: -1 | 1) {
         moveToAdjacentWeek(direction);
         addSelectedDate([]);

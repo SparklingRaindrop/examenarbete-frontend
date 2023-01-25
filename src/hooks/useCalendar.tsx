@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react';
+import { useRouter } from 'next/router';
+import { useEffect, useMemo, useState } from 'react';
 
 function getWeekNumber() {
     const today = new Date();
@@ -47,6 +48,7 @@ function getNextSevenDates(weekNo: number, year: number) {
 
 export function useCalendar() {
     const [activeWeek, setActiveWeek] = useState<number>(getWeekNumber());
+    const router = useRouter();
     const activeSevenDates = useMemo(() => getNextSevenDates(activeWeek, 2023), [activeWeek]);
     const currentMonthName = useMemo(() => (
         activeSevenDates.reduce((result: string[], current) => {
@@ -57,20 +59,20 @@ export function useCalendar() {
         }, []).join(' / ')
     ), [activeSevenDates]);
 
+    useEffect(() => {
+        setActiveWeek(getWeekNumber());
+    }, [router.pathname]);
+
     function moveToAdjacentWeek(direction: -1 | 1): void {
         if ((activeWeek === 1 && direction == -1) ||
             (activeWeek === 52 && direction === 1)) return;
         setActiveWeek(prev => prev + direction);
-    }
-    function resetActiveWeek() {
-        setActiveWeek(getWeekNumber());
     }
 
     return {
         activeWeek,
         activeSevenDates,
         currentMonthName,
-        moveToAdjacentWeek,
-        resetActiveWeek
+        moveToAdjacentWeek
     };
 }
