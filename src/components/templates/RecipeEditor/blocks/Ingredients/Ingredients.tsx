@@ -53,9 +53,12 @@ export default function Ingredients(props: Props) {
                     onClose={closeItemEditor}
                     suggestions={suggestions} />
             }
-            <Button
-                label='add an item'
-                onClick={openItemEditor} />
+            {
+                !isEditing && (
+                    <Button
+                        label='add an item'
+                        onClick={openItemEditor} />
+                )}
         </>
     );
 }
