@@ -27,9 +27,6 @@ export default function ItemManager({ }: Props) {
                     <ItemEditor onClose={() => setIsEditing(false)} />
             }
             <ItemList>
-                <div>item</div>
-                <div>unit</div>
-                <div></div>
                 {
                     items.map(item =>
                         <ItemRow key={item.id} {...item} />

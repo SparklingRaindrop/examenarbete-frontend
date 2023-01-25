@@ -31,7 +31,5 @@ export default function ItemRow(props: Item) {
                     </>
                 )}
         </Wrapper>
-
-
     );
 }
