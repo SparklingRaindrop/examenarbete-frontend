@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Button } from '../../../../elements';
 
 const Flex = styled.div`
     width: 100%;
@@ -7,8 +8,14 @@ const Flex = styled.div`
 `;
 
 export const Wrapper = styled(Flex)`
+    padding: 1.5rem 0.5rem;
+
     flex-direction: column;
     gap: 1rem;
+
+    box-shadow: ${({ theme }) => theme.boxShadow};
+    background-color:  ${({ theme }) => theme.palette.primary.light};
+    border-radius: ${({ theme }) => theme.borderRadius.lg};
 `;
 
 export const FlexRow = styled(Flex)`
@@ -32,11 +39,24 @@ export const Day = styled.button<{
     gap: 0.25rem;
     align-items: center;
 
-    background-color: ${({ theme, isSelected }) => isSelected ? theme.palette.secondary.original : theme.palette.white};
-    border:  ${({ theme, isToday }) => isToday ? theme.palette.accent.original : theme.palette.secondary.original} 1px solid;
+    background-color: ${({ theme, isSelected }) => isSelected ? theme.palette.secondary.original : theme.palette.secondary.light};
+    border:  ${({ theme, isToday }) => isToday ? theme.palette.accent.original : 'transparent'} 1px solid;
+    border-radius: ${({ theme }) => theme.borderRadius.md};
+
+    color: ${({ theme, isSelected }) => isSelected ?
+        theme.palette.white :
+        theme.palette.black
+    };
+
+    font-size: 0.8rem;
+    & span.day {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
 `;
 
-export const Week = styled.button`
+export const Week = styled(Button)`
+    padding: 0.5rem 1rem;
 `;
 
 export const Month = styled.h3`

@@ -88,7 +88,7 @@ export default function Calendar(props: Props) {
                             new Date(activeSevenDates[0].date),
                             new Date(activeSevenDates[activeSevenDates.length - 1].date),
                         ])}>
-                        Week{activeWeek}
+                        Week&nbsp;{activeWeek}
                     </Week>
                     <IconButton
                         name='chevronRight'
@@ -105,7 +105,7 @@ export default function Calendar(props: Props) {
                             isSelected={isSelected(date, selectedDates)}
                             isToday={areSameDay(date, new Date())}
                             onClick={() => addSelectedDate(new Date(date))}>
-                            <span>{day}</span>
+                            <span className='day'>{day}</span>
                             <span>{dayOfWeek}</span>
                         </Day>
                     ))
