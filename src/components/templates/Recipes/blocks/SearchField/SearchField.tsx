@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react';
 
-import { Input } from '../../../../../elements';
+import { Input } from '../../../../elements';
 import { Wrapper } from './styled';
 
 type Props = {

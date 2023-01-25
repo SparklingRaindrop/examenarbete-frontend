@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { Button, Container, Icon } from '../../../../components';
-import { RecipeEditor } from '../../../../components/templates/Recipes';
+import { RecipeEditor } from '../../../../components/templates';
 
 export default function PostPage() {
     const router = useRouter();

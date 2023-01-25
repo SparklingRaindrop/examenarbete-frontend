@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { RecipeIndexPage } from '../../../components/templates';
+import { Recipes } from '../../../components/templates';
 
 import { useRecipesContext } from '../../../hooks';
 
@@ -14,6 +14,6 @@ export default function RecipePage() {
         // eslint-disable-next-line
     }, []);
     return (
-        <RecipeIndexPage />
+        <Recipes />
     );
 }

@@ -1,13 +1,13 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-import { useRecipesContext } from '../../../../hooks';
+import { useRecipesContext } from '../../../hooks';
 
-import { Button } from '../../../elements';
+import { Button } from '../../elements';
 import { RecipeList, SearchField } from './blocks';
 import { Container, H2 } from './styled';
 
-export default function RecipeIndexPage() {
+export default function Recipes() {
     const [userInput, setUserInput] = useState<string>('');
     const { recipes } = useRecipesContext();
     const router = useRouter();

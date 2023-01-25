@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { IconButton } from '../../../../../../elements';
+import { IconButton } from '../../../../../elements';
 
 type Props = {
     addInstruction: (newInstruction: string) => void;

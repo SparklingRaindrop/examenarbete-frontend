@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { useRecipesContext } from '../../../../../../../hooks';
-import { Autocomplete, IconButton } from '../../../../../../elements';
+
+import { useRecipesContext } from '../../../../../../hooks';
+import { Autocomplete, IconButton } from '../../../../../elements';
 
 export interface NewIngredient {
     item: Item,
@@ -12,12 +13,14 @@ type Props = {
     onClose: () => void;
 }
 
+type UserInput = {
+    name: string;
+    amount: string;
+}
+
 export default function ItemInputFields(props: Props) {
     const { addItem, onClose } = props;
-    const [userInput, setUserInput] = useState<{
-        name: string;
-        amount: string;
-    }>({
+    const [userInput, setUserInput] = useState<UserInput>({
         name: '',
         amount: '',
     });

@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useReducer, useState } from 'react';
-import { useRecipesContext } from '../../../../hooks';
-import { RecipeData } from '../../../../hooks/useRecipesAPI';
-import { Status } from '../../../../types/statusCode';
-import { Button } from '../../../elements';
-import { NewItem } from '../../../elements/ItemInputFields/ItemInputFields';
+import { useRecipesContext } from '../../../hooks';
+import { RecipeData } from '../../../hooks/useRecipesAPI';
+import { Status } from '../../../types/statusCode';
+import { Button } from '../../elements';
+import { NewItem } from '../../elements/ItemInputFields/ItemInputFields';
 import { Ingredients, Instructions, Title } from './blocks';
 import { Wrapper } from './styled';
 

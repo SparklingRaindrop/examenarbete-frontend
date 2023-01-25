@@ -1,5 +1,5 @@
-import { ChangeEvent } from 'react'
-import { Input } from '../../../../../elements'
+import { ChangeEvent } from 'react';
+import { Input } from '../../../../elements';
 
 type Props = {
     onChange: (event: ChangeEvent<HTMLInputElement>) => void;

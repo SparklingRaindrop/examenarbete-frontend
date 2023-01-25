@@ -1,6 +1,6 @@
-import { RecipeData } from '../../../../../../hooks/useRecipesAPI';
-import { Button, ItemInputFields } from '../../../../../elements';
-import { NewItem } from '../../../../../elements/ItemInputFields/ItemInputFields';
+import { RecipeData } from '../../../../../hooks/useRecipesAPI';
+import { Button, ItemInputFields } from '../../../../elements';
+import { NewItem } from '../../../../elements/ItemInputFields/ItemInputFields';
 import { Heading } from '../styled';
 
 type Props = {

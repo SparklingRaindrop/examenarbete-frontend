@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { StyledListItem, UnorderedList } from '../../../../../elements/List/styled';
+import { StyledListItem, UnorderedList } from '../../../../elements/List/styled';
 
 export const List = styled(UnorderedList)`
     padding: 0 1rem;

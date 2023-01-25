@@ -1,20 +1,15 @@
 import styled from 'styled-components';
-import { screenSize } from '../../../../util/mediaQuery';
+import { screenSize } from '../../../../../util/mediaQuery';
 
 export const Wrapper = styled.div`
-    width: 100%;
+    width: 70vw;
     margin: auto;
 
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 1rem;
 
     @media ${screenSize.md} {
         width: 100%;
     }
-`;
-
-export const Heading = styled.h3`
-    text-transform: capitalize;
 `;

@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 
-import { useRecipesContext } from '../../../../../../hooks';
+import { useRecipesContext } from '../../../../../hooks';
 
-import { IconButton } from '../../../../../elements';
+import { IconButton } from '../../../../elements';
 import { List, ListItem, Title } from './styled';
 
 type Props = {
