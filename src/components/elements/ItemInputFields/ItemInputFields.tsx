@@ -89,7 +89,7 @@ export default function ItemInputFields(props: Props) {
 
     const { isLocked, amount, selectedItem } = state;
     const item = items.find(item => item.id === selectedItem?.id);
-    console.log(selectedItem)
+
     return (
         <Wrapper>
             {
@@ -106,8 +106,8 @@ export default function ItemInputFields(props: Props) {
             <Group>
                 <Counter
                     value={amount}
-                    onPlus={() => dispatch({ type: ' increase_amount' })}
-                    onMinus={() => dispatch({ type: ' decrease_amount' })}
+                    onPlus={() => dispatch({ type: 'increase_amount' })}
+                    onMinus={() => dispatch({ type: 'decrease_amount' })}
                     onChange={(event) => updateAmount(Number(event.target.value))}
                     onBlur={() => { }} />
                 <Unit>{item?.unit.name}</Unit> {/* Ignore new Item for now */}
