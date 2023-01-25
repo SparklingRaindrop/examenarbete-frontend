@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { IconButton } from '../../../../../elements';
+import { IconButton, Textarea } from '../../../../../elements';
 
 type Props = {
     addInstruction: (newInstruction: string) => void;
@@ -11,12 +11,9 @@ export default function InstructionTextarea(props: Props) {
 
     return (
         <div>
-            <textarea
+            <Textarea
                 value={userInput}
-                rows={5}
-                cols={33}
-                onChange={(event) => setUserInput(event.target.value)}
-                autoFocus></textarea>
+                onChange={(event) => setUserInput(event.target.value)} />
             <IconButton
                 name='plus'
                 onClick={() => {
