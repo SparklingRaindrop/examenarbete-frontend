@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useReducer, useState } from 'react';
-import { useRecipesContext } from '../../../hooks';
+import { useDisclosure, useRecipesContext } from '../../../hooks';
 import { RecipeData } from '../../../hooks/useRecipesAPI';
 import { Status } from '../../../types/statusCode';
 import { Button } from '../../elements';
@@ -69,10 +69,16 @@ function reducer(state: RecipeData, action: { type: Action, value: any }): Recip
 export default function RecipeEditor(props: Props) {
     const { id } = props;
     const [state, dispatch] = useReducer(reducer, initial);
-    const [isEditing, setIsEditing] = useState<isEditing>({
-        ingredient: false,
-        instruction: false
-    });
+    const {
+        isOpen: isOpenIngredientEditor,
+        toggleIsOpen: toggleIngredientEditor,
+        onClose: closeIngredientEditor,
+    } = useDisclosure();
+    const {
+        isOpen: isOpenInstructionEditor,
+        toggleIsOpen: toggleInstructionEditor,
+        onClose: closeInstructionEditor,
+    } = useDisclosure();
     const { getRecipe, createRecipe, updateRecipe } = useRecipesContext();
     const getData = useCallback(async (): Promise<void> => {
         if (!id) return;
@@ -115,13 +121,6 @@ export default function RecipeEditor(props: Props) {
         });
     }
 
-    function updateIsEditing(target: string, value: boolean) {
-        setIsEditing(prev => ({
-            ...prev,
-            [target]: value,
-        }));
-    }
-
     function handleSave() {
         const ingredientList = ingredients.map(({ item, amount }) => ({
             amount,
@@ -152,18 +151,18 @@ export default function RecipeEditor(props: Props) {
                     value: event.target.value
                 })} />
             <Ingredients
-                isEditing={isEditing.ingredient}
+                isEditing={isOpenIngredientEditor}
                 addItem={addItem}
                 removeItem={removeItem}
                 ingredients={ingredients}
-                openItemEditor={() => updateIsEditing('ingredient', true)}
-                closeItemEditor={() => updateIsEditing('ingredient', false)} />
+                openItemEditor={toggleIngredientEditor}
+                closeItemEditor={closeIngredientEditor} />
             <Instructions
-                isEditing={isEditing.instruction}
+                isEditing={isOpenInstructionEditor}
                 addInstruction={addInstruction}
                 instructions={instructions}
-                openInstructionEditor={() => updateIsEditing('instructions', true)}
-                closeInstructionEditor={() => updateIsEditing('instructions', false)} />
+                openInstructionEditor={toggleInstructionEditor}
+                closeInstructionEditor={closeInstructionEditor} />
             <Button
                 label='Save'
                 onClick={handleSave} />
