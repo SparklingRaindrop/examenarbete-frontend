@@ -21,7 +21,7 @@ const initial: RecipeData = {
     instructions: [],
 };
 
-type Action = 'initial' | 'edit_title' | 'add_ingredient' | 'add_instruction';
+type Action = 'initial' | 'edit_title' | 'add_ingredient' | 'add_instruction' | 'remove_ingredient';
 function reducer(state: RecipeData, action: { type: Action, value: any }): RecipeData {
     if (action.type === 'initial') {
         const { value } = action;
@@ -55,6 +55,13 @@ function reducer(state: RecipeData, action: { type: Action, value: any }): Recip
                 value
             ],
         };
+    } else if (action.type === 'remove_ingredient') {
+        const { value } = action;
+        const newIngredients = state.ingredients.filter(({ item }) => item.id !== value.id);
+        return {
+            ...state,
+            ingredients: newIngredients,
+        };
     }
     throw Error('Unknown action.');
 }
@@ -87,6 +94,13 @@ export default function RecipeEditor(props: Props) {
         dispatch({
             type: 'add_ingredient',
             value: newItem,
+        });
+    }
+
+    function removeItem(target: Pick<Item, 'id'>): void {
+        dispatch({
+            type: 'remove_ingredient',
+            value: target,
         });
     }
 
@@ -129,7 +143,6 @@ export default function RecipeEditor(props: Props) {
     }
 
     const { title, ingredients, instructions } = state;
-    console.log(ingredients)
     return (
         <Wrapper>
             <Title
@@ -141,6 +154,7 @@ export default function RecipeEditor(props: Props) {
             <Ingredients
                 isEditing={isEditing.ingredient}
                 addItem={addItem}
+                removeItem={removeItem}
                 ingredients={ingredients}
                 openItemEditor={() => updateIsEditing('ingredient', true)}
                 closeItemEditor={() => updateIsEditing('ingredient', false)} />
