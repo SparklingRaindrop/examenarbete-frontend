@@ -8,7 +8,7 @@ export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 1rem;
+    gap: 3rem;
 
     @media ${screenSize.md} {
         width: 100%;

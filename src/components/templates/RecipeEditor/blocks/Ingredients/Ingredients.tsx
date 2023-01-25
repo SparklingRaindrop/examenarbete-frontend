@@ -2,7 +2,7 @@ import { useRecipesContext } from '../../../../../hooks';
 import { RecipeData } from '../../../../../hooks/useRecipesAPI';
 import { Button, IconButton, ItemInputFields, ListItem } from '../../../../elements';
 import { NewItem } from '../../../../elements/ItemInputFields/ItemInputFields';
-import { Heading } from '../styled';
+import { Heading, Section } from '../styled';
 import { ItemName, IngredientList, IngredientListItem, Amount } from './styled';
 
 type Props = {
@@ -29,7 +29,7 @@ export default function Ingredients(props: Props) {
         !ingredients.some(ingredient => ingredient.item.id === item.id)
     );
     return (
-        <>
+        <Section>
             <Heading>
                 ingredients
             </Heading>
@@ -59,6 +59,6 @@ export default function Ingredients(props: Props) {
                         label='add an item'
                         onClick={openItemEditor} />
                 )}
-        </>
+        </Section>
     );
 }

@@ -1,7 +1,9 @@
+import { useRouter } from 'next/router';
 import { useCallback, useEffect, useReducer, useState } from 'react';
 import { useDisclosure, useRecipesContext } from '../../../hooks';
 import { RecipeData } from '../../../hooks/useRecipesAPI';
 import { Status } from '../../../types/statusCode';
+import { APIResponse } from '../../../util/api';
 import { Button } from '../../elements';
 import { NewItem } from '../../elements/ItemInputFields/ItemInputFields';
 import { Ingredients, Instructions, Title } from './blocks';
@@ -68,6 +70,7 @@ function reducer(state: RecipeData, action: { type: Action, value: any }): Recip
 
 export default function RecipeEditor(props: Props) {
     const { id } = props;
+    const router = useRouter();
     const [state, dispatch] = useReducer(reducer, initial);
     const {
         isOpen: isOpenIngredientEditor,
@@ -121,23 +124,27 @@ export default function RecipeEditor(props: Props) {
         });
     }
 
-    function handleSave() {
+    async function handleSave() {
         const ingredientList = ingredients.map(({ item, amount }) => ({
             amount,
             item_id: item.id
         }));
+        let response: APIResponse;
         if (id) {
-            updateRecipe(id, {
+            response = await updateRecipe(id, {
                 title,
                 instructions,
                 ingredients: ingredientList,
             });
         } else {
-            createRecipe({
+            response = await createRecipe({
                 title,
                 instructions,
                 ingredients: ingredientList,
             });
+        }
+        if (response.status === Status.Created || response.status === Status.Succuss) {
+            router.push('/user/recipes/');
         }
     }
 
@@ -165,6 +172,7 @@ export default function RecipeEditor(props: Props) {
                 closeInstructionEditor={closeInstructionEditor} />
             <Button
                 label='Save'
+                disabled={!title}
                 onClick={handleSave} />
         </Wrapper>
     );
