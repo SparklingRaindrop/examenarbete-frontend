@@ -14,6 +14,7 @@ import { Overlay } from './Overlay';
 import { DropdownMenu } from './DropdownMenu';
 import { Container } from './Container';
 import { Textarea } from './Textarea';
+import { Text } from './Text';
 export {
     List,
     Checkbox,
@@ -33,6 +34,7 @@ export {
     Overlay,
     DropdownMenu,
     Textarea,
+    Text,
     Container,
     InputGroup,
     InputRightElement

@@ -16,6 +16,7 @@ import {
     DropdownMenu,
     Container,
     Textarea,
+    Text,
 } from './elements';
 import {
     Layout
@@ -36,6 +37,7 @@ export {
     Overlay,
     DropdownMenu,
     Textarea,
+    Text,
     Container,
     InputGroup,
     InputRightElement,
