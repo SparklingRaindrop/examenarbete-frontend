@@ -9,7 +9,9 @@ const Flex = styled.div`
 
 export const H3 = styled.h3`
     width: 100%;
-    border-bottom: ${({ theme }) => theme.palette.accent.original} 1px solid;
+    padding: 3rem 0 0.5rem;
+    border-bottom: ${({ theme }) => `${theme.palette.accent.original} ${theme.border.bold}`} solid;
+    font-size: 1.2em;
 `;
 
 export const Wrapper = styled(Flex)`
