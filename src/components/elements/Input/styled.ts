@@ -23,11 +23,6 @@ export const InputField = styled.input.attrs(({ type }) => ({
         `${theme.border.bold} ${theme.palette.primary.original}`} solid;
     }
 
-    &:focus {
-        border: ${({ theme }) =>
-        `${theme.border.bold} ${theme.palette.primary.original}`} solid;
-    }
-
     &:invalid {
         border: ${({ theme }) =>
         `${theme.border.bold} ${theme.palette.accent.original}`} solid;
