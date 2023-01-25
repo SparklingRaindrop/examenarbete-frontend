@@ -21,7 +21,7 @@ const initial: RecipeData = {
     instructions: [],
 };
 
-type Action = 'initial' | 'title_edit' | 'ingredient_add' | 'instruction_add';
+type Action = 'initial' | 'edit_title' | 'add_ingredient' | 'add_instruction';
 function reducer(state: RecipeData, action: { type: Action, value: any }): RecipeData {
     if (action.type === 'initial') {
         const { value } = action;
@@ -31,13 +31,13 @@ function reducer(state: RecipeData, action: { type: Action, value: any }): Recip
             ingredients: value.ingredients,
             instructions: value.instructions,
         };
-    } else if (action.type === 'title_edit') {
+    } else if (action.type === 'edit_title') {
         const { value } = action;
         return {
             ...state,
             title: value,
         };
-    } else if (action.type === 'instruction_add') {
+    } else if (action.type === 'add_instruction') {
         const { value }: { value: Omit<Instruction, 'id'> & { id?: Instruction['id'] } } = action;
         return {
             ...state,
@@ -46,7 +46,7 @@ function reducer(state: RecipeData, action: { type: Action, value: any }): Recip
                 value,
             ],
         };
-    } else if (action.type === 'ingredient_add') {
+    } else if (action.type === 'add_ingredient') {
         const { value } = action;
         return {
             ...state,
@@ -83,9 +83,9 @@ export default function RecipeEditor(props: Props) {
     }, [getData]);
 
     function addItem(newItem: NewItem): void {
-        if (!newItem.item_id) return;
+        if (!newItem.item.id) return;
         dispatch({
-            type: 'ingredient_add',
+            type: 'add_ingredient',
             value: newItem,
         });
     }
@@ -93,7 +93,7 @@ export default function RecipeEditor(props: Props) {
     function addInstruction(newInstruction: string): void {
         if (!newInstruction) return;
         dispatch({
-            type: 'instruction_add',
+            type: 'add_instruction',
             value: {
                 step_no: instructions.length + 1,
                 instruction: newInstruction,
@@ -129,12 +129,13 @@ export default function RecipeEditor(props: Props) {
     }
 
     const { title, ingredients, instructions } = state;
+    console.log(ingredients)
     return (
         <Wrapper>
             <Title
                 value={title}
                 onChange={(event) => dispatch({
-                    type: 'title_edit',
+                    type: 'edit_title',
                     value: event.target.value
                 })} />
             <Ingredients

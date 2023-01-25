@@ -21,7 +21,10 @@ export default function StockManager({ }: Props) {
                 inputElement={
                     <ItemInputFields
                         suggestions={suggestions}
-                        addItem={(item) => addNewItemToStocks(item)}
+                        addItem={({ amount, item }) => addNewItemToStocks({
+                            amount: amount,
+                            item_id: item.id
+                        })}
                         onClose={() => setIsEditing(false)} />
                 }
                 onOpen={() => setIsEditing(true)}

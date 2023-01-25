@@ -8,7 +8,7 @@ import { Input } from '../Input';
 import { Name, Row, Unit, Wrapper } from './styled';
 
 export interface NewItem {
-    item_id: Item['id'],
+    item: Item,
     amount: number;
 }
 
@@ -120,7 +120,7 @@ export default function ItemInputFields(props: Props) {
                         if (!selectedItem) return;
                         addItem({
                             amount,
-                            item_id: selectedItem.id
+                            item: selectedItem
                         });
                         onClose();
                     }} />
