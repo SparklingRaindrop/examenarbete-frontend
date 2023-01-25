@@ -27,8 +27,8 @@ export default function Instructions(props: Props) {
                 Instructions
             </Heading>
             {
-                instructions.map(({ step_no, instruction, id }) => (
-                    <InstructionWrapper key={id}>
+                instructions.map(({ step_no, instruction }) => (
+                    <InstructionWrapper key={step_no + instruction}>
                         <h4>Step {step_no}:</h4>
                         <Text>{instruction}</Text>
                     </InstructionWrapper>
