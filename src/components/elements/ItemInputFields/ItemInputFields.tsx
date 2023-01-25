@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useReducer, useState } from 'react';
 import { useRecipesContext } from '../../../hooks';
 import { Group } from '../../templates/StockManager/blocks/StockItem/styled';
 import { Autocomplete } from '../Autocomplete';
@@ -12,27 +12,84 @@ export interface NewItem {
     amount: number;
 }
 
-type userInput = {
-    name: string;
-    amount: number;
-}
-
 type Props = {
     addItem: (newItem: NewItem) => void;
     onClose: () => void;
-    suggestions: string[];
+    suggestions: Item[];
+}
+
+type ReducerState = {
+    selectedItem: Item | undefined;
+    amount: number;
+    isLocked: boolean;
+}
+
+const initialValue = {
+    selectedItem: undefined,
+    amount: 0,
+    isLocked: false,
+};
+
+function reducer(state: ReducerState, action: { type: string, value?: any }): ReducerState {
+    const { type, value } = action;
+    if (type === 'update_item') {
+        return {
+            ...state,
+            selectedItem: value,
+        };
+    } else if (type === 'update_isLocked') {
+        return {
+            ...state,
+            isLocked: value,
+        };
+    } else if (type === 'update_amount') {
+        return {
+            ...state,
+            amount: value,
+        };
+    } else if (type === 'increase_amount') {
+        return {
+            ...state,
+            amount: state.amount + 1,
+        };
+    } else if (type === 'decrease_amount') {
+        return {
+            ...state,
+            amount: state.amount - 1,
+        };
+    }
+    return state;
 }
 
 export default function ItemInputFields(props: Props) {
     const { addItem, onClose, suggestions } = props;
-    const [userInput, setUserInput] = useState<userInput>({
-        name: '',
-        amount: 0,
-    });
-    const [isLocked, setIsLocked] = useState<boolean>(false);
+    const [state, dispatch] = useReducer(reducer, initialValue);
     const { items } = useRecipesContext();
 
-    const item = items.find(item => item.name === userInput.name);
+    function updateSelectedItem(newItem: Item) {
+        dispatch({
+            type: 'update_item',
+            value: newItem,
+        });
+    }
+
+    function updateIsLocked(value: boolean) {
+        dispatch({
+            type: 'update_isLocked',
+            value,
+        });
+    }
+
+    function updateAmount(value: number) {
+        dispatch({
+            type: 'update_amount',
+            value: value,
+        });
+    }
+
+    const { isLocked, amount, selectedItem } = state;
+    const item = items.find(item => item.id === selectedItem?.id);
+    console.log(selectedItem)
     return (
         <Wrapper>
             {
@@ -41,46 +98,29 @@ export default function ItemInputFields(props: Props) {
                 ) : (
                     <Autocomplete
                         suggestions={suggestions}
-                        userInput={userInput.name}
                         isLocked={isLocked}
-                        setIsLocked={(value) => setIsLocked(value)}
-                        updateUserInput={(value) => {
-                            setUserInput(prev => ({
-                                ...prev,
-                                name: value
-                            }));
-                        }} />
+                        setIsLocked={updateIsLocked}
+                        updateSelectedItem={updateSelectedItem} />
                 )
             }
             <Group>
                 <Counter
-                    value={userInput.amount}
-                    onPlus={() => setUserInput(prev => ({
-                        ...prev,
-                        amount: prev.amount + 1,
-                    }))}
-                    onMinus={() => setUserInput(prev => ({
-                        ...prev,
-                        amount: prev.amount - 1,
-                    }))}
-                    onChange={(event) => {
-                        setUserInput(prev => ({
-                            ...prev,
-                            amount: Number(event.target.value)
-                        }));
-                    }}
+                    value={amount}
+                    onPlus={() => dispatch({ type: ' increase_amount' })}
+                    onMinus={() => dispatch({ type: ' decrease_amount' })}
+                    onChange={(event) => updateAmount(Number(event.target.value))}
                     onBlur={() => { }} />
                 <Unit>{item?.unit.name}</Unit> {/* Ignore new Item for now */}
             </Group>
             <Row>
                 <Button
                     label='Add'
-                    disabled={!isLocked || !item}
+                    disabled={!isLocked || !selectedItem}
                     onClick={() => {
-                        if (!item) return;
+                        if (!selectedItem) return;
                         addItem({
-                            item_id: item.id,
-                            amount: userInput.amount,
+                            amount,
+                            item_id: selectedItem.id
                         });
                         onClose();
                     }} />

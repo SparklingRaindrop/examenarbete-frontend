@@ -1,5 +1,6 @@
 import { ChangeEvent } from 'react';
 import { Input } from '../../../../elements';
+import { Heading } from '../styled';
 
 type Props = {
     onChange: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -9,6 +10,7 @@ export default function Title(props: Props) {
     const { onChange, value } = props;
     return (
         <>
+            <Heading>Title</Heading>
             <Input
                 value={value}
                 placeholder='Recipe title...'

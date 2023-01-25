@@ -11,6 +11,10 @@ type Props = {
     id?: string;
 }
 
+type isEditing = {
+    ingredient: boolean, instruction: boolean
+}
+
 const initial: RecipeData = {
     title: '',
     ingredients: [],
@@ -58,7 +62,7 @@ function reducer(state: RecipeData, action: { type: Action, value: any }): Recip
 export default function RecipeEditor(props: Props) {
     const { id } = props;
     const [state, dispatch] = useReducer(reducer, initial);
-    const [isEditing, setIsEditing] = useState<{ ingredient: boolean, instruction: boolean }>({
+    const [isEditing, setIsEditing] = useState<isEditing>({
         ingredient: false,
         instruction: false
     });
@@ -79,7 +83,7 @@ export default function RecipeEditor(props: Props) {
     }, [getData]);
 
     function addItem(newItem: NewItem): void {
-        if (newItem.item_id/* newItem.item.id === '' */) return;
+        if (!newItem.item_id) return;
         dispatch({
             type: 'ingredient_add',
             value: newItem,

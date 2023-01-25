@@ -1,21 +1,19 @@
-import { ChangeEvent, KeyboardEvent, MouseEvent, useReducer, useRef } from 'react';
-import { useDisclosure } from '../../../hooks';
+import { ChangeEvent, KeyboardEvent, MouseEvent, useReducer, useRef, useState } from 'react';
 import useOutsideDetector from '../../../hooks/useOutsideDetector';
 import { Input } from '../Input';
 import { SuggestionItem, SuggestionList, Wrapper } from './styled';
 
 type AutocompleteState = {
     selectedIndex: number;
-    filteredSuggestions: Array<string>;
+    filteredSuggestions: Array<Item>;
     isShown: boolean;
 }
 
 type Props = {
-    suggestions: string[];
-    userInput: string;
-    updateUserInput: (value: string) => void;
+    suggestions: Item[];
     isLocked: boolean;
     setIsLocked: (value: boolean) => void;
+    updateSelectedItem: (newItem: Item) => void;
 }
 
 const initialValue = {
@@ -45,7 +43,8 @@ function reducer(
 }
 
 export default function Autocomplete(props: Props) {
-    const { suggestions, userInput, isLocked, updateUserInput, setIsLocked } = props;
+    const { suggestions, isLocked, setIsLocked, updateSelectedItem } = props;
+    const [userInput, setUserInput] = useState<string>('');
     const [state, dispatch] = useReducer(reducer, initialValue);
     const { containerRef } = useOutsideDetector(() => dispatch({
         type: 'state_update',
@@ -53,9 +52,9 @@ export default function Autocomplete(props: Props) {
             isShown: false,
         }
     }));
-    const suggestionRefs = useRef<HTMLElement[]>([]);
+    const suggestionRefs = useRef<HTMLElement[]>([]); // Using this to track on scroll
     suggestionRefs.current = [];
-    console.log(isLocked)
+
     function addToRefs(element: any): void {
         if (element && !suggestionRefs.current.includes(element)) {
             suggestionRefs.current.push(element);
@@ -68,13 +67,12 @@ export default function Autocomplete(props: Props) {
     }
 
     function handleOnChange(event: ChangeEvent<HTMLInputElement>) {
-        const filteredSuggestions = suggestions.filter(
-            suggestion =>
-                suggestion.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1
+        const filteredSuggestions = suggestions.filter(suggestion =>
+            suggestion.name.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1
         );
 
         const inputValue = event.target.value;
-        updateUserInput(inputValue);
+        setUserInput(inputValue);
         dispatch({
             type: 'state_update',
             value: {
@@ -85,7 +83,7 @@ export default function Autocomplete(props: Props) {
     }
 
     function onClick(event: MouseEvent<HTMLElement>) {
-        updateUserInput(event.currentTarget.innerText.toLowerCase());
+        setUserInput(event.currentTarget.innerText.toLowerCase());
         setIsLocked(true);
         dispatch({
             type: 'state_update',
@@ -100,7 +98,8 @@ export default function Autocomplete(props: Props) {
         const { selectedIndex, filteredSuggestions } = state;
 
         if (event.key === 'Enter') {
-            updateUserInput(filteredSuggestions[selectedIndex]);
+            setUserInput(filteredSuggestions[selectedIndex].name);
+            updateSelectedItem(filteredSuggestions[selectedIndex]);
             dispatch({
                 type: 'state_update',
                 value: {
@@ -137,7 +136,6 @@ export default function Autocomplete(props: Props) {
         <Wrapper
             ref={containerRef as React.RefObject<HTMLDivElement>}>
             <Input
-                type='text'
                 onChange={handleOnChange}
                 onKeyDown={onKeyDown}
                 value={userInput}
@@ -149,14 +147,17 @@ export default function Autocomplete(props: Props) {
                     <SuggestionList>
                         {
                             filteredSuggestions.length > 0 ? (
-                                filteredSuggestions.map((suggestion, index) => {
+                                filteredSuggestions.map((item, index) => {
                                     return (
                                         <SuggestionItem
-                                            key={suggestion}
+                                            key={item.id}
                                             isSelected={index === state.selectedIndex}
-                                            onClick={onClick}
+                                            onClick={(event) => {
+                                                onClick(event);
+                                                updateSelectedItem(item);
+                                            }}
                                             ref={addToRefs}>
-                                            {suggestion}
+                                            {item.name}
                                         </SuggestionItem>
                                     );
                                 })

@@ -27,6 +27,7 @@ export default function Counter(props: Props) {
                 <Icon name='minus' />
             </Button>
             <Input
+                type='number'
                 value={value}
                 onChange={onChange}
                 onKeyDown={handleOnKeyDown}

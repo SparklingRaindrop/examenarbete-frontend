@@ -1,3 +1,4 @@
+import { useRecipesContext } from '../../../../../hooks';
 import { RecipeData } from '../../../../../hooks/useRecipesAPI';
 import { Button, ItemInputFields } from '../../../../elements';
 import { NewItem } from '../../../../elements/ItemInputFields/ItemInputFields';
@@ -13,15 +14,17 @@ type Props = {
 
 export default function Ingredients(props: Props) {
     const { isEditing, ingredients, addItem, closeItemEditor, openItemEditor } = props;
+    const { items } = useRecipesContext();
 
+    const suggestions = items.filter(item => !ingredients.some(ingredient => ingredient.item.id === item.id));
     return (
         <>
-
             <Heading>
                 ingredients
             </Heading>
             {
-                ingredients.length > 0 && ingredients.map(({ item, amount }, index) => (
+                ingredients.length > 0 &&
+                ingredients.map(({ item, amount }, index) => (
                     <li key={item.id + index}>
                         {item.name}
                         {amount}
@@ -34,7 +37,7 @@ export default function Ingredients(props: Props) {
                 <ItemInputFields
                     addItem={addItem}
                     onClose={closeItemEditor}
-                    suggestions={[]} />
+                    suggestions={suggestions} />
             }
             <Button
                 label='add an item'
