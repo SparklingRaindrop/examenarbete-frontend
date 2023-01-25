@@ -1,13 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+
 import { useRecipesContext } from '../../../hooks';
+
 import { Button, Container } from '../../elements';
-import { SingleItem } from './blocks';
-import ItemEditor from './blocks/ItemEditor';
-import ItemRow from './blocks/ItemRow';
+import { ItemEditor, ItemRow } from './blocks';
 import { ItemList } from './styled';
 
-type Props = {}
-export default function ItemManager({ }: Props) {
+export default function ItemManager() {
     const { items } = useRecipesContext();
     const [isEditing, setIsEditing] = useState<boolean>(false);
 
