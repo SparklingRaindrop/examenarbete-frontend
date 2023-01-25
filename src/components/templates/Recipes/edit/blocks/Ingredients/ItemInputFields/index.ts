@@ -1,2 +1,2 @@
 import ItemInputFields from './ItemInputFields';
-export { ItemInputFields };
+export default ItemInputFields;

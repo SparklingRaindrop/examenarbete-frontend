@@ -1,6 +1,6 @@
 import { RecipeData } from '../../../../../../hooks/useRecipesAPI';
 import { Button } from '../../../../../elements';
-import { InstructionTextarea } from './InstructionTextarea';
+import InstructionTextarea from './InstructionTextarea';
 import { Heading } from '../styled';
 
 type Props = {

@@ -1,2 +1,2 @@
 import RecipeEditor from './RecipeEditor';
-export { RecipeEditor };
+export default RecipeEditor;

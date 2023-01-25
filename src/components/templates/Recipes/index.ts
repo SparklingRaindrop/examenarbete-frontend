@@ -1,2 +1,3 @@
-import Recipes from './Recipes';
-export default Recipes;
+import RecipeIndexPage from './indexPage';
+import RecipeEditor from './edit';
+export { RecipeIndexPage, RecipeEditor };

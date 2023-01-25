@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Icon } from '../../../../../components';
-import { RecipeEditor } from '../../../../../components/templates/Recipes/blocks';
+import { RecipeEditor } from '../../../../../components/templates/Recipes';
 
 export default function PostPage() {
     const router = useRouter();

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRecipesContext } from '../../../../../../../hooks';
 import { Autocomplete, IconButton } from '../../../../../../elements';
 
@@ -27,6 +27,8 @@ export default function ItemInputFields(props: Props) {
         <div>
             <Autocomplete
                 suggestions={items.map(item => item.name)}
+                isLocked={false}
+                setIsLocked={() => { }}
                 userInput={userInput.name}
                 updateUserInput={(value) => {
                     setUserInput(prev => ({

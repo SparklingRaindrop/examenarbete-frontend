@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { screenSize } from '../../../../../util/mediaQuery';
+import { screenSize } from '../../../../../../util/mediaQuery';
 
 export const Wrapper = styled.div`
     width: 70vw;

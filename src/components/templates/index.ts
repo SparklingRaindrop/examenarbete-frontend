@@ -1,10 +1,11 @@
 import Groceries from './Groceries';
 import MealPlans from './MealPlans';
-import Recipes from './Recipes';
+import { RecipeIndexPage, RecipeEditor } from './recipes';
 import ItemManager from './ItemManager';
 export {
     Groceries,
     MealPlans,
-    Recipes,
-    ItemManager
+    RecipeIndexPage,
+    RecipeEditor,
+    ItemManager,
 };

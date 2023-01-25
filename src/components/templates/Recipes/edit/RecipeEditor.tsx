@@ -1,16 +1,11 @@
-import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
-import { useRecipesContext } from '../../../../../hooks';
-import { RecipeData } from '../../../../../hooks/useRecipesAPI';
-import { Status } from '../../../../../types/statusCode';
-import { Button, Input } from '../../../../elements';
-import Ingredients from './Ingredients/Ingredients';
-import { InstructionTextarea } from './Instructions/InstructionTextarea';
-import { ItemInputFields } from './Ingredients/ItemInputFields';
-import { NewIngredient } from './Ingredients/ItemInputFields/ItemInputFields';
-import { Heading, Wrapper } from './styled';
-import { NewItem } from '../../../../elements/ItemInputFields/ItemInputFields';
-import Instructions from './Instructions';
-import Title from './Title';
+import { useCallback, useEffect, useReducer, useState } from 'react';
+import { useRecipesContext } from '../../../../hooks';
+import { RecipeData } from '../../../../hooks/useRecipesAPI';
+import { Status } from '../../../../types/statusCode';
+import { Button } from '../../../elements';
+import { NewItem } from '../../../elements/ItemInputFields/ItemInputFields';
+import { Ingredients, Instructions, Title } from './blocks';
+import { Wrapper } from './styled';
 
 type Props = {
     id?: string;
@@ -79,11 +74,9 @@ export default function RecipeEditor(props: Props) {
         }
     }, [id, getRecipe]);
 
-
     useEffect(() => {
         getData();
     }, [getData]);
-
 
     function addItem(newItem: NewItem): void {
         if (newItem.item_id/* newItem.item.id === '' */) return;
