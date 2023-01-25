@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { IconButton } from '../../../../elements';
+import { Container, IconButton } from '../../../../elements';
 import { NewPlan } from '../../MealPlans';
 import DailyPlan from '../DailyPlan/DailyPlan';
 import { Wrapper, H3, MealName, Meal } from './styled';
@@ -24,19 +24,22 @@ export default function Plans(props: Props) {
     }, [selectedDates]);
 
     return (
-        <>
+        <Container>
             {
                 days.length > 0 && days.map((date, index) => (
                     <Wrapper key={date.toString() + index}>
-                        <H3>
-                            {
-                                days.length !== 1 && // don't display if selected days is only one day
-                                new Date(date).toLocaleDateString(
-                                    'en-us',
-                                    { month: 'long', day: 'numeric', weekday: 'short' }
-                                )
-                            }
-                        </H3>
+                        {
+                            days.length !== 1 && // don't display if selected days is only one day
+                            <H3>
+                                {
+                                    new Date(date).toLocaleDateString(
+                                        'en-us',
+                                        { month: 'long', day: 'numeric', weekday: 'short' }
+                                    )
+                                }
+                            </H3>
+                        }
+
                         {
                             MEALS.map(meal => {
                                 const dailyPlans = filteredPlans.filter(plan =>
@@ -53,11 +56,9 @@ export default function Plans(props: Props) {
                                                     date: new Date(date),
                                                 })} />
                                         </MealName>
-                                        <Wrapper key={meal + new Date()}>
-                                            <DailyPlan
-                                                plans={dailyPlans.filter(plan => plan.type === meal)}
-                                                date={date} />
-                                        </Wrapper>
+                                        <DailyPlan
+                                            plans={dailyPlans.filter(plan => plan.type === meal)}
+                                            date={date} />
                                     </Meal>
                                 );
                             })
@@ -67,7 +68,7 @@ export default function Plans(props: Props) {
                 ))
 
             }
-        </>
+        </Container>
     );
 }
 
