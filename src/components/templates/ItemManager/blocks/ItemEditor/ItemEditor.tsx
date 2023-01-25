@@ -5,10 +5,11 @@ import { Box, Name, Option, UnitSelector, Wrapper } from './styled';
 
 type Props = {
     onClose: () => void;
+    label?: string;
 }
 
 export default function ItemEditor(props: Partial<Item> & Props) {
-    const { name, unit, id, isDefault, onClose } = props;
+    const { name, unit, id, isDefault, label, onClose } = props;
     const [userInput, setUserInput] = useState({
         name: name ? name : '',
         unit_id: unit ? unit.id : '',
@@ -66,7 +67,7 @@ export default function ItemEditor(props: Partial<Item> & Props) {
             </Box>
             <Box>
                 <Button
-                    label='save'
+                    label={label ? label : 'save'}
                     onClick={() => {
                         if (id) {
                             updateItem(id, userInput);
