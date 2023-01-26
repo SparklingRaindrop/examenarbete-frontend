@@ -5,6 +5,7 @@ import RecipeEditor from './RecipeEditor';
 import ItemManager from './ItemManager';
 import Login from './Login';
 import Dashboard from './Dashboard';
+import StartPage from './StartPage';
 export {
     Groceries,
     MealPlans,
@@ -13,4 +14,5 @@ export {
     ItemManager,
     Login,
     Dashboard,
+    StartPage,
 };

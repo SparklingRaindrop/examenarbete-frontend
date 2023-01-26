@@ -75,7 +75,10 @@ export default function UserMenu(props: Props) {
                     <Button
                         variant='ghost'
                         label='Create account'
-                        onClick={() => router.push('/user/new')}>
+                        onClick={() => {
+                            router.push('/user/new');
+                            onClose();
+                        }}>
                     </Button>
                 </Div>
             </Wrapper>
