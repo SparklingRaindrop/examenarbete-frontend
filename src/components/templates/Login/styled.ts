@@ -23,6 +23,7 @@ export const Div = styled(FlexColumn) <{ isHidden?: boolean }>`
 
 export const Container = styled.div`
     width: 100%;
+    margin: auto;
     height: calc(100vh - 3.5rem);
     padding: 0 2rem;
 
