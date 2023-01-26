@@ -12,5 +12,5 @@ export default function Main(props: Props) {
         <Wrapper className={heebo.variable}>
             {children}
         </Wrapper>
-    )
+    );
 }

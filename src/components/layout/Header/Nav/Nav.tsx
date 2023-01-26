@@ -5,6 +5,9 @@ import { Menu, MenuItem, Wrapper } from './styled';
 
 
 const LINKS = [{
+    label: 'dashboard',
+    path: '/user',
+}, {
     label: 'groceries',
     path: '/user/groceries',
 }, {
@@ -35,7 +38,7 @@ export default function Nav(props: Props) {
         onClose();
         router.push(path);
     }
-    console.log(router.pathname)
+
     return (
         <>
             <Wrapper

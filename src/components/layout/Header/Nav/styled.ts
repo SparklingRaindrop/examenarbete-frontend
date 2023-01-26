@@ -43,7 +43,8 @@ export const MenuItem = styled.li<{ isCurrent: boolean }>`
     background-color: ${({ theme, isCurrent }) => isCurrent ? theme.palette.white : 'inherit'};
     border-top-left-radius: ${({ theme, isCurrent }) => isCurrent ? theme.borderRadius.lg : 'none'};
     border-bottom-left-radius: ${({ theme, isCurrent }) => isCurrent ? theme.borderRadius.lg : 'none'};
-    ${({ isCurrent }) => isCurrent && 'transform: translateX(0.25rem);'}
+    ${({ isCurrent }) => isCurrent && 'transform: translateX(calc(0.25rem + 5%));'}
+    ${({ isCurrent }) => isCurrent && 'width: 95%;'}
 
     & a {
         color: ${({ theme }) => theme.palette.black};

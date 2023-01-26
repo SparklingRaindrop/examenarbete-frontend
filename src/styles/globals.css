@@ -15,9 +15,14 @@ body>div {
 }
 
 body {
-  background-color: #f9faf9;
   overflow-y: scroll;
   overflow-x: overlay;
+}
+
+/* Color */
+body {
+  background-color: #f9faf9;
+  color: #1F2E21;
 }
 
 /* Typography */
@@ -34,4 +39,44 @@ h3,
 h4,
 h5 {
   font-family: 'Poppins', sans-serif;
+}
+
+h1 {
+  font-size: 3rem;
+
+  @media screen and (min-width: 992px) {
+    font-size: 5.6rem;
+  }
+}
+
+h2 {
+  font-size: 2.4rem;
+
+  @media screen and (min-width: 992px) {
+    font-size: 3.9rem;
+  }
+}
+
+h3 {
+  font-size: 1.9rem;
+
+  @media screen and (min-width: 992px) {
+    font-size: 2.8rem;
+  }
+}
+
+h4 {
+  font-size: 1.5rem;
+
+  @media screen and (min-width: 992px) {
+    font-size: 1.9rem;
+  }
+}
+
+h5 {
+  font-size: 1.25rem;
+
+  @media screen and (min-width: 992px) {
+    font-size: 1.4rem;
+  }
 }

@@ -56,18 +56,18 @@ export const light = {
         disabled: ''
     },
     secondary: {
-        original: '#5D24E3',
-        shade: '#432096',
-        light: '#C4B3EC',
-        dull: '#E9EACE',
-        disabled: ''
+        original: '#30B9E3',
+        shade: '#2590B0',
+        light: '#76CDE8',
+        dull: '#335863',
+        disabled: 'A1B9C0'
     },
     accent: {
         original: '#F72576',
         shade: '#C41D5D',
         light: '#F970A4',
         dull: '#EFD3DE',
-        disabled: ''
+        disabled: 'A1B9C0'
     },
 };
 
