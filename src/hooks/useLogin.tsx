@@ -80,7 +80,7 @@ export function useLogin() {
             const response = await axios.post<Token>(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/logout`);
 
             if (response && response.status === Status.Succuss) {
-                Cookies.remove('access_token');
+                Cookies.remove('accessToken');
                 Cookies.remove('user');
                 Cookies.remove('refresh_token');
             }

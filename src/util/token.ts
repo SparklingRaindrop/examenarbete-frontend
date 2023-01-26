@@ -28,10 +28,5 @@ export async function refreshAccessToken(): Promise<Token['accessToken']> {
 export function setToken(data: Token): void {
     const { accessToken, expires } = data;
 
-    Cookies.set('access_token', accessToken, { expires: new Date(expires) });
-
-    /*     Cookies.set('refresh_token', refreshToken, {
-            secure: true,
-            expires: 1
-        }); */
+    Cookies.set('accessToken', accessToken, { expires: new Date(expires) });
 }

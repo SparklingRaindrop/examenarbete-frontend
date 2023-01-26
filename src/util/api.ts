@@ -19,19 +19,6 @@ export const fetch = axios.create({
     timeoutErrorMessage: 'Time out!',
 });
 
-/* fetch.interceptors.request.use(async (config) => {
-    const accessToken = Cookies.get('access_token');
-    const refreshToken = Cookies.get('refresh_token');
-    if (!config.url?.includes('login') && !accessToken && refreshToken && config.url?.includes('user')) {
-        console.log('here')
-        await refreshAccessToken();
-    }
-    return config;
-}, (error) => {
-    return Promise.reject(error);
-}); */
-let isRefreshing = false;
-
 fetch.interceptors.response.use(
     response => response,
     async (error: AxiosError): Promise<AxiosError> => {
