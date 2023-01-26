@@ -12,6 +12,12 @@ type Props = {
 
 const MEALS = ['breakfast', 'lunch', 'dinner'];
 
+
+function generateArrayFromDaysDifference(startDate: Date, endDate: Date): number[] {
+    const difference = endDate.getTime() - startDate.getTime();
+    return Array(difference / (1000 * 60 * 60 * 24));
+}
+
 export default function Plans(props: Props) {
     const { filteredPlans, selectedDates, openModal } = props;
     const days = useMemo(() => {
@@ -19,7 +25,7 @@ export default function Plans(props: Props) {
 
         const startDate = selectedDates[0];
         const endDate = selectedDates[1];
-        return Array.from(Array(endDate.getDate() - startDate.getDate() + 1).keys())
+        return Array.from(generateArrayFromDaysDifference(startDate, endDate).keys())
             .map(increment => new Date(startDate).setDate(startDate.getDate() + increment));
     }, [selectedDates]);
 
