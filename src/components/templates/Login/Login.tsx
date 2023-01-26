@@ -13,11 +13,12 @@ export default function Login() {
         login
     } = useLogin();
     const router = useRouter();
-    const { isLoggedIn } = useUserContext();
+    const { isLoggedIn, setLoginStatus } = useUserContext();
 
     async function handleOnLogin(): Promise<void> {
         const { status } = await login();
         if (status === Status.Created) {
+            setLoginStatus(true);
             router.push('/user');
         }
     }
@@ -25,6 +26,7 @@ export default function Login() {
     async function handleOnLogOut(): Promise<void> {
         const { status } = await logout();
         if (status === Status.Succuss) {
+            setLoginStatus(false);
             router.push('/');
         }
     }

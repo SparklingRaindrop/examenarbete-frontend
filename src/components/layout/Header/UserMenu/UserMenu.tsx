@@ -21,12 +21,13 @@ export default function UserMenu(props: Props) {
         login
     } = useLogin();
     const router = useRouter();
-    const { isLoggedIn } = useUserContext();
+    const { isLoggedIn, setLoginStatus } = useUserContext();
 
     async function handleOnLogin(): Promise<void> {
         const { status } = await login();
         if (status === Status.Created) {
             router.push('/user');
+            setLoginStatus(true);
             onClose();
         }
     }
@@ -35,6 +36,7 @@ export default function UserMenu(props: Props) {
         const { status } = await logout();
         if (status === Status.Succuss) {
             router.push('/');
+            setLoginStatus(false);
             onClose();
         }
     }
