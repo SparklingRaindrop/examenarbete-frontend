@@ -1,30 +1,46 @@
-import { Text } from '../../elements';
-import { Box } from './styled';
+import { useRouter } from 'next/router';
+import { ReactElement } from 'react';
+import { Container } from '../../elements';
+import { Bigger, Box, H2, Explanation, Wrapper } from './styled';
 
-type Props = {}
-export default function Dashboard({ }: Props) {
+type Content = {
+    path: string,
+    label: string,
+    text: ReactElement,
+}
+
+export default function Dashboard() {
+    const router = useRouter();
+    const CONTENTS: Content[] = [{
+        path: '/user/plans',
+        label: 'Meal Plan',
+        text: <><Bigger>See</Bigger> or < Bigger > Create</Bigger > Meal plans</>,
+    }, {
+        path: '/user/stock',
+        label: 'Stock Manager',
+        text: <><Bigger>Track</Bigger> your food stock</>,
+    }, {
+        path: '/user/recipes',
+        label: 'My Recipes',
+        text: <><Bigger>Create</Bigger> recipes</>,
+    }, {
+        path: '/user/groceries',
+        label: 'Groceries',
+        text: <><Bigger>generate</Bigger> shopping list</>,
+    }];
+
     return (
-        <div>
-            <Box>
-                <h2>Meal Plan</h2>
-                <ul>
-                    <li>
-                        Check Meal plans
-                    </li>
-                    <li>
-                        create meal plans
-                    </li>
-                </ul>
-            </Box>
-            <div>
-                <h2>Stock Manager</h2>
-            </div>
-            <div>
-                <h2>My Recipes</h2>
-            </div>
-            <div>
-                <h2>Groceries</h2>
-            </div>
-        </div>
-    )
+        <Container>
+            <Wrapper>
+                {
+                    CONTENTS.map(({ path, label, text }) => (
+                        <Box key={path} onClick={() => router.push(path)}>
+                            <H2>{label}</H2>
+                            <Explanation>{text}</Explanation>
+                        </Box>
+                    ))
+                }
+            </Wrapper>
+        </Container>
+    );
 }
