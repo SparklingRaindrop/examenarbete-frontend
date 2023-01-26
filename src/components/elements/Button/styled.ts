@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { theme } from '../../../context/ThemeProvider/theme';
 import { Variant } from '../../../types/styled';
 
 interface ButtonProps {
@@ -13,7 +12,7 @@ export const Wrapper = styled.button<ButtonProps>`
     color: ${({ variant, theme }) => {
         switch (variant) {
             case 'ghost':
-                return theme.palette.secondary.shade;
+                return theme.palette.primary.shade;
                 break;
             case 'secondary':
                 return theme.palette.secondary.original;
