@@ -17,34 +17,19 @@ export const fetch = axios.create({
     baseURL: process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:4500',
     timeout: 30000,
     timeoutErrorMessage: 'Time out!',
+    withCredentials: true,
 });
 
 fetch.interceptors.response.use(
     response => response,
-    async (error: AxiosError): Promise<AxiosError> => {
-        const status = error.response ? error.response.status : null;
-        const originalRequest = error.config as Pick<AxiosError, 'config'> & { _retry: boolean };
-
-        if (error.response) {
-            if (status === 403 && originalRequest && !originalRequest._retry) {
-                originalRequest._retry = true;
-
-                const user = Cookies.get('user');
-                if (user) {
-                    const accessToken = await refreshAccessToken();
-                    if (accessToken) {
-                        fetch.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
-                        return fetch(originalRequest as AxiosRequestConfig<any>);
-                    }
-                }
-            }
-            if (typeof window === 'undefined') {
-                throw new Error('No token. Redirecting...'); //Throw custom error here
-            } else {
-                window.location.href = '/';
-            }
+    async (error: any): Promise<any> => {
+        if (error.response.status === 403) {
+            const response = await fetch.post('/auth/refresh');
+            return fetch(error.config);
+        } else {
+            return Promise.reject(error);
         }
-        return Promise.reject(error);
+
     }
 );
 

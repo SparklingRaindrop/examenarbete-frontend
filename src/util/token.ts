@@ -19,7 +19,7 @@ export async function refreshAccessToken(): Promise<Token['accessToken']> {
         return data.accessToken;
     } catch (_error) {
         if (typeof window !== 'undefined') {
-            window.location.href = window.location.origin;
+            window.location.href = '/login';
         }
         return Promise.reject(_error);
     }
