@@ -14,7 +14,6 @@ export default function Header() {
         isOpen: isUserMenuOpen,
         toggleIsOpen: toggleUserMenu,
         onClose: onCloseUserMenu } = useDisclosure();
-
     return (
         <Wrapper>
             {
@@ -25,7 +24,7 @@ export default function Header() {
                     onClick={() => {
                         toggleNav();
                         if (isUserMenuOpen) {
-                            toggleUserMenu();
+                            onCloseUserMenu();
                         }
                     }} />
             }
@@ -39,7 +38,7 @@ export default function Header() {
                     onClick={() => {
                         toggleUserMenu();
                         if (isNavOpen) {
-                            toggleNav();
+                            onCloseNav();
                         }
                     }} />
                 <UserMenu
