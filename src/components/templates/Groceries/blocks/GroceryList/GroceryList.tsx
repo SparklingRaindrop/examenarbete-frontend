@@ -29,7 +29,7 @@ export default function GroceryList() {
                     <>
                         <LabelButton onClick={toggleIsOpen}>
                             Marked Items
-                            <Icon name={isOpen ? 'chevronUp' : 'chevronDown'} />
+                            <Icon name={isOpen ? 'chevronDown' : 'chevronUp'} />
                         </LabelButton>
                         {
                             isOpen && (
