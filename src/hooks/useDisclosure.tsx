@@ -2,13 +2,18 @@ import { useState } from 'react';
 
 export default function useDisclosure(): {
     isOpen: boolean;
-    toggleIsOpen: (value?: boolean) => void;
+    toggleIsOpen: () => void;
     onClose: () => void;
+    onOpen: () => void;
 } {
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
-    function toggleIsOpen(value?: boolean) {
-        setIsOpen(prev => value ? value : !prev);
+    function toggleIsOpen() {
+        setIsOpen(prev => !prev);
+    }
+
+    function onOpen() {
+        setIsOpen(true);
     }
 
     function onClose() {
@@ -18,6 +23,7 @@ export default function useDisclosure(): {
     return {
         isOpen,
         toggleIsOpen,
-        onClose
+        onClose,
+        onOpen,
     };
 }
