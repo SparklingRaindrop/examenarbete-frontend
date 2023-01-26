@@ -22,6 +22,7 @@ export default function Login() {
         if (!token) {
             setLoginStatus(false);
         }
+        // eslint-disable-next-line
     }, []);
 
     async function handleOnLogin(): Promise<void> {

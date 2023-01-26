@@ -16,7 +16,7 @@ export default function Dashboard() {
         label: 'Meal Plan',
         text: <><Bigger>See</Bigger> or < Bigger > Create</Bigger > Meal plans</>,
     }, {
-        path: '/user/stock',
+        path: '/user/stocks',
         label: 'Stock Manager',
         text: <><Bigger>Track</Bigger> your food stock</>,
     }, {

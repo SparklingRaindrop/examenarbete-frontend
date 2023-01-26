@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { Button } from '../components';
+import { Button, Container } from '../components';
 
 export default function Home() {
     const router = useRouter();
@@ -12,8 +12,9 @@ export default function Home() {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <Button label='Create Account' onClick={() => router.push('/user/new')} />
-            <Button label='Login' onClick={() => router.push('/login')} />
+            <Container>
+
+            </Container>
         </>
     );
 }

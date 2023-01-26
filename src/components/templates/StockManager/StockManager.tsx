@@ -15,6 +15,7 @@ export default function StockManager({ }: Props) {
     const suggestions = items.filter(item => !stocks.some(stock => stock.item.id === item.id));
     return (
         <Container>
+            <h3>Stock Manager</h3>
             <StockList />
             <InputTogglingButton
                 isEditing={isEditing}

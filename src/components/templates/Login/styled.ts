@@ -3,6 +3,7 @@ import { screenSize } from '../../../util/mediaQuery';
 import { FlexColumn } from '../../elements/Flex';
 
 export const Wrapper = styled(FlexColumn)`
+    margin: auto;
     justify-content: center;
 `;
 
@@ -22,9 +23,13 @@ export const Div = styled(FlexColumn) <{ isHidden?: boolean }>`
 
 export const Container = styled.div`
     width: 100%;
-    margin: auto;
+    height: calc(100vh - 3.5rem);
     padding: 0 2rem;
-    
+
+    display: grid;
+    place-content: center;
+    transform: translateY(-3.5rem);
+
     @media ${screenSize.md} {
         max-width: 20rem;
     }

@@ -6,11 +6,6 @@ export const Wrapper = styled.main`
     margin: auto;
     padding: ${({ theme }) => theme.padding.md};
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-
     @media ${screenSize.md} {
         max-width: 62.5rem;
     }
