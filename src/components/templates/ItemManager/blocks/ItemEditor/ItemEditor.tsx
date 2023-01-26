@@ -6,10 +6,11 @@ import { Box, Name, Option, UnitSelector, Wrapper } from './styled';
 
 type Props = {
     onClose?: () => void;
+    label?: string;
 }
 
 export default function ItemEditor(props: Props & Partial<Item>) {
-    const { name, unit, id, isDefault } = props;
+    const { name, unit, id, isDefault, label } = props;
     const [userInput, setUserInput] = useState({
         name: name ? name : '',
         unit_id: unit ? unit.id : '',
@@ -74,7 +75,7 @@ export default function ItemEditor(props: Props & Partial<Item>) {
             </Box>
             <Box>
                 <Button
-                    label='add new item'
+                    label={label ? label : 'add new item'}
                     onClick={async () => {
                         if (id) {
                             const response = await updateItem(id, userInput);
