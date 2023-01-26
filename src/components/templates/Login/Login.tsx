@@ -1,4 +1,6 @@
+import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { useLogin, useUserContext } from '../../../hooks';
 import { Status } from '../../../types/statusCode';
 import { Button, Input, PasswordInput } from '../../elements';
@@ -14,6 +16,13 @@ export default function Login() {
     } = useLogin();
     const router = useRouter();
     const { isLoggedIn, setLoginStatus } = useUserContext();
+
+    useEffect(() => {
+        const token = Cookies.get('accessToken');
+        if (!token) {
+            setLoginStatus(false);
+        }
+    }, []);
 
     async function handleOnLogin(): Promise<void> {
         const { status } = await login();
@@ -55,17 +64,20 @@ export default function Login() {
                                 onChange={handleOnChange} />
                             <Button
                                 label='Login'
-                                onClick={handleOnLogin} /></>
+                                onClick={handleOnLogin} />
+                            <Div>
+                                <Text>Don&#39;t have an account?</Text>
+                                <Button
+                                    variant='ghost'
+                                    label='Create account'
+                                    onClick={() => router.push('/user/new')}>
+                                </Button>
+                            </Div>
+                        </>
+
                     )
                 }
-                <Div>
-                    <Text>Don&#39;t have an account?</Text>
-                    <Button
-                        variant='ghost'
-                        label='Create account'
-                        onClick={() => router.push('/user/new')}>
-                    </Button>
-                </Div>
+
             </Wrapper>
         </Container>
     )

@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useCallback, useEffect } from 'react';
 import { useCalendar, useMealPlansContext } from '../../../../../hooks';
 import { PlanRange } from '../../../../../hooks/useMealPlansAPI';
-import { IconButton } from '../../../../elements';
+import { Container, IconButton } from '../../../../elements';
 import { FlexRow, Wrapper, Day, Switcher, Week, Month } from '../Calendar/styled';
 
 type Props = {
@@ -74,43 +74,45 @@ export default function Calendar(props: Props) {
     }
 
     return (
-        <Wrapper>
-            <FlexRow>
-                <Month>{currentMonthName}</Month>
-                <Switcher>
-                    <IconButton
-                        name='chevronLeft'
-                        variant='ghost'
-                        onClick={() => handleMoveWeek(-1)}
-                        disabled={activeWeek === 1} />
-                    <Week
-                        onClick={() => addSelectedDate([
-                            new Date(activeSevenDates[0].date),
-                            new Date(activeSevenDates[activeSevenDates.length - 1].date),
-                        ])}>
-                        Week&nbsp;{activeWeek}
-                    </Week>
-                    <IconButton
-                        name='chevronRight'
-                        variant='ghost'
-                        onClick={() => handleMoveWeek(1)}
-                        disabled={activeWeek === 51} />
-                </Switcher>
-            </FlexRow>
-            <FlexRow>
-                {
-                    activeSevenDates.map(({ day, dayOfWeek, date }) => (
-                        <Day
-                            key={day}
-                            isSelected={isSelected(date, selectedDates)}
-                            isToday={areSameDay(date, new Date())}
-                            onClick={() => addSelectedDate(new Date(date))}>
-                            <span className='day'>{day}</span>
-                            <span>{dayOfWeek}</span>
-                        </Day>
-                    ))
-                }
-            </FlexRow>
-        </Wrapper>
+        <Container>
+            <Wrapper>
+                <FlexRow>
+                    <Month>{currentMonthName}</Month>
+                    <Switcher>
+                        <IconButton
+                            name='chevronLeft'
+                            variant='ghost'
+                            onClick={() => handleMoveWeek(-1)}
+                            disabled={activeWeek === 1} />
+                        <Week
+                            onClick={() => addSelectedDate([
+                                new Date(activeSevenDates[0].date),
+                                new Date(activeSevenDates[activeSevenDates.length - 1].date),
+                            ])}>
+                            Week&nbsp;{activeWeek}
+                        </Week>
+                        <IconButton
+                            name='chevronRight'
+                            variant='ghost'
+                            onClick={() => handleMoveWeek(1)}
+                            disabled={activeWeek === 51} />
+                    </Switcher>
+                </FlexRow>
+                <FlexRow>
+                    {
+                        activeSevenDates.map(({ day, dayOfWeek, date }) => (
+                            <Day
+                                key={day}
+                                isSelected={isSelected(date, selectedDates)}
+                                isToday={areSameDay(date, new Date())}
+                                onClick={() => addSelectedDate(new Date(date))}>
+                                <span className='day'>{day}</span>
+                                <span>{dayOfWeek}</span>
+                            </Day>
+                        ))
+                    }
+                </FlexRow>
+            </Wrapper>
+        </Container>
     );
 }

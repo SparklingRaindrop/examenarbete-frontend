@@ -42,6 +42,7 @@ export const Day = styled.button<{
     background-color: ${({ theme, isSelected }) => isSelected ? theme.palette.secondary.original : theme.palette.secondary.light};
     border:  ${({ theme, isToday }) => isToday ? theme.palette.accent.original : 'transparent'} 1px solid;
     border-radius: ${({ theme }) => theme.borderRadius.md};
+    box-shadow: ${({ theme }) => theme.boxShadow};
 
     color: ${({ theme, isSelected }) => isSelected ?
         theme.palette.white :
@@ -52,6 +53,9 @@ export const Day = styled.button<{
     & span.day {
         font-size: 1.5rem;
         font-weight: bold;
+    }
+    &:hover {
+        cursor: pointer;
     }
 `;
 
