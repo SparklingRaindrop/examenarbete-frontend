@@ -49,13 +49,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         });
         return { props: { items, units, recipes } };
     } catch (error) {
-        if (error instanceof Error && error.message === 'No token. Redirecting...') {
-            return {
-                redirect: {
-                    destination: '/login'
-                }
-            };
-        }
+        return {
+            redirect: {
+                destination: '/login'
+            }
+        };
     }
-    return;
 }
