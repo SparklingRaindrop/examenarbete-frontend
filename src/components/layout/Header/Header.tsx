@@ -1,8 +1,9 @@
 import { useDisclosure } from '../../../hooks';
+
 import { IconButton } from '../../elements';
 import Nav from './Nav';
-import { RightAlignBox, Wrapper } from './styled';
 import UserMenu from './UserMenu';
+import { RightAlignBox, Wrapper } from './styled';
 
 export default function Header() {
     const {

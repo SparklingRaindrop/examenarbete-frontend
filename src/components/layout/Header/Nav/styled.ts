@@ -10,10 +10,12 @@ export const Wrapper = styled.nav<{ isOpen: boolean }>`
 
     position: absolute;
     top: 100%;
+    transform: translateX(-110%);
     left: 0;
 
     transition: transform .2s ease-in;
-    ${({ isOpen }) => !isOpen && 'transform: translateX(-100%);'}
+    ${({ isOpen }) => isOpen && 'transform: translateX(0%);'}
+    ${({ isOpen }) => isOpen && 'box-shadow: 0.25rem 0rem 0rem #becfc2;'}
 
     @media ${screenSize.md} {
         min-width: 25vw;
@@ -31,11 +33,18 @@ export const Menu = styled.menu`
     background-color: inherit;
 `;
 
-export const MenuItem = styled.li`
+export const MenuItem = styled.li<{ isCurrent: boolean }>`
     padding: ${({ theme }) => `${theme.padding.lg} ${theme.padding.md}`};
 
     text-align: center;
     text-transform: capitalize;
+
+    /* isCurrent Stylings */
+    background-color: ${({ theme, isCurrent }) => isCurrent ? theme.palette.white : 'inherit'};
+    border-top-left-radius: ${({ theme, isCurrent }) => isCurrent ? theme.borderRadius.lg : 'none'};
+    border-bottom-left-radius: ${({ theme, isCurrent }) => isCurrent ? theme.borderRadius.lg : 'none'};
+    ${({ isCurrent }) => isCurrent && 'transform: translateX(0.25rem);'}
+
     & a {
         color: ${({ theme }) => theme.palette.black};
     }
@@ -45,5 +54,5 @@ export const MenuItem = styled.li`
         cursor: pointer;
     }
 
-    transition: background-color .1s ease-in;
+    transition: all .1s ease-in;
 `;

@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import useOutsideDetector from '../../../../hooks/useOutsideDetector';
 import { Overlay } from '../../../elements';
@@ -36,7 +35,7 @@ export default function Nav(props: Props) {
         onClose();
         router.push(path);
     }
-
+    console.log(router.pathname)
     return (
         <>
             <Wrapper
@@ -47,6 +46,7 @@ export default function Nav(props: Props) {
                         LINKS.map(({ path, label }) => (
                             <MenuItem
                                 key={label}
+                                isCurrent={path === router.pathname}
                                 onClick={() => handleOnClick(path)}>
                                 {label}
                             </MenuItem>
