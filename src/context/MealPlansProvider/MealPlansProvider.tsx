@@ -9,6 +9,7 @@ export interface ContextMealPlans {
     removePlan: (id: Plan['id']) => Promise<APIResponse>;
     getPlans: () => Promise<GetResponse<Plan[]>>;
     addPlan: (newData: { date: Date, type: string } & { recipe_id: Recipe['id'] }) => Promise<APIResponse>;
+    updatePlans: (plans: Plan[]) => void;
 }
 
 export const MealPlansContext = createContext<ContextMealPlans | null>(null);

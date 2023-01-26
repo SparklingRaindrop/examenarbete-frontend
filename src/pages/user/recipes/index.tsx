@@ -1,11 +1,9 @@
-import axios from 'axios';
 import { GetServerSidePropsContext } from 'next';
 import { useEffect } from 'react';
 import { Recipes } from '../../../components/templates';
 
 import { useRecipesContext } from '../../../hooks';
 import { fetch } from '../../../util/api';
-import { refreshAccessToken } from '../../../util/token';
 
 type Props = {
     items: Item[];

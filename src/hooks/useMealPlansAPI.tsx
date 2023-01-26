@@ -43,6 +43,10 @@ export default function useMealPlansAPI() {
         return { status: response.status };
     }, [fetchedPlansRange]);
 
+    function updatePlans(plans: Plan[]): void {
+        setPlans(plans);
+    }
+
     function updateRange(range: PlanRange) {
         const { start, end } = range;
         // PlanRange's month isn't "index month"
@@ -86,5 +90,6 @@ export default function useMealPlansAPI() {
         addPlan,
         updateRange,
         getPlans,
+        updatePlans,
     };
 }
