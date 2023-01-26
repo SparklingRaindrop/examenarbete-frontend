@@ -6,6 +6,7 @@ axios.defaults.withCredentials = true;
 export interface GetResponse<T> {
     data?: T;
     status: number;
+    error?: string;
 }
 
 export interface APIResponse {
@@ -44,7 +45,12 @@ export async function get<T>(endpoint: string): Promise<GetResponse<T>> {
         );
         return response;
     } catch (error) {
-        console.error(error);
+        if (axios.isAxiosError(error)) {
+            return {
+                error: error.response?.data.error,
+                status: Status.BadRequest
+            };
+        }
         return {
             status: Status.BadRequest
         };
@@ -61,7 +67,12 @@ export async function patch<T>(endpoint: string, data: Partial<T>): Promise<APIR
         });
         return response;
     } catch (error) {
-        console.error(error);
+        if (axios.isAxiosError(error)) {
+            return {
+                error: error.response?.data.error,
+                status: Status.BadRequest
+            };
+        }
         return {
             status: Status.BadRequest
         };
@@ -75,7 +86,12 @@ export async function remove(endpoint: string): Promise<APIResponse> {
         });
         return response;
     } catch (error) {
-        console.error(error);
+        if (axios.isAxiosError(error)) {
+            return {
+                error: error.response?.data.error,
+                status: Status.BadRequest
+            };
+        }
         return {
             status: Status.BadRequest
         };
@@ -92,7 +108,12 @@ export async function post<T>(endpoint: string, payload: any): Promise<APIRespon
         });
         return response;
     } catch (error) {
-        console.error(error);
+        if (axios.isAxiosError(error)) {
+            return {
+                error: error.response?.data.error,
+                status: Status.BadRequest
+            };
+        }
         return {
             status: Status.BadRequest
         };

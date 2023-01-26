@@ -6,6 +6,7 @@ import ItemManager from './ItemManager';
 import Login from './Login';
 import Dashboard from './Dashboard';
 import StartPage from './StartPage';
+import UserCreate from './UserCreate';
 export {
     Groceries,
     MealPlans,
@@ -15,4 +16,5 @@ export {
     Login,
     Dashboard,
     StartPage,
+    UserCreate,
 };

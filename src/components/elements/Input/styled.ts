@@ -63,6 +63,7 @@ export const ErrorMessage = styled.div`
 
 export const Label = styled.label`
     width: 100%;
+    text-transform: capitalize;
 `;
 
 export const Wrapper = styled.div`
