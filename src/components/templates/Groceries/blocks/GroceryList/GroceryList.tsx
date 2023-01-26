@@ -1,8 +1,8 @@
 import { useDisclosure, useGroceriesContext } from '../../../../../hooks';
 
-import { Icon, List, ListItem } from '../../../../elements';
+import { Icon, List } from '../../../../elements';
 import { GroceryItem } from '../GroceryItem';
-import { LabelButton } from './styled';
+import { LabelButton, ListItem } from './styled';
 
 export default function GroceryList() {
     const { isOpen, toggleIsOpen } = useDisclosure();

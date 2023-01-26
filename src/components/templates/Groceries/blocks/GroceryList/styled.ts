@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { StyledListItem } from '../../../../elements/List/styled';
 
 export const LabelButton = styled.button`
     width: 100%;
@@ -19,4 +20,10 @@ export const LabelButton = styled.button`
     :hover {
         cursor: pointer;
     }
+`;
+
+export const ListItem = styled(StyledListItem)`
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    text-transform: capitalize;
 `;

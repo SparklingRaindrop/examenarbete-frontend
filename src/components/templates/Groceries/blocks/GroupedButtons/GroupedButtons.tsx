@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useGroceriesContext } from '../../../../../hooks';
 import { Button, DropdownMenu } from '../../../../elements';
 import { MenuItem } from '../../../../elements/DropdownMenu/DropdownMenu';
-import { Flex } from '../styled';
+import { Flex } from './styled';
 
 export default function GroupedButtons() {
     const { generateGroceries, removeAllGroceries, groceries } = useGroceriesContext();
@@ -17,7 +17,7 @@ export default function GroupedButtons() {
         isDisabled: !hasMarkedItems,
     }, {
         label: 'clear all',
-        onClick: removeAllGroceries,
+        onClick: () => removeAllGroceries(),
     }];
 
     return (
