@@ -49,7 +49,7 @@ export default function Plans(props: Props) {
                                 return (
                                     <Meal key={date + meal}>
                                         <MealName>
-                                            <h3>{meal}</h3>
+                                            <h5>{meal}</h5>
                                             <IconButton
                                                 name='plus'
                                                 onClick={() => openModal({

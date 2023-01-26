@@ -15,8 +15,13 @@ export const H3 = styled.h3`
 `;
 
 export const Wrapper = styled(Flex)`
+    padding-bottom: calc(0.5rem + 0.25rem);
     flex-direction: column;
     gap: 2rem;
+
+    :first-of-type > ${H3} {
+        padding: 0 0 0.5rem;
+    }
 `;
 
 export const Meal = styled(Flex)`
