@@ -5,6 +5,7 @@ import { Wrapper } from './styled';
 type Props = {}
 export default function StockList({ }: Props) {
     const { stocks } = useStocksContext();
+
     return (
         <Wrapper>
             {

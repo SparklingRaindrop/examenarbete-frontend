@@ -4,8 +4,8 @@ import { Input, Wrapper, Button } from './styled';
 
 type Props = {
     value: number;
-    onPlus: (event: MouseEvent<HTMLButtonElement>) => void;
-    onMinus: (event: MouseEvent<HTMLButtonElement>) => void;
+    onPlus: () => void;
+    onMinus: () => void;
     onChange: (event: ChangeEvent<HTMLInputElement>) => void;
     onBlur: () => void;
 };

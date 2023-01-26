@@ -9,7 +9,9 @@ export default function StockItem(props: Props) {
     const { id, item, amount } = props;
     const [userInput, setUserInput] = useState<number>(amount);
     const { updateStock, removeItemFromStock } = useStocksContext();
-
+    useEffect(() => {
+        setUserInput(amount);
+    }, [amount]);
     return (
         <>
             <IconButton
