@@ -82,7 +82,7 @@ export function useLogin() {
             if (response && response.status === Status.Succuss) {
                 Cookies.remove('accessToken');
                 Cookies.remove('user');
-                Cookies.remove('refresh_token');
+                Cookies.remove('refreshToken');
             }
             return {
                 status: response.status
