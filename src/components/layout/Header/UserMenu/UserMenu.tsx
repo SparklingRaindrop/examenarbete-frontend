@@ -1,4 +1,6 @@
+import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 import { useLogin } from '../../../../hooks';
 import useUserContext from '../../../../hooks/useUserContext';
@@ -31,6 +33,14 @@ export default function UserMenu(props: Props) {
             onClose();
         }
     }
+
+    useEffect(() => {
+        const token = Cookies.get('accessToken');
+        if (!token) {
+            setLoginStatus(false);
+        }
+        // eslint-disable-next-line
+    }, []);
 
     async function handleOnLogOut(): Promise<void> {
         const { status } = await logout();
