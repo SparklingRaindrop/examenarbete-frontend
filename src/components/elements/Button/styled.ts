@@ -56,13 +56,14 @@ export const Wrapper = styled.button<ButtonProps>`
                 return 'transparent';
                 break;
             case 'secondary':
-                return `${theme.palette.secondary.light}20`;
+                return theme.palette.secondary.light;
                 break;
             default:
-                return theme.palette.primary.shade;
+                return theme.palette.primary.dull;
                 break;
         }
     }};
+        ${({ variant, theme }) => variant === 'ghost' && `color: ${theme.palette.secondary.shade}`}
     }
 
     &:active {
@@ -75,7 +76,7 @@ export const Wrapper = styled.button<ButtonProps>`
                 return theme.palette.secondary.light;
                 break;
             default:
-                return theme.palette.primary.light;
+                return '#89E219';
                 break;
         }
     }};

@@ -16,7 +16,10 @@ export const Button = styled(IconButtonWrapper)`
     min-height: min-content;
     min-width: min-content;
     padding: 0.4em 0.2em;
-
+    
+    &:hover {
+        background-color: ${({ theme }) => theme.palette.primary.dull};
+    }
     &:first-of-type {
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
