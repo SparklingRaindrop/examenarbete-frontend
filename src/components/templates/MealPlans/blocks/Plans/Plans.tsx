@@ -14,8 +14,8 @@ const MEALS = ['breakfast', 'lunch', 'dinner'];
 
 
 function generateArrayFromDaysDifference(startDate: Date, endDate: Date): number[] {
-    const difference = endDate.getTime() - startDate.getTime();
-    return Array(Math.ceil(difference / (1000 * 60 * 60 * 24)));
+    const difference = endDate.getTime() - startDate.getTime() + (1000 * 60 * 60 * 24);
+    return Array(Math.floor(difference / (1000 * 60 * 60 * 24)));
 }
 
 export default function Plans(props: Props) {
