@@ -18,6 +18,7 @@ export default function GroupedButtons() {
     }, {
         label: 'clear all',
         onClick: () => removeAllGroceries(),
+        isDisabled: groceries.length === 0,
     }];
 
     return (
