@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+#SMapp - Frontend
 
 ## Getting Started
 
-First, run the development server:
+Run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+`
+npm install && npm run dev
+`
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Things you can do
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+### **Login & Logout** (The icon on the right in the header)
+- Login and logout.
+- Create account.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### **Groceries**
+Generate shopping list from meal plan
+- Generate shopping list for **a week from today** according to your meal plan
+- Check off items and take them back
+- Remove all
+- Remove all the checked items
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### **Stocks**
+Track your food storage
+- Add new items
+- Update count
 
-## Learn More
+### **Recipes**
+Create recipes
+- Create new recipe
+- Edit recipe
+- Delete recipe
 
-To learn more about Next.js, take a look at the following resources:
+### **Plans**
+Plan meals
+- See plans for hte selected days
+- Add meals
+- Delete meals
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### **Items**
+Add new items  and register measurement unit.
+- Add new items
+- Update items
+- Delete items (but not default items, which has "!"" symbol besides the name)
