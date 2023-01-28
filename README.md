@@ -1,4 +1,4 @@
-#SMapp - Frontend
+#Smapp - Frontend
 
 ## Getting Started
 
