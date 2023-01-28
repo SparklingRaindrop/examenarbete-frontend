@@ -18,7 +18,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser.
 
 ### **Groceries**
 Generate shopping list from meal plan
-- Generate shopping list for **a week from today** according to your meal plan
+- Generate shopping list for **a week from today**, according to your meal plan
 - Check off items and take them back
 - Remove all
 - Remove all the checked items
@@ -36,12 +36,12 @@ Create recipes
 
 ### **Plans**
 Plan meals
-- See plans for hte selected days
+- See plans for the selected days
 - Add meals
 - Delete meals
 
 ### **Items**
-Add new items  and register measurement unit.
+Add new items and register measurement unit.
 - Add new items
 - Update items
 - Delete items (but not default items, which has "!"" symbol besides the name)
