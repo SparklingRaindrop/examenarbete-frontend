@@ -11,7 +11,7 @@ export interface Token {
 
 export async function refreshAccessToken(): Promise<Token['accessToken']> {
     try {
-        const response = await fetch.post<Token>(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/refresh`);
+        const response = await fetch.post<Token>(`${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:4500'}/auth/refresh`);
         const { data } = response;
         if (response.status === Status.Created) {
             setToken(data);
