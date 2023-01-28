@@ -5,7 +5,6 @@ const publicPages = ['/user/new', '/login', '/'];
 
 export async function middleware(request: NextRequest) {
     const accessToken = request.cookies.get('accessToken')?.value;
-    const user = request.cookies.get('user')?.value;
     const isProtectedRoute = !publicPages.some(page => page === request.nextUrl.pathname);
 
     if (isProtectedRoute && !accessToken) {

@@ -68,7 +68,10 @@ export default function useRecipesAPI() {
     }
 
     async function removeItem(id: Item['id']): Promise<APIResponse> {
-        const response = await remove(`/items${id}`);
+        const response = await remove(`/items/${id}`);
+        if (response.status === Status.NoContent) {
+            getItems();
+        }
         return response;
     }
 

@@ -35,19 +35,19 @@ export default function RecipePage({ items, recipes, units }: Props) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
     try {
-        const { data: items } = await fetch.get<Stock[]>(`${process.env.NEXT_PUBLIC_SERVER_URL}/items`, {
+        const { data: items } = await fetch.get<Stock[]>(`${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:4500'}/items`, {
             withCredentials: true,
             headers: {
                 Cookie: context.req.headers.cookie
             }
         });
-        const { data: recipes } = await fetch.get<Recipe[]>(`${process.env.NEXT_PUBLIC_SERVER_URL}/recipes`, {
+        const { data: recipes } = await fetch.get<Recipe[]>(`${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:4500'}/recipes`, {
             withCredentials: true,
             headers: {
                 Cookie: context.req.headers.cookie
             }
         });
-        const { data: units } = await fetch.get<Unit[]>(`${process.env.NEXT_PUBLIC_SERVER_URL}/units`, {
+        const { data: units } = await fetch.get<Unit[]>(`${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:4500'}/units`, {
             withCredentials: true,
             headers: {
                 Cookie: context.req.headers.cookie

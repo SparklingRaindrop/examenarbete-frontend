@@ -35,13 +35,13 @@ export default function StocksPage({ items, stocks }: Props) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
     try {
-        const { data: stocks } = await fetch.get<Stock[]>(`${process.env.NEXT_PUBLIC_SERVER_URL}/stocks`, {
+        const { data: stocks } = await fetch.get<Stock[]>(`${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:4500'}/stocks`, {
             withCredentials: true,
             headers: {
                 Cookie: context.req.headers.cookie,
             }
         });
-        const { data: items } = await fetch.get<Item[]>(`${process.env.NEXT_PUBLIC_SERVER_URL}/items`, {
+        const { data: items } = await fetch.get<Item[]>(`${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:4500'}/items`, {
             withCredentials: true,
             headers: {
                 Cookie: context.req.headers.cookie

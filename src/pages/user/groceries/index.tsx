@@ -32,7 +32,7 @@ export default function Grocery({ groceries }: Props) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
     try {
-        const { data: groceries } = await fetch.get<Grocery[]>(`${process.env.NEXT_PUBLIC_SERVER_URL}/groceries`, {
+        const { data: groceries } = await fetch.get<Grocery[]>(`${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:4500'}/groceries`, {
             withCredentials: true,
             headers: {
                 Cookie: context.req.headers.cookie

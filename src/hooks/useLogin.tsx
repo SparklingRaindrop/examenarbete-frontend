@@ -52,7 +52,7 @@ export function useLogin() {
 
     async function handleLogin(loginData: LoginData): Promise<APIResponse> {
         try {
-            const response = await axios.post<Token>(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/login`, loginData, {
+            const response = await axios.post<Token>(`${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:4500'}/auth/login`, loginData, {
                 headers: {
                     Accept: 'application/json',
                 },
@@ -77,7 +77,7 @@ export function useLogin() {
 
     async function logout() {
         try {
-            const response = await axios.post<Token>(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/logout`);
+            const response = await axios.post<Token>(`${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:4500'}/auth/logout`);
 
             if (response && response.status === Status.Succuss) {
                 Cookies.remove('accessToken');

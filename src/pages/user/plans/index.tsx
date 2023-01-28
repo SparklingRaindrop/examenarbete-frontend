@@ -31,7 +31,7 @@ export default function MealPlanPage({ plans }: Props) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
     try {
-        const { data: plans } = await fetch.get<Plan[]>(`${process.env.NEXT_PUBLIC_SERVER_URL}/plans`, {
+        const { data: plans } = await fetch.get<Plan[]>(`${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:4500'}/plans`, {
             withCredentials: true,
             headers: {
                 Cookie: context.req.headers.cookie
